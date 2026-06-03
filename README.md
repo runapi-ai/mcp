@@ -1,13 +1,18 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>One MCP server for RunAPI model discovery, pricing lookup, media tasks, account status, and LLM chat.</strong>
+  <strong>AI image generation, video generation, music creation, text-to-speech, and LLM chat — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 providers in one MCP server.</strong>
+</p>
+
+<p align="center">
+  <sub>Works with Claude Code, Codex, Cursor, Windsurf, VS Code, Roo Code, and any MCP-compatible host.</sub>
 </p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@runapi.ai/mcp"><img src="https://img.shields.io/npm/v/%40runapi.ai/mcp?style=flat-square&color=blue" alt="npm version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="MIT license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square" alt="Apache-2.0 license"></a>
   <img src="https://img.shields.io/badge/Type-MCP_Server-blue?style=flat-square" alt="MCP Server">
+  <img src="https://img.shields.io/badge/Models-130+-green?style=flat-square" alt="130+ models">
 </p>
 
 <p align="center">
