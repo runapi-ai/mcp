@@ -69,11 +69,15 @@ npx @runapi.ai/mcp init roo
 
 Free catalog tools (model browsing, pricing lookup) work immediately -- no account needed.
 
-To generate images, videos, music, or call LLMs, you need a RunAPI API key:
+To generate images, videos, music, or call LLMs, you need a RunAPI account and API key.
 
-1. Go to [runapi.ai](https://runapi.ai) and create an account
-2. Navigate to Dashboard > API Keys and create a new key
-3. Configure the key using one of these methods:
+**Register and get your key:**
+
+- **Web**: Go to [runapi.ai](https://runapi.ai), sign up, then Dashboard > API Keys > Create Key
+- **CLI** (if you have the RunAPI CLI installed): `runapi login` opens a browser to authenticate and saves the key automatically
+- **API**: `curl -X POST https://runapi.ai/api/v1/auth -d '{"email":"you@example.com","password":"..."}' -H 'Content-Type: application/json'` returns `{"token": "your_key"}`
+
+**Configure the key** using one of these methods:
 
 **Option A** -- config file (recommended, works across all MCP hosts):
 
