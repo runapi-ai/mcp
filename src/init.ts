@@ -25,10 +25,7 @@ export async function runInit(args: string[]) {
   const existing = readJson(file);
   const serverConfig = {
     command: "npx",
-    args: ["-y", "@runapi.ai/mcp"],
-    env: {
-      RUNAPI_API_KEY: "${RUNAPI_API_KEY}"
-    }
+    args: ["-y", "@runapi.ai/mcp"]
   };
 
   const next = platform === "vscode" ? {
