@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@runapi.ai/mcp"><img src="https://img.shields.io/npm/v/%40runapi.ai/mcp?style=flat-square&color=blue" alt="npm version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square" alt="Apache-2.0 license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/Type-MCP_Server-blue?style=flat-square" alt="MCP Server">
 </p>
 
@@ -67,47 +67,8 @@ npx @runapi.ai/mcp init windsurf
 npx @runapi.ai/mcp init roo
 ```
 
-Free catalog tools (model browsing, pricing lookup) work immediately -- no account needed.
-
-To generate images, videos, music, or call LLMs, you need a RunAPI account and API key.
-
-**Register and get your key:**
-
-- **Web**: Go to [runapi.ai](https://runapi.ai), sign up, then Dashboard > API Keys > Create Key
-- **CLI**: Install the [RunAPI CLI](https://github.com/runapi-ai/cli), run `runapi login`, and the key is saved automatically
-
-**Configure the key** using one of these methods:
-
-**Option A** -- config file (recommended, works across all MCP hosts):
-
-```bash
-mkdir -p ~/.config/runapi
-echo '{"api_key": "your_runapi_key"}' > ~/.config/runapi/config.json
-```
-
-**Option B** -- environment variable:
-
-```bash
-export RUNAPI_API_KEY="your_runapi_key"
-```
-
-**Option C** -- in MCP config (per-project):
-
-```json
-{
-  "mcpServers": {
-    "runapi": {
-      "command": "npx",
-      "args": ["-y", "@runapi.ai/mcp"],
-      "env": {
-        "RUNAPI_API_KEY": "your_runapi_key"
-      }
-    }
-  }
-}
-```
-
-Then restart your MCP host.
+Free catalog tools work even when `RUNAPI_API_KEY` is not configured.
+For task creation, balance checks, and LLM chat, create an API key in the RunAPI dashboard and expose it as `RUNAPI_API_KEY`.
 
 ---
 
@@ -403,4 +364,4 @@ Use the CLI when you want direct shell commands, scripts, or CI integration.
 
 ## License
 
-[Apache-2.0](LICENSE)
+[MIT](LICENSE)
