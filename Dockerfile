@@ -1,0 +1,19 @@
+FROM node:22-slim AS builder
+WORKDIR /app
+COPY package*.json ./
+COPY tsconfig.json ./
+RUN npm ci
+COPY src/ ./src/
+COPY data/ ./data/
+COPY bin/ ./bin/
+RUN npm run build
+
+FROM node:22-slim
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/data ./data
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+COPY bin/ ./bin/
+ENV NODE_ENV=production
+ENTRYPOINT ["node", "dist/bin/runapi-mcp.js"]
