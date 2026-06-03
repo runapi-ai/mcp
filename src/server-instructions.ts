@@ -6,6 +6,7 @@ Available tools:
 - list_actions: list endpoint action names grouped by modality. Free, no API key required.
 - get_model_info: inspect params, constraints, and pricing snapshot for a model slug. Pass service and action when known to disambiguate models that support multiple endpoints. Free, no API key required.
 - check_pricing: inspect pricing snapshot for service + action + model. Free, no API key required.
+- search_prompts: search reusable RunAPI prompt examples by modality, category, tags, text query, model, or featured status. Free, no API key required.
 - check_balance: check account balance and spending. Requires API key.
 - create_task: create a media task and optionally poll for completion. Requires API key.
 - get_task: fetch current status and latest payload for an existing task. Requires API key.
@@ -33,6 +34,7 @@ Phase 0: API key check
 
 Phase 1: Intent assessment
 - If the user is exploring, call list_models, list_actions, get_model_info, or check_pricing.
+- If the user asks for prompt examples or inspiration, call search_prompts before drafting from scratch.
 - If the user asks to generate media, identify modality, service, action, model, and params from catalog tools.
 - If the user asks about an existing task, call get_task with service, action when known, and task_id.
 - If the user asks for LLM inference through RunAPI, use chat instead of create_task.

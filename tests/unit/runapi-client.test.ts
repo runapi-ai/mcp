@@ -29,6 +29,27 @@ describe("RunApiClient", () => {
     }));
   });
 
+  it("does not require auth for search_prompts", async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse({ prompts: [], pagination: { page: 1, per_page: 20, total: 0, pages: 0 } }));
+    const client = new RunApiClient({ baseUrl: "https://runapi.ai" }, fetchImpl as any);
+
+    await client.searchPrompts({
+      modality: "image",
+      q: "logo",
+      tags: ["Logo", "Minimal"],
+      model: "flux-kontext-pro",
+      featured: true,
+      page: 2,
+      per_page: 10
+    });
+
+    expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/prompts?modality=image&tags=Logo%2CMinimal&q=logo&model=flux-kontext-pro&featured=true&page=2&per_page=10"), expect.objectContaining({
+      headers: expect.not.objectContaining({
+        authorization: expect.any(String)
+      })
+    }));
+  });
+
   it("normalizes service slugs when creating tasks", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: "task_123", status: "queued" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);

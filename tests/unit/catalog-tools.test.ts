@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { checkPricingHandler, getModelInfoHandler, listActionsHandler, listModelsHandler } from "../../src/tools/catalog-handlers.js";
+import { checkPricingHandler, getModelInfoHandler, listActionsHandler, listModelsHandler, searchPromptsHandler } from "../../src/tools/catalog-handlers.js";
 
 describe("catalog tool handlers", () => {
   it("lists models with contract data and runtime models when available", async () => {
@@ -149,6 +149,63 @@ describe("catalog tool handlers", () => {
       action: "text_to_image"
     })).toMatchObject({
       supported: false
+    });
+  });
+
+  it("searches prompts through the RunAPI Prompt API", async () => {
+    const result = await searchPromptsHandler({
+      modality: "image",
+      q: "logo"
+    }, {
+      searchPrompts: vi.fn(async () => ({
+        prompts: [
+          {
+            id: 123,
+            title: "Logo prompt",
+            prompt: "Minimal logo prompt",
+            modality: "image",
+            service: "flux-kontext",
+            action: "text_to_image",
+            runapi_model: "flux-kontext-pro",
+            category: "Branding",
+            tags: ["Logo"],
+            featured: true
+          }
+        ],
+        pagination: {
+          page: 1,
+          per_page: 20,
+          total: 1,
+          pages: 1
+        }
+      }))
+    });
+
+    expect(result).toMatchObject({
+      source: "RunAPI Prompt API",
+      count: 1,
+      prompts: [
+        {
+          id: 123,
+          title: "Logo prompt",
+          prompt: "Minimal logo prompt",
+          model: "flux-kontext-pro",
+          category: "Branding",
+          tags: ["Logo"]
+        }
+      ]
+    });
+  });
+
+  it("returns a useful prompt API error", async () => {
+    const result = await searchPromptsHandler({}, {
+      searchPrompts: vi.fn(async () => {
+        throw new Error("network");
+      })
+    });
+
+    expect(result).toMatchObject({
+      error: "Prompt API unavailable: network"
     });
   });
 });

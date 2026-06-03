@@ -46,6 +46,7 @@ describe("stdio MCP server", () => {
       "get_model_info",
       "list_actions",
       "check_pricing",
+      "search_prompts",
       "check_balance",
       "create_task",
       "get_task",

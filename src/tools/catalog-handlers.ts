@@ -3,7 +3,7 @@ import { inputRulesForModel } from "../lib/input-rules.js";
 import { priceForModel } from "../lib/pricing.js";
 import { modalityForAction } from "../lib/text.js";
 import type { RunApiClient } from "../lib/runapi-client.js";
-import type { ModelInfo } from "../types.js";
+import type { ModelInfo, RunApiPrompt, SearchPromptsParams } from "../types.js";
 
 export type ListModelsInput = {
   modality?: "image" | "video" | "audio" | "utility" | "llm";
@@ -125,5 +125,41 @@ export function checkPricingHandler(input: { service: string; action: string; mo
     service: info.service,
     action: info.action,
     price: priceForModel(info)
+  };
+}
+
+export async function searchPromptsHandler(
+  input: SearchPromptsParams,
+  client: Pick<RunApiClient, "searchPrompts">
+) {
+  try {
+    const response = await client.searchPrompts(input);
+    return {
+      source: "RunAPI Prompt API",
+      count: response.prompts.length,
+      pagination: response.pagination,
+      prompts: response.prompts.map(promptSummary)
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return {
+      error: `Prompt API unavailable: ${message}`,
+      hint: "Try again later or continue with list_models and get_model_info for model discovery."
+    };
+  }
+}
+
+function promptSummary(prompt: RunApiPrompt) {
+  return {
+    id: prompt.id,
+    title: prompt.title,
+    prompt: prompt.prompt,
+    model: prompt.runapi_model,
+    service: prompt.service,
+    action: prompt.action,
+    modality: prompt.modality,
+    category: prompt.category,
+    tags: prompt.tags || [],
+    featured: prompt.featured
   };
 }

@@ -54,8 +54,8 @@ export async function runInit(args: string[]) {
   console.log('     mkdir -p ~/.config/runapi && echo \'{"api_key":"YOUR_KEY"}\' > ~/.config/runapi/config.json');
   console.log(`  3. Restart ${platformName(platform)}`);
   console.log();
-  console.log("Free tools (model browsing, pricing) work without a key.");
-  console.log('Try asking: "What image models does RunAPI have?"');
+  console.log("Free tools (model browsing, pricing, prompt search) work without a key.");
+  console.log('Try asking: "Find image prompt examples for a logo"');
 }
 
 function platformName(platform: Platform): string {

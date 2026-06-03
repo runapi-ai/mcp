@@ -71,6 +71,47 @@ export type RunApiTaskResponse = {
   [key: string]: unknown;
 };
 
+export type SearchPromptsParams = {
+  modality?: string;
+  category?: string;
+  tags?: string[];
+  q?: string;
+  model?: string;
+  featured?: boolean;
+  page?: number;
+  per_page?: number;
+};
+
+export type RunApiPrompt = {
+  id: number;
+  title?: string | null;
+  prompt: string;
+  modality: string;
+  service?: string | null;
+  action?: string | null;
+  runapi_model?: string | null;
+  source_model?: string | null;
+  source?: string | null;
+  source_url?: string | null;
+  category?: string | null;
+  tags?: string[];
+  difficulty?: string | null;
+  engagement?: unknown;
+  params?: unknown;
+  preview_url?: string | null;
+  featured?: boolean;
+};
+
+export type RunApiPromptsResponse = {
+  prompts: RunApiPrompt[];
+  pagination: {
+    page: number;
+    per_page: number;
+    total: number;
+    pages: number;
+  };
+};
+
 export type PollingOptions = {
   timeoutMs?: number;
   intervalMs?: number;

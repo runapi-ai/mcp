@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@runapi.ai/mcp"><img src="https://img.shields.io/npm/v/%40runapi.ai/mcp?style=flat-square&color=blue" alt="npm version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="MIT license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-lightgrey?style=flat-square" alt="Apache-2.0 license"></a>
   <img src="https://img.shields.io/badge/Type-MCP_Server-blue?style=flat-square" alt="MCP Server">
 </p>
 
@@ -63,6 +63,7 @@ npx @runapi.ai/mcp init roo
 | `get_model_info` | 否 | 返回某个模型 slug 的 service、action、modality、输入约束和价格快照。模型出现在多个 endpoint 时，带上 `service` + `action` 精确查询。 |
 | `list_actions` | 否 | 按 modality 分组列出 endpoint action 名称。 |
 | `check_pricing` | 否 | 查询 `service` + `action` + `model` 组合的价格快照。 |
+| `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。 |
 | `create_task` | 是 | 创建媒体任务，并可选择轮询到完成。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
 | `check_balance` | 是 | 查询账户余额和消费指标。 |
@@ -86,6 +87,18 @@ RunAPI 有哪些图片模型？
 1. 调用 `list_models`，传入 `modality: "image"`。
 2. 总结返回的 model slug、service、action 和 required fields。
 3. 除非调用 `check_pricing`，否则不直接报价。
+
+### 搜索 Prompt 示例
+
+```text
+找一些 logo 图片 prompt 示例。
+```
+
+预期行为：
+
+1. 调用 `search_prompts`，传入 `modality: "image"` 和 `q: "logo"`。
+2. 总结返回的 title、prompt text、model slug、category 和 tags。
+3. 创建任务前，先用 `get_model_info` 检查选中模型的参数约束。
 
 ### 查看模型参数
 
@@ -287,7 +300,6 @@ npm 包包含：
 - 编译后的 `dist/`
 - 内嵌 `data/`
 - 平台示例
-- Claude Code plugin 文件
 - eval scenarios
 - README、CHANGELOG、LICENSE、package metadata
 
@@ -297,4 +309,4 @@ npm 包包含：
 
 ## License
 
-[MIT](LICENSE)
+Licensed under the [Apache License, Version 2.0](LICENSE).

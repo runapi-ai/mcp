@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "RunAPI MCP server for model discovery, pricing lookup, task creation, and LLM chat.",
   "type": "module",
   "main": "dist/src/index.js",
@@ -12,7 +12,6 @@
     "data/contract.json",
     "data/pricing.json",
     "examples",
-    "plugin",
     "evals",
     "glama.json",
     "README.md",
@@ -43,7 +42,7 @@
     "llm"
   ],
   "author": "RunAPI",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "homepage": "https://runapi.ai",
   "repository": {
     "type": "git",

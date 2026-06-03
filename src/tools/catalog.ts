@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonText } from "../lib/tool-response.js";
 import { RunApiClient } from "../lib/runapi-client.js";
-import { checkPricingHandler, getModelInfoHandler, listActionsHandler, listModelsHandler } from "./catalog-handlers.js";
+import { checkPricingHandler, getModelInfoHandler, listActionsHandler, listModelsHandler, searchPromptsHandler } from "./catalog-handlers.js";
 
 export function registerCatalogTools(server: McpServer, client = new RunApiClient()) {
   server.tool(
@@ -48,6 +48,33 @@ export function registerCatalogTools(server: McpServer, client = new RunApiClien
     },
     async ({ service, action, model }) => {
       return jsonText(checkPricingHandler({ service, action, model }));
+    }
+  );
+
+  server.tool(
+    "search_prompts",
+    "Search RunAPI prompt examples by modality, category, tags, text query, model, or featured status. Free, no API key required.",
+    {
+      modality: z.enum(["image", "image_edit", "video", "audio", "music"]).optional(),
+      category: z.string().optional(),
+      tags: z.array(z.string()).optional().describe("Tags to match. All provided tags must be present."),
+      q: z.string().optional().describe("Text query matched against prompt title and prompt text."),
+      model: z.string().optional().describe("RunAPI model slug, for example flux-kontext-pro or suno-v5."),
+      featured: z.boolean().optional(),
+      page: z.number().int().positive().optional(),
+      per_page: z.number().int().positive().max(100).optional()
+    },
+    async ({ modality, category, tags, q, model, featured, page, per_page }) => {
+      return jsonText(await searchPromptsHandler({
+        modality,
+        category,
+        tags,
+        q,
+        model,
+        featured,
+        page,
+        per_page
+      }, client));
     }
   );
 }

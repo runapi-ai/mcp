@@ -1,6 +1,6 @@
 import { USER_AGENT } from "../constants.js";
 import { loadConfig, requireApiKey, type RunApiConfig } from "../config.js";
-import type { ChatMessage, PollingOptions, RunApiTaskResponse } from "../types.js";
+import type { ChatMessage, PollingOptions, RunApiPromptsResponse, RunApiTaskResponse, SearchPromptsParams } from "../types.js";
 import { errorFromResponse, PollTimeoutError } from "./errors.js";
 
 type RequestOptions = {
@@ -20,6 +20,21 @@ export class RunApiClient {
 
   async listModels() {
     return this.request("GET", "/v1/models", { auth: false });
+  }
+
+  async searchPrompts(params: SearchPromptsParams = {}) {
+    const query = new URLSearchParams();
+    appendQuery(query, "modality", params.modality);
+    appendQuery(query, "category", params.category);
+    appendQuery(query, "tags", params.tags?.join(","));
+    appendQuery(query, "q", params.q);
+    appendQuery(query, "model", params.model);
+    appendQuery(query, "featured", params.featured);
+    appendQuery(query, "page", params.page);
+    appendQuery(query, "per_page", params.per_page);
+
+    const suffix = query.size > 0 ? `?${query.toString()}` : "";
+    return this.request<RunApiPromptsResponse>("GET", `/api/v1/prompts${suffix}`, { auth: false });
   }
 
   async balance() {
@@ -152,4 +167,12 @@ function nestedString(value: unknown, key: string): string | undefined {
 
 function routeServiceSlug(service: string): string {
   return service.replace(/-/g, "_");
+}
+
+function appendQuery(query: URLSearchParams, key: string, value: string | number | boolean | undefined) {
+  if (value === undefined || value === "") {
+    return;
+  }
+
+  query.set(key, String(value));
 }

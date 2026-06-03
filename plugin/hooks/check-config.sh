@@ -16,7 +16,7 @@ if has_env_config || has_file_config; then
 fi
 
 cat <<'EOF'
-RunAPI plugin loaded. Free catalog tools are available now.
+RunAPI plugin loaded. Free catalog and prompt search tools are available now.
 
 To generate images, videos, music, or call LLMs:
   1. Sign up at https://runapi.ai and go to Dashboard > API Keys
