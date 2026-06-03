@@ -1,9 +1,11 @@
 {
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["runapi-builder"],
   "name": "RunAPI",
   "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, polling, balance checks, and LLM chat.",
   "repository": "https://github.com/runapi-ai/mcp",
   "homepage": "https://runapi.ai",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "categories": ["ai", "developer-tools", "media-generation"],
   "authentication": {
     "type": "environment",
