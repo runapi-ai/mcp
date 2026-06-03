@@ -47,6 +47,26 @@ export async function runInit(args: string[]) {
 
   fs.writeFileSync(file, `${JSON.stringify(next, null, 2)}\n`);
   console.log(`Wrote ${file}`);
+  console.log();
+  console.log("Next steps:");
+  console.log("  1. Sign up at https://runapi.ai and go to Dashboard > API Keys");
+  console.log("  2. Save your key:");
+  console.log('     mkdir -p ~/.config/runapi && echo \'{"api_key":"YOUR_KEY"}\' > ~/.config/runapi/config.json');
+  console.log(`  3. Restart ${platformName(platform)}`);
+  console.log();
+  console.log("Free tools (model browsing, pricing) work without a key.");
+  console.log('Try asking: "What image models does RunAPI have?"');
+}
+
+function platformName(platform: Platform): string {
+  const names: Record<Platform, string> = {
+    claude: "Claude Code",
+    cursor: "Cursor",
+    windsurf: "Windsurf",
+    vscode: "VS Code",
+    roo: "Roo Code"
+  };
+  return names[platform];
 }
 
 function readJson(file: string): Record<string, any> {
