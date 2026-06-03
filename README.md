@@ -40,7 +40,24 @@ It does not run a local generation backend and does not require changes to your 
 
 ## Quick Start
 
-Install through your MCP host config:
+For Claude Code, Cursor, Windsurf, and VS Code, install RunAPI with Claude Code's MCP command:
+
+```bash
+claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
+```
+
+The scope flag controls where the MCP server is stored:
+
+- `-s user`: global, available in all projects for your user.
+- `-s project`: team-shared, written to `.mcp.json` in the current repo so it can be committed.
+
+Use project scope when you want the whole team to share the same server config:
+
+```bash
+claude mcp add runapi -s project -- npx -y @runapi.ai/mcp
+```
+
+Compatibility fallback for non-Claude Code platforms or manual JSON config:
 
 ```json
 {
@@ -56,13 +73,7 @@ Install through your MCP host config:
 }
 ```
 
-Or generate a config file:
-
-```bash
-npx @runapi.ai/mcp init claude
-```
-
-Supported init targets:
+If your host needs a generated config file, use the legacy `init` command as a fallback:
 
 ```bash
 npx @runapi.ai/mcp init claude
@@ -224,20 +235,32 @@ Free catalog tools do not create tasks and do not consume account balance.
 
 ## Platform Setup
 
-### Claude Code
+### Claude Code, Cursor, Windsurf, And VS Code
 
 Run:
+
+```bash
+claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
+```
+
+Use `-s user` for a global install available in all projects.
+Use `-s project` when you want Claude Code to write `.mcp.json` in the repo for team-shared config.
+
+Restart or reload your MCP host after changing MCP configuration.
+
+### Compatibility Fallback: Generated Config
+
+Use `init` only when a host needs a platform-specific JSON file or cannot use the Claude Code MCP command.
+
+Claude Code fallback:
 
 ```bash
 npx @runapi.ai/mcp init claude
 ```
 
 This writes `.mcp.json` in the current directory.
-Restart Claude Code after editing MCP configuration.
 
-### Cursor
-
-Run:
+Cursor fallback:
 
 ```bash
 npx @runapi.ai/mcp init cursor
@@ -246,9 +269,7 @@ npx @runapi.ai/mcp init cursor
 This writes `.cursor/mcp.json`.
 Open Cursor settings to verify the MCP server is enabled.
 
-### VS Code
-
-Run:
+VS Code fallback:
 
 ```bash
 npx @runapi.ai/mcp init vscode
@@ -257,9 +278,7 @@ npx @runapi.ai/mcp init vscode
 This writes `.vscode/mcp.json`.
 VS Code uses a top-level `servers` key and `type: "stdio"` in generated config.
 
-### Windsurf
-
-Run:
+Windsurf fallback:
 
 ```bash
 npx @runapi.ai/mcp init windsurf

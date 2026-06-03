@@ -24,7 +24,24 @@ RunAPI MCP Server 让 Claude Code、Cursor、VS Code、Windsurf、Roo 等 MCP Ho
 
 ## 快速开始
 
-在 MCP Host 配置中加入：
+Claude Code、Cursor、Windsurf 和 VS Code 推荐使用 Claude Code 的 MCP 命令安装：
+
+```bash
+claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
+```
+
+scope 参数决定 MCP Server 配置保存在哪里：
+
+- `-s user`：全局配置，对当前用户的所有项目可用。
+- `-s project`：团队共享配置，写入当前仓库的 `.mcp.json`，可以提交到 repo。
+
+如果希望团队共享同一份配置，使用 project scope：
+
+```bash
+claude mcp add runapi -s project -- npx -y @runapi.ai/mcp
+```
+
+非 Claude Code 平台或手动 JSON 配置的兼容 fallback：
 
 ```json
 {
@@ -40,7 +57,7 @@ RunAPI MCP Server 让 Claude Code、Cursor、VS Code、Windsurf、Roo 等 MCP Ho
 }
 ```
 
-也可以用 init 命令生成配置：
+如果你的 MCP Host 需要生成平台专用配置文件，可以把旧的 `init` 命令作为 fallback：
 
 ```bash
 npx @runapi.ai/mcp init claude
@@ -199,16 +216,32 @@ RunAPI 有哪些图片模型？
 
 ## 平台配置
 
-### Claude Code
+### Claude Code、Cursor、Windsurf 和 VS Code
+
+运行：
+
+```bash
+claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
+```
+
+`-s user` 表示全局安装，对所有项目可用。
+`-s project` 表示让 Claude Code 在仓库里写入 `.mcp.json`，用于团队共享配置。
+
+修改 MCP 配置后，重启或重新加载你的 MCP Host。
+
+### 兼容 Fallback：生成配置文件
+
+只有当 Host 需要平台专用 JSON 文件，或无法使用 Claude Code MCP 命令时，才使用 `init`。
+
+Claude Code fallback：
 
 ```bash
 npx @runapi.ai/mcp init claude
 ```
 
 会在当前目录写入 `.mcp.json`。
-修改 MCP 配置后需要重启 Claude Code。
 
-### Cursor
+Cursor fallback：
 
 ```bash
 npx @runapi.ai/mcp init cursor
@@ -216,7 +249,7 @@ npx @runapi.ai/mcp init cursor
 
 会写入 `.cursor/mcp.json`。
 
-### VS Code
+VS Code fallback：
 
 ```bash
 npx @runapi.ai/mcp init vscode
@@ -225,7 +258,7 @@ npx @runapi.ai/mcp init vscode
 会写入 `.vscode/mcp.json`。
 VS Code 生成配置使用顶层 `servers` 和 `type: "stdio"`。
 
-### Windsurf
+Windsurf fallback：
 
 ```bash
 npx @runapi.ai/mcp init windsurf
