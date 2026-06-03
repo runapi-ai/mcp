@@ -74,8 +74,7 @@ To generate images, videos, music, or call LLMs, you need a RunAPI account and A
 **Register and get your key:**
 
 - **Web**: Go to [runapi.ai](https://runapi.ai), sign up, then Dashboard > API Keys > Create Key
-- **CLI** (if you have the RunAPI CLI installed): `runapi login` opens a browser to authenticate and saves the key automatically
-- **API**: `curl -X POST https://runapi.ai/api/v1/auth -d '{"email":"you@example.com","password":"..."}' -H 'Content-Type: application/json'` returns `{"token": "your_key"}`
+- **CLI**: Install the [RunAPI CLI](https://github.com/runapi-ai/cli), run `runapi login`, and the key is saved automatically
 
 **Configure the key** using one of these methods:
 
