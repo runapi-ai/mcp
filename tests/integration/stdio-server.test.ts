@@ -66,7 +66,7 @@ describe("stdio MCP server", () => {
       name: "check_balance",
       arguments: {}
     });
-    expect(JSON.parse(textContent(balance)).error).toContain("RUNAPI_API_KEY");
+    expect(JSON.parse(textContent(balance)).error).toContain("https://runapi.ai");
   });
 });
 

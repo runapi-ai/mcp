@@ -24,8 +24,12 @@ Global behavior:
 
 Phase 0: API key check
 - Use free catalog tools even when no API key is configured.
-- Before authenticated tools, guide setup with RUNAPI_API_KEY or ~/.config/runapi/config.json.
-- If an authenticated tool returns an API key error, explain the setup and do not retry until the user has fixed configuration.
+- Before authenticated tools, guide the user to sign up and configure their key:
+  1. Sign up at https://runapi.ai
+  2. Go to Dashboard > API Keys and create a key
+  3. Save it: mkdir -p ~/.config/runapi && echo '{"api_key":"YOUR_KEY"}' > ~/.config/runapi/config.json
+  4. Restart the MCP host
+- If an authenticated tool returns an API key error, show these steps and do not retry until the user has fixed configuration.
 
 Phase 1: Intent assessment
 - If the user is exploring, call list_models, list_actions, get_model_info, or check_pricing.

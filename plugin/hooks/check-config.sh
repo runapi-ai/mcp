@@ -16,8 +16,10 @@ if has_env_config || has_file_config; then
 fi
 
 cat <<'EOF'
-RunAPI plugin loaded.
+RunAPI plugin loaded. Free catalog tools are available now.
 
-Free catalog tools are available without configuration.
-To enable task creation, balance checks, and LLM chat, configure RUNAPI_API_KEY or run: /runapi:setup
+To generate images, videos, music, or call LLMs:
+  1. Sign up at https://runapi.ai and go to Dashboard > API Keys
+  2. Save your key: mkdir -p ~/.config/runapi && echo '{"api_key":"YOUR_KEY"}' > ~/.config/runapi/config.json
+  3. Restart Claude Code
 EOF

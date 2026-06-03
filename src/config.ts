@@ -29,7 +29,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): RunApiConfig {
 
 export function requireApiKey(config = loadConfig()): string {
   if (!config.apiKey) {
-    throw new Error("RunAPI API key is required. Set RUNAPI_API_KEY or add apiKey to ~/.config/runapi/config.json.");
+    throw new Error("RunAPI API key is required. Sign up at https://runapi.ai, go to Dashboard > API Keys, then: mkdir -p ~/.config/runapi && echo '{\"api_key\":\"YOUR_KEY\"}' > ~/.config/runapi/config.json");
   }
   return config.apiKey;
 }
