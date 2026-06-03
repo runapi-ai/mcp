@@ -67,8 +67,44 @@ npx @runapi.ai/mcp init windsurf
 npx @runapi.ai/mcp init roo
 ```
 
-Free catalog tools work even when `RUNAPI_API_KEY` is not configured.
-For task creation, balance checks, and LLM chat, create an API key in the RunAPI dashboard and expose it as `RUNAPI_API_KEY`.
+Free catalog tools (model browsing, pricing lookup) work immediately -- no account needed.
+
+To generate images, videos, music, or call LLMs, you need a RunAPI API key:
+
+1. Go to [runapi.ai](https://runapi.ai) and create an account
+2. Navigate to Dashboard > API Keys and create a new key
+3. Configure the key using one of these methods:
+
+**Option A** -- config file (recommended, works across all MCP hosts):
+
+```bash
+mkdir -p ~/.config/runapi
+echo '{"api_key": "your_runapi_key"}' > ~/.config/runapi/config.json
+```
+
+**Option B** -- environment variable:
+
+```bash
+export RUNAPI_API_KEY="your_runapi_key"
+```
+
+**Option C** -- in MCP config (per-project):
+
+```json
+{
+  "mcpServers": {
+    "runapi": {
+      "command": "npx",
+      "args": ["-y", "@runapi.ai/mcp"],
+      "env": {
+        "RUNAPI_API_KEY": "your_runapi_key"
+      }
+    }
+  }
+}
+```
+
+Then restart your MCP host.
 
 ---
 
