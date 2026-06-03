@@ -1,7 +1,7 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>一个 MCP Server，把 RunAPI 的模型发现、价格查询、媒体任务、账户状态和 LLM Chat 接入 AI 编程工具。</strong>
+  <strong>一个 MCP Server，把 RunAPI 的模型发现、价格查询、媒体任务和账户状态接入 AI 编程工具。</strong>
 </p>
 
 <p align="center">
@@ -15,10 +15,10 @@
 ## 这是什么？
 
 RunAPI MCP Server 让 Claude Code、Cursor、VS Code、Windsurf、Roo 等 MCP Host 可以直接使用 RunAPI。
-它支持浏览模型目录、查看模型输入参数、查询价格快照、创建媒体任务、轮询任务状态、查询账户余额，以及调用 RunAPI LLM 端点。
+它支持浏览模型目录、查看模型输入参数、查询价格快照、创建媒体任务、轮询任务状态和查询账户余额。
 
 目录发现工具不需要 API Key，因为它们使用包内嵌的构建时目录数据。
-创建任务、查询余额和 LLM Chat 需要 `RUNAPI_API_KEY`。
+创建任务和查询余额需要 `RUNAPI_API_KEY`。
 
 ---
 
@@ -84,7 +84,6 @@ npx @runapi.ai/mcp init roo
 | `create_task` | 是 | 创建媒体任务，并可选择轮询到完成。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
 | `check_balance` | 是 | 查询账户余额和消费指标。 |
-| `chat` | 是 | 向 RunAPI LLM 端点发送 messages，并在可用时返回 usage。 |
 
 ---
 
@@ -167,24 +166,10 @@ RunAPI 有哪些图片模型？
 1. 调用 `check_balance`。
 2. 如果没有配置 key，说明如何设置 `RUNAPI_API_KEY`。
 
-### LLM Chat
-
-```text
-用 RunAPI 的 LLM 模型总结这个文件。
-```
-
-预期行为：
-
-1. 必要时用目录工具查找当前 LLM model slug。
-2. 调用 `chat`，不要调用 `create_task`。
-3. 返回模型响应和可用的 usage metadata。
-
----
-
 ## Catalog Coverage
 
 内嵌目录来自 RunAPI 的 contract 快照。
-它包含媒体模型、工具类 endpoint 和 LLM model slugs。
+它包含媒体模型、工具类 endpoint 和用于发现的 LLM model slugs。
 
 | Modality | 使用方式 |
 |---|---|
@@ -196,6 +181,7 @@ RunAPI 有哪些图片模型？
 
 目录内容会随着版本变化。
 请用 `list_models` 获取当前 service/action/model slugs，用 `get_model_info` 查看当前约束。
+LLM 推理请直接通过 RunAPI API 或 SDK 接入。
 
 ---
 

@@ -2,8 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { RunApiClient } from "../lib/runapi-client.js";
 import { jsonText } from "../lib/tool-response.js";
-import type { ChatMessage } from "../types.js";
-import { chatHandler, checkBalanceHandler, createTaskHandler, getTaskHandler } from "./authenticated-handlers.js";
+import { checkBalanceHandler, createTaskHandler, getTaskHandler } from "./authenticated-handlers.js";
 
 export function registerAuthenticatedTools(server: McpServer, client = new RunApiClient()) {
   server.tool(
@@ -54,30 +53,6 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
     },
     async ({ service, action, task_id }) => {
       return jsonText(await getTaskHandler({ service, action, task_id }, client));
-    }
-  );
-
-  server.tool(
-    "chat",
-    "Send a prompt to a RunAPI LLM endpoint and return the response with usage metadata when available.",
-    {
-      model: z.string().describe("RunAPI LLM model slug"),
-      messages: z.array(z.object({
-        role: z.enum(["system", "user", "assistant"]),
-        content: z.string()
-      })),
-      max_tokens: z.number().int().positive().optional(),
-      temperature: z.number().min(0).max(2).optional(),
-      api: z.enum(["messages", "chat_completions"]).default("messages")
-    },
-    async ({ model, messages, max_tokens, temperature, api }) => {
-      return jsonText(await chatHandler({
-        model,
-        messages: messages as ChatMessage[],
-        max_tokens,
-        temperature,
-        api
-      }, client));
     }
   );
 }

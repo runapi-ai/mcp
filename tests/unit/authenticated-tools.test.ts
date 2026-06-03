@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { RunApiClientError } from "../../src/lib/errors.js";
-import { chatHandler, checkBalanceHandler, createTaskHandler, defaultTimeout, getTaskHandler } from "../../src/tools/authenticated-handlers.js";
+import { checkBalanceHandler, createTaskHandler, defaultTimeout, getTaskHandler } from "../../src/tools/authenticated-handlers.js";
 
 describe("authenticated tool handlers", () => {
   it("checks balance and maps auth errors", async () => {
@@ -157,45 +157,6 @@ describe("authenticated tool handlers", () => {
       })
     })).resolves.toMatchObject({
       error: expect.stringContaining("temporarily unavailable")
-    });
-  });
-
-  it("proxies chat requests", async () => {
-    const result = await chatHandler({
-      model: "gpt-5.4",
-      messages: [{ role: "user", content: "hello" }],
-      api: "chat_completions"
-    }, {
-      chat: vi.fn(async () => ({ choices: [{ message: { content: "hi" } }] }))
-    });
-
-    expect(result).toMatchObject({
-      text: "hi",
-      response: {
-        choices: expect.any(Array)
-      }
-    });
-  });
-
-  it("extracts text from messages chat responses", async () => {
-    const result = await chatHandler({
-      model: "claude-sonnet-4-6",
-      messages: [{ role: "user", content: "hello" }]
-    }, {
-      chat: vi.fn(async () => ({
-        content: [
-          { type: "text", text: "hello " },
-          { type: "text", text: "there" }
-        ],
-        usage: { input_tokens: 1, output_tokens: 2 }
-      }))
-    });
-
-    expect(result).toMatchObject({
-      text: "hello there",
-      response: {
-        usage: { input_tokens: 1, output_tokens: 2 }
-      }
     });
   });
 

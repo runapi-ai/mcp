@@ -1,7 +1,7 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and LLM chat — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 providers in one MCP server.</strong>
+  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and model discovery — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 providers in one MCP server.</strong>
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
 ## What Is This?
 
 RunAPI MCP Server connects MCP-compatible coding tools to RunAPI.
-It lets an assistant browse the RunAPI catalog, inspect model inputs, check current pricing snapshots, create media tasks, poll task status, check account balance, and call RunAPI LLM endpoints.
+It lets an assistant browse the RunAPI catalog, inspect model inputs, check current pricing snapshots, create media tasks, poll task status, and check account balance.
 
 The discovery tools work without an API key because they use the embedded build-time catalog.
 Authenticated operations require `RUNAPI_API_KEY`.
@@ -84,7 +84,7 @@ npx @runapi.ai/mcp init roo
 ```
 
 Free catalog tools work even when `RUNAPI_API_KEY` is not configured.
-For task creation, balance checks, and LLM chat, create an API key in the RunAPI dashboard and expose it as `RUNAPI_API_KEY`.
+For task creation and balance checks, create an API key in the RunAPI dashboard and expose it as `RUNAPI_API_KEY`.
 
 ---
 
@@ -100,10 +100,9 @@ For task creation, balance checks, and LLM chat, create an API key in the RunAPI
 | `create_task` | Yes | Create a media task and optionally poll until completion. |
 | `get_task` | Yes | Fetch status and latest payload for an existing media task. |
 | `check_balance` | Yes | Return account balance and spending metrics. |
-| `chat` | Yes | Send messages to a RunAPI LLM endpoint and return the response with usage metadata when available. |
 
 The catalog, pricing, and prompt search tools are designed for funnel-top discovery inside coding tools.
-The task, balance, and chat tools are designed for authenticated workflows.
+The task and balance tools are designed for authenticated workflows.
 
 ---
 
@@ -186,24 +185,10 @@ Expected behavior:
 1. The assistant calls `check_balance`.
 2. If no key is configured, it explains how to set `RUNAPI_API_KEY`.
 
-### LLM Chat
-
-```text
-Use a RunAPI LLM model to summarize this file.
-```
-
-Expected behavior:
-
-1. The assistant uses catalog tools to identify a current LLM model slug when needed.
-2. It calls `chat` rather than `create_task`.
-3. It returns the model response and usage metadata when available.
-
----
-
 ## Catalog Coverage
 
 The embedded catalog is generated from RunAPI's contract snapshot.
-It includes media models, utility endpoints, and LLM model slugs.
+It includes media models, utility endpoints, and LLM model slugs for discovery.
 
 | Modality | What To Use |
 |---|---|
@@ -215,6 +200,7 @@ It includes media models, utility endpoints, and LLM model slugs.
 
 Catalog contents can change between releases.
 Use `list_models` for current service/action/model slugs and `get_model_info` for each model's current constraints.
+For LLM inference, connect through the RunAPI API or SDK directly.
 
 ---
 

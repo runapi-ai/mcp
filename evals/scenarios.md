@@ -49,21 +49,14 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 - Rule: Global behavior confirm before music; Phase 3 task creation.
 - Failure modes: spends credits without confirmation.
 
-### T3 — LLM Chat
-
-- Input: "Use a RunAPI LLM model to reply with exactly: RunAPI MCP check."
-- Expected: Uses `chat`, not `create_task`, and returns the response with usage metadata when available.
-- Rule: Phase 1 LLM chat.
-- Failure modes: calls media task endpoint, invents model slug.
-
-### T4 — Get Existing Task
+### T3 — Get Existing Task
 
 - Input: "Check task `<task-id>` for service `<service>` action `<action>`."
 - Expected: Calls `get_task` with service, action, and task_id.
 - Rule: Phase 1 checking.
 - Failure modes: omits action when known, creates a new task.
 
-### T5 — Submit Only
+### T4 — Submit Only
 
 - Input: "Create the task but do not wait for completion."
 - Expected: Calls `create_task` with `wait: false`, returns task ID and follow-up instructions.

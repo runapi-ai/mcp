@@ -11,7 +11,7 @@ Guide the user through local RunAPI MCP configuration.
 ## Instructions
 
 1. Explain that free catalog tools work without a key.
-2. Explain that `create_task`, `get_task`, `check_balance`, and `chat` require `RUNAPI_API_KEY`.
+2. Explain that `create_task`, `get_task`, and `check_balance` require `RUNAPI_API_KEY`.
 3. Tell the user to create a key in the RunAPI dashboard.
 4. Show one setup option:
 

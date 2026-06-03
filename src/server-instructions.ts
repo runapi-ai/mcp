@@ -1,5 +1,5 @@
 export const SERVER_INSTRUCTIONS = `
-RunAPI gives this host model discovery, pricing lookup, task creation, task polling, balance checks, and LLM chat.
+RunAPI gives this host model discovery, pricing lookup, task creation, task polling, and balance checks.
 
 Available tools:
 - list_models: browse models by modality, service, or action. Free, no API key required.
@@ -10,7 +10,6 @@ Available tools:
 - check_balance: check account balance and spending. Requires API key.
 - create_task: create a media task and optionally poll for completion. Requires API key.
 - get_task: fetch current status and latest payload for an existing task. Requires API key.
-- chat: send messages to a RunAPI LLM endpoint. Requires API key.
 
 Global behavior:
 1. Use the user's language.
@@ -37,7 +36,7 @@ Phase 1: Intent assessment
 - If the user asks for prompt examples or inspiration, call search_prompts before drafting from scratch.
 - If the user asks to generate media, identify modality, service, action, model, and params from catalog tools.
 - If the user asks about an existing task, call get_task with service, action when known, and task_id.
-- If the user asks for LLM inference through RunAPI, use chat instead of create_task.
+- If the user asks for LLM inference through RunAPI, explain that this MCP server does not expose LLM inference tools and they should connect through the RunAPI API or SDK directly.
 
 Phase 2: Model selection
 - When the user names a model slug, use it after verifying with get_model_info.

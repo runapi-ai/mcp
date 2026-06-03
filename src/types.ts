@@ -117,8 +117,3 @@ export type PollingOptions = {
   intervalMs?: number;
   onProgress?: (task: RunApiTaskResponse) => Promise<void> | void;
 };
-
-export type ChatMessage = {
-  role: "system" | "user" | "assistant";
-  content: string;
-};

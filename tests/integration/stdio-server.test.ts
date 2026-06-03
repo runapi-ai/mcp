@@ -49,9 +49,10 @@ describe("stdio MCP server", () => {
       "search_prompts",
       "check_balance",
       "create_task",
-      "get_task",
-      "chat"
+      "get_task"
     ]));
+    expect(tools.tools).toHaveLength(8);
+    expect(tools.tools.map((tool) => tool.name)).not.toContain("chat");
 
     const models = await client.callTool({
       name: "list_models",

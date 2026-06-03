@@ -1,6 +1,6 @@
 import { USER_AGENT } from "../constants.js";
 import { loadConfig, requireApiKey, type RunApiConfig } from "../config.js";
-import type { ChatMessage, PollingOptions, RunApiPromptsResponse, RunApiTaskResponse, SearchPromptsParams } from "../types.js";
+import type { PollingOptions, RunApiPromptsResponse, RunApiTaskResponse, SearchPromptsParams } from "../types.js";
 import { errorFromResponse, PollTimeoutError } from "./errors.js";
 
 type RequestOptions = {
@@ -76,40 +76,6 @@ export class RunApiClient {
     }
 
     throw new PollTimeoutError(`Timed out waiting for RunAPI task ${taskId}. Last status: ${taskStatus(lastTask)}.`);
-  }
-
-  async chat(params: {
-    model: string;
-    messages: ChatMessage[];
-    max_tokens?: number;
-    temperature?: number;
-    api?: "messages" | "chat_completions";
-  }) {
-    if (params.api === "chat_completions") {
-      return this.request("POST", "/v1/chat/completions", {
-        auth: true,
-        body: {
-          model: params.model,
-          messages: params.messages,
-          max_tokens: params.max_tokens,
-          temperature: params.temperature
-        }
-      });
-    }
-
-    const system = params.messages.find((message) => message.role === "system")?.content;
-    const messages = params.messages.filter((message) => message.role !== "system");
-
-    return this.request("POST", "/v1/messages", {
-      auth: true,
-      body: {
-        model: params.model,
-        system,
-        messages,
-        max_tokens: params.max_tokens ?? 1024,
-        temperature: params.temperature
-      }
-    });
   }
 
   private async request<T = unknown>(method: string, requestPath: string, options: RequestOptions = {}): Promise<T> {

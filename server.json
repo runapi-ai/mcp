@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.runapi-builder/runapi-mcp",
-  "description": "130+ AI models for image, video, music, audio, and LLM — 18 providers, one API key.",
+  "description": "130+ AI models for image, video, music, and audio — 18 providers, one API key.",
   "repository": {
     "url": "https://github.com/runapi-ai/mcp",
     "source": "github"
   },
-  "version": "0.1.5",
+  "version": "0.1.8",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@runapi.ai/mcp",
-      "version": "0.1.5",
+      "version": "0.1.8",
       "transport": {
         "type": "stdio"
       },

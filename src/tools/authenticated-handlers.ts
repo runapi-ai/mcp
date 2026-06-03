@@ -3,7 +3,7 @@ import { friendlyError } from "../lib/errors.js";
 import { validateInputRules } from "../lib/input-rules.js";
 import { taskIdFromResponse, taskStatus, type RunApiClient } from "../lib/runapi-client.js";
 import { validateParams } from "../lib/schema.js";
-import type { ChatMessage, RunApiTaskResponse } from "../types.js";
+import type { RunApiTaskResponse } from "../types.js";
 
 export type ProgressSender = (message: {
   progressToken: string | number;
@@ -108,27 +108,6 @@ export async function getTaskHandler(
   }
 }
 
-export async function chatHandler(
-  input: {
-    model: string;
-    messages: ChatMessage[];
-    max_tokens?: number;
-    temperature?: number;
-    api?: "messages" | "chat_completions";
-  },
-  client: Pick<RunApiClient, "chat">
-) {
-  try {
-    const response = await client.chat(input);
-    return {
-      text: extractChatText(response),
-      response
-    };
-  } catch (error) {
-    return { error: friendlyError(error) };
-  }
-}
-
 export function defaultTimeout(action: string): number {
   if (action.includes("video")) {
     return 300_000;
@@ -140,49 +119,4 @@ export function defaultTimeout(action: string): number {
     return 120_000;
   }
   return 30_000;
-}
-
-function extractChatText(response: unknown): string | undefined {
-  if (!response || typeof response !== "object") {
-    return undefined;
-  }
-
-  const record = response as Record<string, unknown>;
-  const content = record.content;
-  if (Array.isArray(content)) {
-    const text = content.map((item) => {
-      if (!item || typeof item !== "object") {
-        return undefined;
-      }
-      const value = (item as Record<string, unknown>).text;
-      return typeof value === "string" ? value : undefined;
-    }).filter((value): value is string => Boolean(value)).join("");
-    if (text.length > 0) {
-      return text;
-    }
-  }
-
-  const choices = record.choices;
-  if (Array.isArray(choices)) {
-    const text = choices.map((choice) => {
-      if (!choice || typeof choice !== "object") {
-        return undefined;
-      }
-
-      const choiceRecord = choice as Record<string, unknown>;
-      const message = choiceRecord.message;
-      if (message && typeof message === "object") {
-        const value = (message as Record<string, unknown>).content;
-        return typeof value === "string" ? value : undefined;
-      }
-
-      const value = choiceRecord.text;
-      return typeof value === "string" ? value : undefined;
-    }).filter((value): value is string => Boolean(value)).join("");
-    if (text.length > 0) {
-      return text;
-    }
-  }
-
-  return undefined;
 }

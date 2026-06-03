@@ -1,7 +1,7 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.1.7",
-  "description": "RunAPI MCP server for model discovery, pricing lookup, task creation, and LLM chat.",
+  "version": "0.1.8",
+  "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, and balance checks.",
   "type": "module",
   "main": "dist/src/index.js",
   "bin": {
@@ -38,8 +38,7 @@
     "image-generation",
     "video-generation",
     "music-generation",
-    "audio-generation",
-    "llm"
+    "audio-generation"
   ],
   "author": "RunAPI",
   "license": "Apache-2.0",

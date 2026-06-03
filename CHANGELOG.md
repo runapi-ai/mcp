@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+
+- Removed `chat` tool. LLM users should connect directly via SDK.
+
 ## 0.1.5
 
 - Added free `search_prompts` tool backed by the RunAPI Prompt API.
@@ -14,7 +18,7 @@
 
 - Initial RunAPI MCP server.
 - Added free catalog tools: `list_models`, `get_model_info`, `list_actions`, `check_pricing`.
-- Added authenticated tools: `create_task`, `get_task`, `check_balance`, `chat`.
+- Added authenticated tools: `create_task`, `get_task`, `check_balance`.
 - Added service route normalization for authenticated media task URLs.
 - Added long-running media polling hardening for audio-like tasks.
 - Added init command for Claude Code, Cursor, Windsurf, VS Code, and Roo.
