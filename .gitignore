@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+*.tgz
+.DS_Store
+.mcp.json
+data/example-prompts.json

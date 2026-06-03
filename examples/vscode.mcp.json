@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "runapi": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@runapi.ai/mcp"],
+      "env": {
+        "RUNAPI_API_KEY": "${RUNAPI_API_KEY}"
+      }
+    }
+  }
+}

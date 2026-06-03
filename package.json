@@ -1,0 +1,66 @@
+{
+  "name": "@runapi.ai/mcp",
+  "version": "0.1.0",
+  "description": "RunAPI MCP server for model discovery, pricing lookup, task creation, and LLM chat.",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "bin": {
+    "runapi-mcp": "dist/bin/runapi-mcp.js"
+  },
+  "files": [
+    "dist",
+    "data/contract.json",
+    "data/pricing.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "sync:data": "tsx scripts/sync-data.ts .."
+  },
+  "keywords": [
+    "runapi",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "claude-code",
+    "cursor",
+    "vscode",
+    "image-generation",
+    "video-generation",
+    "music-generation",
+    "audio-generation",
+    "llm"
+  ],
+  "author": "RunAPI",
+  "license": "Apache-2.0",
+  "homepage": "https://runapi.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runapi-ai/mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/runapi-ai/mcp/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

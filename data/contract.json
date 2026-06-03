@@ -1,0 +1,3493 @@
+{
+  "generated_by": "ContractExporter (ADR-0006)",
+  "catalog_models": [
+    "audio-isolation",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-5-20251101",
+    "claude-opus-4-6",
+    "claude-opus-4-7",
+    "claude-opus-4-8",
+    "claude-sonnet-4-5-20250929",
+    "claude-sonnet-4-6",
+    "codex-auto-review",
+    "deepseek-v4-flash",
+    "deepseek-v4-pro",
+    "flux-2-flex-remix-image",
+    "flux-2-flex-text-to-image",
+    "flux-2-pro-remix-image",
+    "flux-2-pro-text-to-image",
+    "flux-kontext-max",
+    "flux-kontext-pro",
+    "gemini-2.5-flash",
+    "gemini-2.5-pro",
+    "gemini-3-flash-preview",
+    "gemini-3-pro-preview",
+    "gemini-3.1-pro-preview",
+    "gemini-omni-audio",
+    "gemini-omni-character",
+    "gemini-omni-text-to-video",
+    "gpt-4o-image",
+    "gpt-5.2",
+    "gpt-5.2-pro",
+    "gpt-5.3-codex",
+    "gpt-5.3-codex-spark",
+    "gpt-5.4",
+    "gpt-5.4-mini",
+    "gpt-5.4-nano",
+    "gpt-5.4-pro",
+    "gpt-5.5",
+    "gpt-5.5-pro",
+    "gpt-image-1.5",
+    "gpt-image-2",
+    "grok-imagine-edit-image",
+    "grok-imagine-image-to-video",
+    "grok-imagine-text-to-image",
+    "grok-imagine-text-to-video",
+    "hailuo-02-image-to-video-pro",
+    "hailuo-02-image-to-video-standard",
+    "hailuo-02-text-to-video-pro",
+    "hailuo-02-text-to-video-standard",
+    "hailuo-2.3-image-to-video-pro",
+    "hailuo-2.3-image-to-video-standard",
+    "happyhorse-character",
+    "happyhorse-edit-video",
+    "happyhorse-image-to-video",
+    "happyhorse-text-to-video",
+    "ideogram-v3-character",
+    "ideogram-v3-character-edit",
+    "ideogram-v3-character-remix",
+    "ideogram-v3-edit",
+    "ideogram-v3-reframe",
+    "ideogram-v3-remix",
+    "ideogram-v3-text-to-image",
+    "imagen-4",
+    "imagen-4-fast",
+    "imagen-4-pro-remix-image",
+    "imagen-4-ultra",
+    "infinitetalk-from-audio",
+    "kling-3.0",
+    "kling-ai-avatar-pro",
+    "kling-ai-avatar-standard",
+    "kling-ai-avatar-v1-pro",
+    "kling-v1-avatar-standard",
+    "kling-v2.1-master-image-to-video",
+    "kling-v2.1-master-text-to-video",
+    "kling-v2.1-pro",
+    "kling-v2.1-standard",
+    "kling-v2.5-turbo-image-to-video-pro",
+    "kling-v2.5-turbo-text-to-video-pro",
+    "luma-modify-video",
+    "nano-banana",
+    "nano-banana-2",
+    "nano-banana-edit",
+    "nano-banana-pro",
+    "qwen-2-edit-image",
+    "qwen-2-remix-image",
+    "qwen-2-text-to-image",
+    "recraft-crisp-upscale",
+    "recraft-remove-background",
+    "runway",
+    "runway-aleph",
+    "seedance-1.5-pro",
+    "seedance-2.0",
+    "seedance-2.0-fast",
+    "seedance-v1-lite",
+    "seedance-v1-pro",
+    "seedance-v1-pro-fast",
+    "seedream-4.5-edit",
+    "seedream-4.5-text-to-image",
+    "seedream-5-lite-edit",
+    "seedream-5-lite-text-to-image",
+    "seedream-v4-edit",
+    "seedream-v4-text-to-image",
+    "sound-effect-v2",
+    "speech-to-text",
+    "suno-v4",
+    "suno-v4.5",
+    "suno-v4.5-all",
+    "suno-v4.5-plus",
+    "suno-v5",
+    "suno-v5.5",
+    "text-to-dialogue-v3",
+    "text-to-speech-multilingual-v2",
+    "text-to-speech-turbo-v2.5",
+    "topaz-upscale-image",
+    "topaz-upscale-video",
+    "veo-3.1",
+    "veo-3.1-fast",
+    "wan-2.2-a14b-image-to-video-turbo",
+    "wan-2.2-a14b-speech-to-video-turbo",
+    "wan-2.2-a14b-text-to-video-turbo",
+    "wan-2.2-animate-move",
+    "wan-2.2-animate-replace",
+    "wan-2.5-image-to-video",
+    "wan-2.5-text-to-video",
+    "wan-2.6-edit-video",
+    "wan-2.6-flash-edit-video",
+    "wan-2.6-flash-image-to-video",
+    "wan-2.6-image-to-video",
+    "wan-2.6-text-to-video",
+    "wan-2.7-edit-video",
+    "wan-2.7-image",
+    "wan-2.7-image-pro",
+    "wan-2.7-image-to-video",
+    "wan-2.7-r2v",
+    "wan-2.7-text-to-video",
+    "z-image"
+  ],
+  "actions": {
+    "elevenlabs/isolate-audio": {
+      "provider": "ElevenLabs",
+      "model": "ElevenLabs",
+      "endpoint": "isolate_audio",
+      "models": [
+        "audio-isolation"
+      ],
+      "fields_by_model": {
+        "audio-isolation": {
+          "source_audio_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "elevenlabs/speech-to-text": {
+      "provider": "ElevenLabs",
+      "model": "ElevenLabs",
+      "endpoint": "speech_to_text",
+      "models": [
+        "speech-to-text"
+      ],
+      "fields_by_model": {
+        "speech-to-text": {
+          "source_audio_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "elevenlabs/text-to-dialogue": {
+      "provider": "ElevenLabs",
+      "model": "ElevenLabs",
+      "endpoint": "text_to_dialogue",
+      "models": [
+        "text-to-dialogue-v3"
+      ],
+      "fields_by_model": {
+        "text-to-dialogue-v3": {
+          "stability": {
+            "enum": [
+              0.0,
+              0.5,
+              1.0
+            ]
+          }
+        }
+      }
+    },
+    "elevenlabs/text-to-sound": {
+      "provider": "ElevenLabs",
+      "model": "ElevenLabs",
+      "endpoint": "text_to_sound",
+      "models": [
+        "sound-effect-v2"
+      ],
+      "fields_by_model": {
+        "sound-effect-v2": {
+          "output_format": {
+            "enum": [
+              "mp3_22050_32",
+              "mp3_44100_32",
+              "mp3_44100_64",
+              "mp3_44100_96",
+              "mp3_44100_128",
+              "mp3_44100_192",
+              "pcm_8000",
+              "pcm_16000",
+              "pcm_22050",
+              "pcm_24000",
+              "pcm_44100",
+              "pcm_48000",
+              "ulaw_8000",
+              "alaw_8000",
+              "opus_48000_32",
+              "opus_48000_64",
+              "opus_48000_96",
+              "opus_48000_128",
+              "opus_48000_192"
+            ]
+          }
+        }
+      }
+    },
+    "elevenlabs/text-to-speech": {
+      "provider": "ElevenLabs",
+      "model": "ElevenLabs",
+      "endpoint": "text_to_speech",
+      "models": [
+        "text-to-speech-multilingual-v2",
+        "text-to-speech-turbo-v2.5"
+      ],
+      "fields_by_model": {
+        "text-to-speech-multilingual-v2": {},
+        "text-to-speech-turbo-v2.5": {}
+      }
+    },
+    "flux-2/remix-image": {
+      "provider": "Black Forest Labs",
+      "model": "Flux 2",
+      "endpoint": "remix_image",
+      "models": [
+        "flux-2-flex-remix-image",
+        "flux-2-pro-remix-image"
+      ],
+      "fields_by_model": {
+        "flux-2-flex-remix-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3",
+              "auto"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k"
+            ]
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        },
+        "flux-2-pro-remix-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3",
+              "auto"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k"
+            ]
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        }
+      }
+    },
+    "flux-2/text-to-image": {
+      "provider": "Black Forest Labs",
+      "model": "Flux 2",
+      "endpoint": "text_to_image",
+      "models": [
+        "flux-2-flex-text-to-image",
+        "flux-2-pro-text-to-image"
+      ],
+      "fields_by_model": {
+        "flux-2-flex-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k"
+            ]
+          }
+        },
+        "flux-2-pro-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k"
+            ]
+          }
+        }
+      }
+    },
+    "flux-kontext/text-to-image": {
+      "provider": "Black Forest Labs",
+      "model": "Flux Kontext",
+      "endpoint": "text_to_image",
+      "models": [
+        "flux-kontext-max",
+        "flux-kontext-pro"
+      ],
+      "fields_by_model": {
+        "flux-kontext-max": {
+          "aspect_ratio": {
+            "enum": [
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "jpeg",
+              "png"
+            ]
+          }
+        },
+        "flux-kontext-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "jpeg",
+              "png"
+            ]
+          }
+        }
+      }
+    },
+    "gemini-omni/create-audio": {
+      "provider": "Google",
+      "model": "Gemini Omni",
+      "endpoint": "create_audio",
+      "models": [
+        "gemini-omni-audio"
+      ],
+      "fields_by_model": {
+        "gemini-omni-audio": {}
+      }
+    },
+    "gemini-omni/create-character": {
+      "provider": "Google",
+      "model": "Gemini Omni",
+      "endpoint": "create_character",
+      "models": [
+        "gemini-omni-character"
+      ],
+      "fields_by_model": {
+        "gemini-omni-character": {
+          "reference_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "gemini-omni/text-to-video": {
+      "provider": "Google",
+      "model": "Gemini Omni",
+      "endpoint": "text_to_video",
+      "models": [
+        "gemini-omni-text-to-video"
+      ],
+      "fields_by_model": {
+        "gemini-omni-text-to-video": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              4,
+              6,
+              8,
+              10
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p",
+              "4k"
+            ]
+          },
+          "reference_image_urls": {}
+        }
+      }
+    },
+    "gpt-4o-image/text-to-image": {
+      "provider": "OpenAI",
+      "model": "GPT-4o Image",
+      "endpoint": "text_to_image",
+      "models": [
+        "gpt-4o-image"
+      ],
+      "fields_by_model": {
+        "gpt-4o-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:2",
+              "2:3"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              4
+            ]
+          }
+        }
+      }
+    },
+    "gpt-image-2/edit-image": {
+      "provider": "OpenAI",
+      "model": "GPT Image 2",
+      "endpoint": "edit_image",
+      "models": [
+        "gpt-image-2"
+      ],
+      "fields_by_model": {
+        "gpt-image-2": {
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "gpt-image-2/text-to-image": {
+      "provider": "OpenAI",
+      "model": "GPT Image 2",
+      "endpoint": "text_to_image",
+      "models": [
+        "gpt-image-2"
+      ],
+      "fields_by_model": {
+        "gpt-image-2": {
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "gpt-image/edit-image": {
+      "provider": "OpenAI",
+      "model": "GPT Image",
+      "endpoint": "edit_image",
+      "models": [
+        "gpt-image-1.5"
+      ],
+      "fields_by_model": {
+        "gpt-image-1.5": {
+          "source_image_urls": {
+            "required": true
+          }
+        }
+      }
+    },
+    "gpt-image/text-to-image": {
+      "provider": "OpenAI",
+      "model": "GPT Image",
+      "endpoint": "text_to_image",
+      "models": [
+        "gpt-image-1.5"
+      ],
+      "fields_by_model": {
+        "gpt-image-1.5": {}
+      }
+    },
+    "grok-imagine/edit-image": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "edit_image",
+      "models": [
+        "grok-imagine-edit-image"
+      ],
+      "fields_by_model": {
+        "grok-imagine-edit-image": {}
+      }
+    },
+    "grok-imagine/extend": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "extend_video",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "extension_duration_seconds": {
+            "enum": [
+              6,
+              10
+            ]
+          }
+        }
+      }
+    },
+    "grok-imagine/image-to-video": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "image_to_video",
+      "models": [
+        "grok-imagine-image-to-video"
+      ],
+      "fields_by_model": {
+        "grok-imagine-image-to-video": {
+          "aspect_ratio": {
+            "enum": [
+              "2:3",
+              "3:2",
+              "1:1",
+              "16:9",
+              "9:16"
+            ]
+          },
+          "motion_style": {
+            "enum": [
+              "fun",
+              "normal",
+              "spicy"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          }
+        }
+      }
+    },
+    "grok-imagine/text-to-image": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "text_to_image",
+      "models": [
+        "grok-imagine-text-to-image"
+      ],
+      "fields_by_model": {
+        "grok-imagine-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "2:3",
+              "3:2",
+              "1:1",
+              "16:9",
+              "9:16"
+            ]
+          }
+        }
+      }
+    },
+    "grok-imagine/text-to-video": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "text_to_video",
+      "models": [
+        "grok-imagine-text-to-video"
+      ],
+      "fields_by_model": {
+        "grok-imagine-text-to-video": {
+          "aspect_ratio": {
+            "enum": [
+              "2:3",
+              "3:2",
+              "1:1",
+              "16:9",
+              "9:16"
+            ]
+          },
+          "motion_style": {
+            "enum": [
+              "fun",
+              "normal",
+              "spicy"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          }
+        }
+      }
+    },
+    "grok-imagine/upscale-image": {
+      "provider": "xAI",
+      "model": "Grok Imagine",
+      "endpoint": "upscale_image",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "hailuo/image-to-video": {
+      "provider": "MiniMax",
+      "model": "Hailuo",
+      "endpoint": "image_to_video",
+      "models": [
+        "hailuo-02-image-to-video-pro",
+        "hailuo-02-image-to-video-standard",
+        "hailuo-2.3-image-to-video-pro",
+        "hailuo-2.3-image-to-video-standard"
+      ],
+      "fields_by_model": {
+        "hailuo-02-image-to-video-pro": {
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "hailuo-02-image-to-video-standard": {
+          "duration_seconds": {
+            "enum": [
+              6,
+              10
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "512p",
+              "768p"
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "hailuo-2.3-image-to-video-pro": {
+          "duration_seconds": {
+            "enum": [
+              6,
+              10
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "768p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "hailuo-2.3-image-to-video-standard": {
+          "duration_seconds": {
+            "enum": [
+              6,
+              10
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "768p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "hailuo/text-to-video": {
+      "provider": "MiniMax",
+      "model": "Hailuo",
+      "endpoint": "text_to_video",
+      "models": [
+        "hailuo-02-text-to-video-pro",
+        "hailuo-02-text-to-video-standard"
+      ],
+      "fields_by_model": {
+        "hailuo-02-text-to-video-pro": {},
+        "hailuo-02-text-to-video-standard": {
+          "duration_seconds": {
+            "enum": [
+              6,
+              10
+            ]
+          }
+        }
+      }
+    },
+    "happyhorse/edit-video": {
+      "provider": "Alibaba",
+      "model": "HappyHorse",
+      "endpoint": "edit_video",
+      "models": [
+        "happyhorse-edit-video"
+      ],
+      "fields_by_model": {
+        "happyhorse-edit-video": {
+          "audio_setting": {
+            "enum": [
+              "auto",
+              "original"
+            ]
+          },
+          "source_video_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "reference_image_urls": {}
+        }
+      }
+    },
+    "happyhorse/image-to-video": {
+      "provider": "Alibaba",
+      "model": "HappyHorse",
+      "endpoint": "image_to_video",
+      "models": [
+        "happyhorse-image-to-video"
+      ],
+      "fields_by_model": {
+        "happyhorse-image-to-video": {
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "happyhorse/text-to-video": {
+      "provider": "Alibaba",
+      "model": "HappyHorse",
+      "endpoint": "text_to_video",
+      "models": [
+        "happyhorse-character",
+        "happyhorse-text-to-video"
+      ],
+      "fields_by_model": {
+        "happyhorse-character": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "reference_image_urls": {
+            "required": true
+          }
+        },
+        "happyhorse-text-to-video": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        }
+      }
+    },
+    "ideogram-v3/edit-image": {
+      "provider": "Ideogram",
+      "model": "Ideogram V3",
+      "endpoint": "edit_image",
+      "models": [
+        "ideogram-v3-character-edit",
+        "ideogram-v3-edit"
+      ],
+      "fields_by_model": {
+        "ideogram-v3-character-edit": {
+          "style": {
+            "enum": [
+              "auto",
+              "realistic",
+              "fiction"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        },
+        "ideogram-v3-edit": {
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "ideogram-v3/reframe-image": {
+      "provider": "Ideogram",
+      "model": "Ideogram V3",
+      "endpoint": "reframe_image",
+      "models": [
+        "ideogram-v3-reframe"
+      ],
+      "fields_by_model": {
+        "ideogram-v3-reframe": {
+          "style": {
+            "enum": [
+              "auto",
+              "general",
+              "realistic",
+              "design"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "ideogram-v3/remix-image": {
+      "provider": "Ideogram",
+      "model": "Ideogram V3",
+      "endpoint": "remix_image",
+      "models": [
+        "ideogram-v3-character-remix",
+        "ideogram-v3-remix"
+      ],
+      "fields_by_model": {
+        "ideogram-v3-character-remix": {
+          "style": {
+            "enum": [
+              "auto",
+              "realistic",
+              "fiction"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          },
+          "style_reference_image_urls": {}
+        },
+        "ideogram-v3-remix": {
+          "style": {
+            "enum": [
+              "auto",
+              "general",
+              "realistic",
+              "design"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "ideogram-v3/text-to-image": {
+      "provider": "Ideogram",
+      "model": "Ideogram V3",
+      "endpoint": "text_to_image",
+      "models": [
+        "ideogram-v3-character",
+        "ideogram-v3-text-to-image"
+      ],
+      "fields_by_model": {
+        "ideogram-v3-character": {
+          "style": {
+            "enum": [
+              "auto",
+              "realistic",
+              "fiction"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          }
+        },
+        "ideogram-v3-text-to-image": {
+          "style": {
+            "enum": [
+              "auto",
+              "general",
+              "realistic",
+              "design"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "rendering_speed": {
+            "enum": [
+              "turbo",
+              "balanced",
+              "quality"
+            ]
+          }
+        }
+      }
+    },
+    "imagen-4/remix-image": {
+      "provider": "Google",
+      "model": "Imagen 4",
+      "endpoint": "remix_image",
+      "models": [
+        "imagen-4-pro-remix-image"
+      ],
+      "fields_by_model": {
+        "imagen-4-pro-remix-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:3",
+              "4:5",
+              "5:4",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpg"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        }
+      }
+    },
+    "imagen-4/text-to-image": {
+      "provider": "Google",
+      "model": "Imagen 4",
+      "endpoint": "text_to_image",
+      "models": [
+        "imagen-4",
+        "imagen-4-fast",
+        "imagen-4-ultra"
+      ],
+      "fields_by_model": {
+        "imagen-4": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:4",
+              "4:3"
+            ]
+          }
+        },
+        "imagen-4-fast": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:4",
+              "4:3"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        },
+        "imagen-4-ultra": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:4",
+              "4:3"
+            ]
+          }
+        }
+      }
+    },
+    "infinitetalk/audio-to-video": {
+      "provider": "MeiGen-AI",
+      "model": "InfiniteTalk",
+      "endpoint": "audio_to_video",
+      "models": [
+        "infinitetalk-from-audio"
+      ],
+      "fields_by_model": {
+        "infinitetalk-from-audio": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          }
+        }
+      }
+    },
+    "kling/avatar": {
+      "provider": "Kuaishou",
+      "model": "Kling",
+      "endpoint": "ai_avatar",
+      "models": [
+        "kling-ai-avatar-pro",
+        "kling-ai-avatar-standard",
+        "kling-ai-avatar-v1-pro",
+        "kling-v1-avatar-standard"
+      ],
+      "fields_by_model": {
+        "kling-ai-avatar-pro": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          }
+        },
+        "kling-ai-avatar-standard": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          }
+        },
+        "kling-ai-avatar-v1-pro": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          }
+        },
+        "kling-v1-avatar-standard": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "kling/image-to-video": {
+      "provider": "Kuaishou",
+      "model": "Kling",
+      "endpoint": "image_to_video",
+      "models": [
+        "kling-v2.1-master-image-to-video",
+        "kling-v2.1-pro",
+        "kling-v2.1-standard",
+        "kling-v2.5-turbo-image-to-video-pro"
+      ],
+      "fields_by_model": {
+        "kling-v2.1-master-image-to-video": {
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "kling-v2.1-pro": {
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "kling-v2.1-standard": {
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "kling-v2.5-turbo-image-to-video-pro": {
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "kling/motion-control": {
+      "provider": "Kuaishou",
+      "model": "Kling",
+      "endpoint": "motion_control",
+      "models": [
+        "kling-3.0"
+      ],
+      "fields_by_model": {
+        "kling-3.0": {
+          "source_image_url": {
+            "required": true
+          },
+          "background_source": {
+            "enum": [
+              "video",
+              "image"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "reference_video_url": {
+            "required": true
+          },
+          "character_orientation": {
+            "enum": [
+              "video",
+              "image"
+            ]
+          }
+        }
+      }
+    },
+    "kling/text-to-video": {
+      "provider": "Kuaishou",
+      "model": "Kling",
+      "endpoint": "text_to_video",
+      "models": [
+        "kling-3.0",
+        "kling-v2.1-master-text-to-video",
+        "kling-v2.5-turbo-text-to-video-pro"
+      ],
+      "fields_by_model": {
+        "kling-3.0": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p",
+              "4k"
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {}
+        },
+        "kling-v2.1-master-text-to-video": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          }
+        },
+        "kling-v2.5-turbo-text-to-video-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ]
+          }
+        }
+      }
+    },
+    "luma/modify-video": {
+      "provider": "Luma",
+      "model": "Luma",
+      "endpoint": "modify_video",
+      "models": [
+        "luma-modify-video"
+      ],
+      "fields_by_model": {
+        "luma-modify-video": {
+          "source_video_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "nano-banana/edit-image": {
+      "provider": "Google",
+      "model": "Nano Banana",
+      "endpoint": "edit_image",
+      "models": [
+        "nano-banana-edit"
+      ],
+      "fields_by_model": {
+        "nano-banana-edit": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "9:16",
+              "16:9",
+              "3:4",
+              "4:3",
+              "3:2",
+              "2:3",
+              "5:4",
+              "4:5",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg"
+            ]
+          }
+        }
+      }
+    },
+    "nano-banana/text-to-image": {
+      "provider": "Google",
+      "model": "Nano Banana",
+      "endpoint": "text_to_image",
+      "models": [
+        "nano-banana",
+        "nano-banana-2",
+        "nano-banana-pro"
+      ],
+      "fields_by_model": {
+        "nano-banana": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "9:16",
+              "16:9",
+              "3:4",
+              "4:3",
+              "3:2",
+              "2:3",
+              "5:4",
+              "4:5",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg",
+              "jpg"
+            ]
+          }
+        },
+        "nano-banana-2": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "1:4",
+              "1:8",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:1",
+              "4:3",
+              "4:5",
+              "5:4",
+              "8:1",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg",
+              "jpg"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        },
+        "nano-banana-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:3",
+              "4:5",
+              "5:4",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg",
+              "jpg"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "qwen-2/edit-image": {
+      "provider": "Alibaba",
+      "model": "Qwen 2",
+      "endpoint": "edit_image",
+      "models": [
+        "qwen-2-edit-image"
+      ],
+      "fields_by_model": {
+        "qwen-2-edit-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:3",
+              "9:16",
+              "16:9",
+              "21:9"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "jpeg",
+              "png"
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "qwen-2/remix-image": {
+      "provider": "Alibaba",
+      "model": "Qwen 2",
+      "endpoint": "remix_image",
+      "models": [
+        "qwen-2-remix-image"
+      ],
+      "fields_by_model": {
+        "qwen-2-remix-image": {
+          "acceleration": {
+            "enum": [
+              "none",
+              "regular",
+              "high"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg"
+            ]
+          }
+        }
+      }
+    },
+    "qwen-2/text-to-image": {
+      "provider": "Alibaba",
+      "model": "Qwen 2",
+      "endpoint": "text_to_image",
+      "models": [
+        "qwen-2-text-to-image"
+      ],
+      "fields_by_model": {
+        "qwen-2-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "3:4",
+              "4:3",
+              "9:16",
+              "16:9"
+            ]
+          },
+          "output_format": {
+            "enum": [
+              "png",
+              "jpeg"
+            ]
+          }
+        }
+      }
+    },
+    "recraft/remove-background": {
+      "provider": "Recraft",
+      "model": "Recraft",
+      "endpoint": "remove_background",
+      "models": [
+        "recraft-remove-background"
+      ],
+      "fields_by_model": {
+        "recraft-remove-background": {
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "recraft/upscale-image": {
+      "provider": "Recraft",
+      "model": "Recraft",
+      "endpoint": "upscale_image",
+      "models": [
+        "recraft-crisp-upscale"
+      ],
+      "fields_by_model": {
+        "recraft-crisp-upscale": {
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "runway-aleph/edit-video": {
+      "provider": "Runway",
+      "model": "Runway Aleph",
+      "endpoint": "edit_video",
+      "models": [
+        "runway-aleph"
+      ],
+      "fields_by_model": {
+        "runway-aleph": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "4:3",
+              "3:4",
+              "1:1",
+              "21:9"
+            ]
+          },
+          "source_video_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "runway/extend-video": {
+      "provider": "Runway",
+      "model": "Runway",
+      "endpoint": "extend_video",
+      "models": [
+        "runway"
+      ],
+      "fields_by_model": {
+        "runway": {
+          "source_task_id": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "runway/text-to-video": {
+      "provider": "Runway",
+      "model": "Runway",
+      "endpoint": "text_to_video",
+      "models": [
+        "runway"
+      ],
+      "fields_by_model": {
+        "runway": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ],
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ],
+            "required": true
+          },
+          "first_frame_image_url": {}
+        }
+      }
+    },
+    "seedance/text-to-video": {
+      "provider": "Bytedance",
+      "model": "Seedance",
+      "endpoint": "text_to_video",
+      "models": [
+        "seedance-1.5-pro",
+        "seedance-2.0",
+        "seedance-2.0-fast",
+        "seedance-v1-lite",
+        "seedance-v1-pro",
+        "seedance-v1-pro-fast"
+      ],
+      "fields_by_model": {
+        "seedance-1.5-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              4,
+              8,
+              12
+            ],
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          },
+          "source_image_urls": {}
+        },
+        "seedance-2.0": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9",
+              "auto"
+            ]
+          },
+          "duration_seconds": {
+            "max": 15,
+            "min": 4
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          },
+          "last_frame_image_url": {},
+          "reference_audio_urls": {},
+          "reference_image_urls": {},
+          "reference_video_urls": {},
+          "first_frame_image_url": {}
+        },
+        "seedance-2.0-fast": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9",
+              "auto"
+            ]
+          },
+          "duration_seconds": {
+            "max": 15,
+            "min": 4
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "last_frame_image_url": {},
+          "reference_audio_urls": {},
+          "reference_image_urls": {},
+          "reference_video_urls": {},
+          "first_frame_image_url": {}
+        },
+        "seedance-v1-lite": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "9:21"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ],
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          },
+          "last_frame_image_url": {},
+          "first_frame_image_url": {}
+        },
+        "seedance-v1-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ],
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {}
+        },
+        "seedance-v1-pro-fast": {
+          "duration_seconds": {
+            "enum": [
+              5,
+              10
+            ],
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "seedream/edit-image": {
+      "provider": "Bytedance",
+      "model": "Seedream",
+      "endpoint": "edit_image",
+      "models": [
+        "seedream-4.5-edit",
+        "seedream-5-lite-edit",
+        "seedream-v4-edit"
+      ],
+      "fields_by_model": {
+        "seedream-4.5-edit": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        },
+        "seedream-5-lite-edit": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        },
+        "seedream-v4-edit": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3",
+              "16:9",
+              "9:16",
+              "21:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          },
+          "source_image_urls": {
+            "required": true
+          }
+        }
+      }
+    },
+    "seedream/text-to-image": {
+      "provider": "Bytedance",
+      "model": "Seedream",
+      "endpoint": "text_to_image",
+      "models": [
+        "seedream-4.5-text-to-image",
+        "seedream-5-lite-text-to-image",
+        "seedream-v4-text-to-image"
+      ],
+      "fields_by_model": {
+        "seedream-4.5-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          }
+        },
+        "seedream-5-lite-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          }
+        },
+        "seedream-v4-text-to-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3",
+              "16:9",
+              "9:16",
+              "21:9"
+            ]
+          },
+          "output_count": {
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "suno/add-instrumental": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "add_instrumental",
+      "models": [
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4.5-plus": {
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5": {
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      }
+    },
+    "suno/add-vocals": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "add_vocals",
+      "models": [
+        "suno-v4.5-plus",
+        "suno-v5"
+      ],
+      "fields_by_model": {
+        "suno-v4.5-plus": {
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5": {
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      }
+    },
+    "suno/boost-style": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "boost_style",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/check-voice": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "check_voice",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/convert-audio": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "convert_audio",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/cover-audio": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "cover_audio",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-all",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-all": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-plus": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      }
+    },
+    "suno/create-mashup": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "create_mashup",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-all",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-all": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-plus": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      }
+    },
+    "suno/extend-music": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "extend_music",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-all",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        },
+        "suno-v4.5": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        },
+        "suno-v4.5-all": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        },
+        "suno-v4.5-plus": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        },
+        "suno-v5": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "parameter_mode": {
+            "enum": [
+              "source",
+              "custom"
+            ]
+          }
+        }
+      }
+    },
+    "suno/generate-artwork": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "generate_artwork",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/generate-lyrics": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "generate_lyrics",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/generate-midi": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "generate_midi",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/generate-persona": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "generate_persona",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/generate-voice": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "generate_voice",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "singer_skill_level": {
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced",
+              "professional"
+            ]
+          }
+        }
+      }
+    },
+    "suno/get-timestamped-lyrics": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "get_timestamped_lyrics",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/regenerate-validation-phrase": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "regenerate_validation_phrase",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/replace-section": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "replace_section",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/separate-audio-stems": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "separate_audio_stems",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/text-to-music": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "text_to_music",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-all",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-all": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v4.5-plus": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "vocal_mode": {
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ]
+          },
+          "persona_type": {
+            "enum": [
+              "style",
+              "voice"
+            ]
+          },
+          "vocal_gender": {
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      }
+    },
+    "suno/text-to-sound": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "text_to_sound",
+      "models": [
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v5": {
+          "sound_key": {
+            "enum": [
+              "Cm",
+              "C#m",
+              "Dm",
+              "D#m",
+              "Em",
+              "Fm",
+              "F#m",
+              "Gm",
+              "G#m",
+              "Am",
+              "A#m",
+              "Bm",
+              "C",
+              "C#",
+              "D",
+              "D#",
+              "E",
+              "F",
+              "F#",
+              "G",
+              "G#",
+              "A",
+              "A#",
+              "B"
+            ]
+          }
+        },
+        "suno-v5.5": {
+          "sound_key": {
+            "enum": [
+              "Cm",
+              "C#m",
+              "Dm",
+              "D#m",
+              "Em",
+              "Fm",
+              "F#m",
+              "Gm",
+              "G#m",
+              "Am",
+              "A#m",
+              "Bm",
+              "C",
+              "C#",
+              "D",
+              "D#",
+              "E",
+              "F",
+              "F#",
+              "G",
+              "G#",
+              "A",
+              "A#",
+              "B"
+            ]
+          }
+        }
+      }
+    },
+    "suno/visualize-music": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "visualize_music",
+      "models": [],
+      "fields_by_model": {
+        "_": {}
+      }
+    },
+    "suno/voice-to-validation-phrase": {
+      "provider": "Suno",
+      "model": "Suno",
+      "endpoint": "voice_to_validation_phrase",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "language": {
+            "enum": [
+              "en",
+              "zh",
+              "es",
+              "fr",
+              "pt",
+              "de",
+              "ja",
+              "ko",
+              "hi",
+              "ru"
+            ]
+          }
+        }
+      }
+    },
+    "topaz/upscale-image": {
+      "provider": "Topaz",
+      "model": "Topaz",
+      "endpoint": "upscale_image",
+      "models": [
+        "topaz-upscale-image"
+      ],
+      "fields_by_model": {
+        "topaz-upscale-image": {
+          "upscale_factor": {
+            "enum": [
+              1,
+              2,
+              4,
+              8
+            ]
+          },
+          "source_image_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "topaz/upscale-video": {
+      "provider": "Topaz",
+      "model": "Topaz",
+      "endpoint": "upscale_video",
+      "models": [
+        "topaz-upscale-video"
+      ],
+      "fields_by_model": {
+        "topaz-upscale-video": {
+          "upscale_factor": {
+            "enum": [
+              1,
+              2,
+              4
+            ]
+          },
+          "source_video_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "veo-3-1/extend-video": {
+      "provider": "Google",
+      "model": "Veo 3.1",
+      "endpoint": "extend_video",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "source_task_id": {
+            "required": true
+          }
+        }
+      }
+    },
+    "veo-3-1/text-to-video": {
+      "provider": "Google",
+      "model": "Veo 3.1",
+      "endpoint": "text_to_video",
+      "models": [
+        "veo-3.1",
+        "veo-3.1-fast"
+      ],
+      "fields_by_model": {
+        "veo-3.1": {
+          "input_mode": {
+            "enum": [
+              "text",
+              "first_and_last_frames",
+              "reference"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "auto"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              4,
+              6,
+              8
+            ]
+          },
+          "last_frame_image_url": {},
+          "reference_image_urls": {},
+          "first_frame_image_url": {}
+        },
+        "veo-3.1-fast": {
+          "input_mode": {
+            "enum": [
+              "text",
+              "first_and_last_frames",
+              "reference"
+            ]
+          },
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "auto"
+            ]
+          },
+          "duration_seconds": {
+            "enum": [
+              4,
+              6,
+              8
+            ]
+          },
+          "last_frame_image_url": {},
+          "reference_image_urls": {},
+          "first_frame_image_url": {}
+        }
+      }
+    },
+    "veo-3-1/upscale-video": {
+      "provider": "Google",
+      "model": "Veo 3.1",
+      "endpoint": "upscale_video",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "output_resolution": {
+            "enum": [
+              "1080p",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "wan/animate": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "animate",
+      "models": [
+        "wan-2.2-animate-move",
+        "wan-2.2-animate-replace"
+      ],
+      "fields_by_model": {
+        "wan-2.2-animate-move": {
+          "source_image_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "580p",
+              "720p"
+            ]
+          },
+          "reference_video_url": {
+            "required": true
+          }
+        },
+        "wan-2.2-animate-replace": {
+          "source_image_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "580p",
+              "720p"
+            ]
+          },
+          "reference_video_url": {
+            "required": true
+          }
+        }
+      }
+    },
+    "wan/edit-video": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "edit_video",
+      "models": [
+        "wan-2.6-edit-video",
+        "wan-2.6-flash-edit-video",
+        "wan-2.7-edit-video"
+      ],
+      "fields_by_model": {
+        "wan-2.6-edit-video": {
+          "prompt": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "source_video_urls": {
+            "required": true
+          }
+        },
+        "wan-2.6-flash-edit-video": {
+          "prompt": {
+            "required": true
+          },
+          "source_video_urls": {
+            "required": true
+          }
+        },
+        "wan-2.7-edit-video": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "source_video_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        }
+      }
+    },
+    "wan/image-to-video": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "image_to_video",
+      "models": [
+        "wan-2.2-a14b-image-to-video-turbo",
+        "wan-2.5-image-to-video",
+        "wan-2.6-flash-image-to-video",
+        "wan-2.6-image-to-video",
+        "wan-2.7-image-to-video"
+      ],
+      "fields_by_model": {
+        "wan-2.2-a14b-image-to-video-turbo": {
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "wan-2.5-image-to-video": {
+          "duration_seconds": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "wan-2.6-flash-image-to-video": {
+          "audio": {
+            "required": true
+          },
+          "prompt": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "wan-2.6-image-to-video": {
+          "prompt": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "first_frame_image_url": {
+            "required": true
+          }
+        },
+        "wan-2.7-image-to-video": {
+          "prompt": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        }
+      }
+    },
+    "wan/speech-to-video": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "speech_to_video",
+      "models": [
+        "wan-2.2-a14b-speech-to-video-turbo"
+      ],
+      "fields_by_model": {
+        "wan-2.2-a14b-speech-to-video-turbo": {
+          "source_audio_url": {
+            "required": true
+          },
+          "source_image_url": {
+            "required": true
+          },
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "580p",
+              "720p"
+            ]
+          }
+        }
+      }
+    },
+    "wan/text-to-image": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "text_to_image",
+      "models": [
+        "wan-2.7-image",
+        "wan-2.7-image-pro"
+      ],
+      "fields_by_model": {
+        "wan-2.7-image": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "16:9",
+              "4:3",
+              "21:9",
+              "3:4",
+              "9:16",
+              "8:1",
+              "1:8"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        },
+        "wan-2.7-image-pro": {
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "16:9",
+              "4:3",
+              "21:9",
+              "3:4",
+              "9:16",
+              "8:1",
+              "1:8"
+            ]
+          },
+          "output_resolution": {
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ]
+          }
+        }
+      }
+    },
+    "wan/text-to-video": {
+      "provider": "Alibaba",
+      "model": "Wan",
+      "endpoint": "text_to_video",
+      "models": [
+        "wan-2.2-a14b-text-to-video-turbo",
+        "wan-2.5-text-to-video",
+        "wan-2.6-text-to-video",
+        "wan-2.7-r2v",
+        "wan-2.7-text-to-video"
+      ],
+      "fields_by_model": {
+        "wan-2.2-a14b-text-to-video-turbo": {
+          "output_resolution": {
+            "enum": [
+              "480p",
+              "580p",
+              "720p"
+            ]
+          }
+        },
+        "wan-2.5-text-to-video": {
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        },
+        "wan-2.6-text-to-video": {
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        },
+        "wan-2.7-r2v": {
+          "aspect_ratio": {
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "duration_seconds": {
+            "max": 10,
+            "min": 2
+          },
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        },
+        "wan-2.7-text-to-video": {
+          "output_resolution": {
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          }
+        }
+      }
+    },
+    "z-image/text-to-image": {
+      "provider": "Alibaba",
+      "model": "Z Image",
+      "endpoint": "text_to_image",
+      "models": [
+        "z-image"
+      ],
+      "fields_by_model": {
+        "z-image": {
+          "prompt": {
+            "max": 1000,
+            "min": 1,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "unresolved_actions": []
+}

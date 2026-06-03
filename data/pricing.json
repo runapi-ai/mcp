@@ -1,0 +1,1263 @@
+{
+  "markup_rate": 2.0,
+  "provider_markup": {
+    "Anthropic": 0.5,
+    "DeepSeek": 2.0
+  },
+  "endpoint_markup": {
+    "Luma/Luma/luma-modify-video/modify_video": 1.0,
+    "OpenAI/GPT/gpt-5.2/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.2/response": 0.5,
+    "OpenAI/GPT/gpt-5.4/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.4/response": 0.5,
+    "OpenAI/GPT/gpt-5.4-mini/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.4-mini/response": 0.5,
+    "OpenAI/GPT/gpt-5.5/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.5/response": 0.5,
+    "OpenAI/GPT/gpt-5.3-codex/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.3-codex/response": 0.5,
+    "OpenAI/GPT/gpt-5.3-codex-spark/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.3-codex-spark/response": 0.5,
+    "OpenAI/GPT/gpt-5.4-nano/chat_completion": 0.5,
+    "OpenAI/GPT/gpt-5.4-nano/response": 0.5,
+    "OpenAI/GPT/codex-auto-review/chat_completion": 0.5,
+    "OpenAI/GPT/codex-auto-review/response": 0.5,
+    "OpenAI/GPT/gpt-5.5-pro/response": 0.5,
+    "OpenAI/GPT/gpt-5.4-pro/response": 0.5,
+    "OpenAI/GPT/gpt-5.2-pro/response": 0.5,
+    "Google/Gemini/gemini-2.5-flash/chat_completion": 0.5,
+    "Google/Gemini/gemini-2.5-pro/chat_completion": 0.5,
+    "Google/Gemini/gemini-3.1-pro-preview/chat_completion": 0.5,
+    "Google/Gemini/gemini-3-flash-preview/chat_completion": 0.5,
+    "Google/Gemini/gemini-3-flash-preview/stream_generate_content": 0.5,
+    "Google/Gemini/gemini-3-pro-preview/chat_completion": 0.5
+  },
+  "endpoints": {
+    "Suno/Suno/suno-v4/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-all/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-all/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-all/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-all/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/add_instrumental": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v4.5-plus/add_vocals": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/add_instrumental": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/add_vocals": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5.5/add_instrumental": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5/text_to_sound": {
+      "cost_unit_price_cents": 2.5
+    },
+    "Suno/Suno/suno-v5.5/text_to_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5.5/extend_music": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5.5/cover_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5.5/create_mashup": {
+      "cost_unit_price_cents": 6
+    },
+    "Suno/Suno/suno-v5.5/text_to_sound": {
+      "cost_unit_price_cents": 2.5
+    },
+    "Suno/Suno/_/convert_audio": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Suno/Suno/_/separate_audio_stems": {
+      "cost_unit_price_cents": 5,
+      "cost_billing_config": {
+        "key": "type",
+        "overrides": {
+          "split_stem": 25
+        }
+      }
+    },
+    "Suno/Suno/_/boost_style": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Suno/Suno/_/get_timestamped_lyrics": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Suno/Suno/_/generate_persona": {
+      "cost_unit_price_cents": 25
+    },
+    "Suno/Suno/_/visualize_music": {
+      "cost_unit_price_cents": 1
+    },
+    "Suno/Suno/_/generate_lyrics": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Suno/Suno/_/replace_section": {
+      "cost_unit_price_cents": 2.5
+    },
+    "Suno/Suno/_/voice_to_validation_phrase": {
+      "cost_unit_price_cents": 0
+    },
+    "Suno/Suno/_/regenerate_validation_phrase": {
+      "cost_unit_price_cents": 0
+    },
+    "Suno/Suno/_/generate_voice": {
+      "cost_unit_price_cents": 0
+    },
+    "Suno/Suno/_/check_voice": {
+      "cost_unit_price_cents": 0
+    },
+    "Google/Veo 3.1/veo-3.1/text_to_video": {
+      "cost_unit_price_cents": 112.5
+    },
+    "Google/Veo 3.1/veo-3.1-fast/text_to_video": {
+      "cost_unit_price_cents": 15
+    },
+    "Google/Veo 3.1/_/upscale_video": {
+      "cost_unit_price_cents": 30,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1080p": 3.75,
+          "4k": 30
+        }
+      }
+    },
+    "Google/Veo 3.1/_/extend_video": {
+      "cost_unit_price_cents": 15
+    },
+    "Bytedance/Seedance/seedance-v1-lite/text_to_video": {
+      "cost_unit_price_cents": 1,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 0.2,
+          "720p": 0.45,
+          "1080p": 1.0
+        }
+      }
+    },
+    "Bytedance/Seedance/seedance-v1-pro/text_to_video": {
+      "cost_unit_price_cents": 1.5,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 0.28,
+          "720p": 0.6,
+          "1080p": 1.4
+        }
+      }
+    },
+    "Bytedance/Seedance/seedance-v1-pro-fast/text_to_video": {
+      "cost_unit_price_cents": 1,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 0.32,
+          "1080p": 0.72
+        }
+      }
+    },
+    "Bytedance/Seedance/seedance-1.5-pro/text_to_video": {
+      "cost_unit_price_cents": 2,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 0.875,
+          "720p": 1.75,
+          "1080p": 3.75
+        }
+      }
+    },
+    "Bytedance/Seedance/seedance-2.0/text_to_video": {
+      "cost_unit_price_cents": 20.5
+    },
+    "Bytedance/Seedance/seedance-2.0-fast/text_to_video": {
+      "cost_unit_price_cents": 16.5
+    },
+    "Bytedance/Seedream/seedream-4.5-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 3.5
+    },
+    "Bytedance/Seedream/seedream-4.5-edit/edit_image": {
+      "cost_unit_price_cents": 3.5
+    },
+    "Bytedance/Seedream/seedream-5-lite-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 3
+    },
+    "Bytedance/Seedream/seedream-5-lite-edit/edit_image": {
+      "cost_unit_price_cents": 3
+    },
+    "Bytedance/Seedream/seedream-v4-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 5
+    },
+    "Bytedance/Seedream/seedream-v4-edit/edit_image": {
+      "cost_unit_price_cents": 5,
+      "cost_billing_config": {
+        "key": "output_count",
+        "overrides": {
+          "1": 5,
+          "2": 10,
+          "3": 15,
+          "4": 20,
+          "5": 25,
+          "6": 30
+        }
+      }
+    },
+    "xAI/Grok Imagine/grok-imagine-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 1,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 0.8,
+          "720p": 1.5
+        }
+      }
+    },
+    "xAI/Grok Imagine/grok-imagine-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 1,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 0.8,
+          "720p": 1.5
+        }
+      }
+    },
+    "xAI/Grok Imagine/grok-imagine-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 2,
+      "cost_billing_config": {
+        "key": "enable_pro",
+        "overrides": {
+          "true": 2.5,
+          "false": 2
+        }
+      }
+    },
+    "xAI/Grok Imagine/grok-imagine-edit-image/edit_image": {
+      "cost_unit_price_cents": 2
+    },
+    "xAI/Grok Imagine/_/extend_video": {
+      "cost_unit_price_cents": 15,
+      "cost_billing_config": {
+        "keys": [
+          "extension_duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "6": {
+            "480p": 5,
+            "720p": 10
+          },
+          "10": {
+            "480p": 10,
+            "720p": 15
+          }
+        }
+      }
+    },
+    "xAI/Grok Imagine/_/upscale_image": {
+      "cost_unit_price_cents": 5
+    },
+    "MiniMax/Hailuo/hailuo-02-text-to-video-pro/text_to_video": {
+      "cost_unit_price_cents": 28.5
+    },
+    "MiniMax/Hailuo/hailuo-02-text-to-video-standard/text_to_video": {
+      "cost_unit_price_cents": 25,
+      "cost_billing_config": {
+        "key": "duration_seconds",
+        "overrides": {
+          "6": 15,
+          "10": 25
+        }
+      }
+    },
+    "MiniMax/Hailuo/hailuo-02-image-to-video-pro/image_to_video": {
+      "cost_unit_price_cents": 28.5
+    },
+    "MiniMax/Hailuo/hailuo-02-image-to-video-standard/image_to_video": {
+      "cost_unit_price_cents": 15,
+      "cost_billing_config": {
+        "keys": [
+          "duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "6": {
+            "512p": 6,
+            "768p": 15
+          },
+          "10": {
+            "512p": 10,
+            "768p": 25
+          }
+        }
+      }
+    },
+    "MiniMax/Hailuo/hailuo-2.3-image-to-video-pro/image_to_video": {
+      "cost_unit_price_cents": 45,
+      "cost_billing_config": {
+        "keys": [
+          "duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "6": {
+            "768p": 22.5,
+            "1080p": 40
+          },
+          "10": {
+            "768p": 45
+          }
+        }
+      }
+    },
+    "MiniMax/Hailuo/hailuo-2.3-image-to-video-standard/image_to_video": {
+      "cost_unit_price_cents": 25,
+      "cost_billing_config": {
+        "keys": [
+          "duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "6": {
+            "768p": 15,
+            "1080p": 25
+          },
+          "10": {
+            "768p": 25
+          }
+        }
+      }
+    },
+    "Alibaba/HappyHorse/happyhorse-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 24,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 14,
+          "1080p": 24
+        }
+      }
+    },
+    "Alibaba/HappyHorse/happyhorse-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 24,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 14,
+          "1080p": 24
+        }
+      }
+    },
+    "Alibaba/HappyHorse/happyhorse-character/text_to_video": {
+      "cost_unit_price_cents": 24,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 14,
+          "1080p": 24
+        }
+      }
+    },
+    "Alibaba/HappyHorse/happyhorse-edit-video/edit_video": {
+      "cost_unit_price_cents": 24,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 14,
+          "1080p": 24
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Topaz/Topaz/topaz-upscale-image/upscale_image": {
+      "cost_unit_price_cents": 20,
+      "cost_billing_config": {
+        "key": "upscale_factor",
+        "overrides": {
+          "1": 5,
+          "2": 5,
+          "4": 10,
+          "8": 20
+        }
+      }
+    },
+    "Topaz/Topaz/topaz-upscale-video/upscale_video": {
+      "cost_unit_price_cents": 6
+    },
+    "Google/Nano Banana/nano-banana/text_to_image": {
+      "cost_unit_price_cents": 2
+    },
+    "Google/Nano Banana/nano-banana-pro/text_to_image": {
+      "cost_unit_price_cents": 9
+    },
+    "Google/Nano Banana/nano-banana-edit/edit_image": {
+      "cost_unit_price_cents": 2
+    },
+    "Google/Nano Banana/nano-banana-2/text_to_image": {
+      "cost_unit_price_cents": 8,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 8,
+          "2k": 12,
+          "4k": 18
+        }
+      }
+    },
+    "Google/Imagen 4/imagen-4/text_to_image": {
+      "cost_unit_price_cents": 4
+    },
+    "Google/Imagen 4/imagen-4-fast/text_to_image": {
+      "cost_unit_price_cents": 2
+    },
+    "Google/Imagen 4/imagen-4-ultra/text_to_image": {
+      "cost_unit_price_cents": 6
+    },
+    "Google/Imagen 4/imagen-4-pro-remix-image/remix_image": {
+      "cost_unit_price_cents": 9,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 9,
+          "2k": 9,
+          "4k": 12
+        }
+      }
+    },
+    "Google/Gemini Omni/gemini-omni-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 180,
+      "cost_billing_config": {
+        "keys": [
+          "input_mode",
+          "duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "generated": {
+            "4": {
+              "720p": 45,
+              "1080p": 45,
+              "4k": 105
+            },
+            "6": {
+              "720p": 60,
+              "1080p": 60,
+              "4k": 120
+            },
+            "8": {
+              "720p": 75,
+              "1080p": 75,
+              "4k": 135
+            },
+            "10": {
+              "720p": 90,
+              "1080p": 90,
+              "4k": 150
+            }
+          },
+          "video": {
+            "any": {
+              "720p": 120,
+              "1080p": 120,
+              "4k": 180
+            }
+          }
+        }
+      }
+    },
+    "Runway/Runway/runway/text_to_video": {
+      "cost_unit_price_cents": 15,
+      "cost_billing_config": {
+        "keys": [
+          "duration_seconds",
+          "output_resolution"
+        ],
+        "matrix": {
+          "5": {
+            "720p": 6,
+            "1080p": 15
+          },
+          "10": {
+            "720p": 15
+          }
+        }
+      }
+    },
+    "Runway/Runway/runway/extend_video": {
+      "cost_unit_price_cents": 6,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 6,
+          "1080p": 15
+        }
+      }
+    },
+    "Runway/Runway Aleph/runway-aleph/edit_video": {
+      "cost_unit_price_cents": 55
+    },
+    "Kuaishou/Kling/kling-3.0/text_to_video": {
+      "cost_unit_price_cents": 33.5,
+      "cost_billing_config": {
+        "keys": [
+          "enable_sound",
+          "output_resolution"
+        ],
+        "matrix": {
+          "false": {
+            "720p": 7,
+            "1080p": 9,
+            "4k": 33.5
+          },
+          "true": {
+            "720p": 10,
+            "1080p": 13.5,
+            "4k": 33.5
+          }
+        }
+      }
+    },
+    "Kuaishou/Kling/kling-3.0/motion_control": {
+      "cost_unit_price_cents": 10,
+      "cost_billing_config": {
+        "key": "resolution",
+        "overrides": {
+          "720p": 10,
+          "1080p": 13.5
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Kuaishou/Kling/kling-ai-avatar-pro/ai_avatar": {
+      "cost_unit_price_cents": 8
+    },
+    "Kuaishou/Kling/kling-ai-avatar-standard/ai_avatar": {
+      "cost_unit_price_cents": 4
+    },
+    "Kuaishou/Kling/kling-ai-avatar-v1-pro/ai_avatar": {
+      "cost_unit_price_cents": 8
+    },
+    "Kuaishou/Kling/kling-v1-avatar-standard/ai_avatar": {
+      "cost_unit_price_cents": 4
+    },
+    "Kuaishou/Kling/kling-v2.1-pro/image_to_video": {
+      "cost_unit_price_cents": 5
+    },
+    "Kuaishou/Kling/kling-v2.1-standard/image_to_video": {
+      "cost_unit_price_cents": 2.5
+    },
+    "Kuaishou/Kling/kling-v2.1-master-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 16
+    },
+    "Kuaishou/Kling/kling-v2.1-master-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 16
+    },
+    "Kuaishou/Kling/kling-v2.5-turbo-text-to-video-pro/text_to_video": {
+      "cost_unit_price_cents": 4.5
+    },
+    "Kuaishou/Kling/kling-v2.5-turbo-image-to-video-pro/image_to_video": {
+      "cost_unit_price_cents": 4.5
+    },
+    "Black Forest Labs/Flux Kontext/flux-kontext-pro/text_to_image": {
+      "cost_unit_price_cents": 5
+    },
+    "Black Forest Labs/Flux Kontext/flux-kontext-max/text_to_image": {
+      "cost_unit_price_cents": 10
+    },
+    "Black Forest Labs/Flux 2/flux-2-pro-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 2.5,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 2.5,
+          "2k": 3.5
+        }
+      }
+    },
+    "Black Forest Labs/Flux 2/flux-2-pro-remix-image/remix_image": {
+      "cost_unit_price_cents": 2.5,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 2.5,
+          "2k": 3.5
+        }
+      }
+    },
+    "Black Forest Labs/Flux 2/flux-2-flex-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 7,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 7,
+          "2k": 12
+        }
+      }
+    },
+    "Black Forest Labs/Flux 2/flux-2-flex-remix-image/remix_image": {
+      "cost_unit_price_cents": 7,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 7,
+          "2k": 12
+        }
+      }
+    },
+    "Alibaba/Qwen 2/qwen-2-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 2.8
+    },
+    "Alibaba/Qwen 2/qwen-2-remix-image/remix_image": {
+      "cost_unit_price_cents": 2
+    },
+    "Alibaba/Qwen 2/qwen-2-edit-image/edit_image": {
+      "cost_unit_price_cents": 2
+    },
+    "Alibaba/Z Image/z-image/text_to_image": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Recraft/Recraft/recraft-crisp-upscale/upscale_image": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Recraft/Recraft/recraft-remove-background/remove_background": {
+      "cost_unit_price_cents": 0.5
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-text-to-image/text_to_image": {
+      "cost_unit_price_cents": 3.5,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 1.75,
+          "balanced": 3.5,
+          "quality": 5
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-edit/edit_image": {
+      "cost_unit_price_cents": 3.5,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 1.75,
+          "balanced": 3.5,
+          "quality": 5
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-remix/remix_image": {
+      "cost_unit_price_cents": 3.5,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 1.75,
+          "balanced": 3.5,
+          "quality": 5
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-character/text_to_image": {
+      "cost_unit_price_cents": 9,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 6,
+          "balanced": 9,
+          "quality": 12
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-character-edit/edit_image": {
+      "cost_unit_price_cents": 9,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 6,
+          "balanced": 9,
+          "quality": 12
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-character-remix/remix_image": {
+      "cost_unit_price_cents": 9,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 6,
+          "balanced": 9,
+          "quality": 12
+        }
+      }
+    },
+    "Ideogram/Ideogram V3/ideogram-v3-reframe/reframe_image": {
+      "cost_unit_price_cents": 3.5,
+      "cost_billing_config": {
+        "key": "rendering_speed",
+        "overrides": {
+          "turbo": 1.75,
+          "balanced": 3.5,
+          "quality": 5
+        }
+      }
+    },
+    "ElevenLabs/ElevenLabs/text-to-speech-turbo-v2.5/text_to_speech": {
+      "cost_unit_price_cents": 3
+    },
+    "ElevenLabs/ElevenLabs/text-to-speech-multilingual-v2/text_to_speech": {
+      "cost_unit_price_cents": 6
+    },
+    "ElevenLabs/ElevenLabs/text-to-dialogue-v3/text_to_dialogue": {
+      "cost_unit_price_cents": 7
+    },
+    "ElevenLabs/ElevenLabs/sound-effect-v2/text_to_sound": {
+      "cost_unit_price_cents": 7.5
+    },
+    "ElevenLabs/ElevenLabs/speech-to-text/speech_to_text": {
+      "cost_unit_price_cents": 2
+    },
+    "ElevenLabs/ElevenLabs/audio-isolation/isolate_audio": {
+      "cost_unit_price_cents": 6
+    },
+    "OpenAI/GPT Image/gpt-image-1.5/text_to_image": {
+      "cost_unit_price_cents": 2,
+      "cost_billing_config": {
+        "key": "quality",
+        "overrides": {
+          "medium": 2,
+          "high": 11
+        }
+      }
+    },
+    "OpenAI/GPT Image/gpt-image-1.5/edit_image": {
+      "cost_unit_price_cents": 2,
+      "cost_billing_config": {
+        "key": "quality",
+        "overrides": {
+          "medium": 2,
+          "high": 11
+        }
+      }
+    },
+    "OpenAI/GPT Image 2/gpt-image-2/text_to_image": {
+      "cost_unit_price_cents": 3,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 3,
+          "2k": 5,
+          "4k": 8
+        }
+      }
+    },
+    "OpenAI/GPT Image 2/gpt-image-2/edit_image": {
+      "cost_unit_price_cents": 3,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "1k": 3,
+          "2k": 5,
+          "4k": 8
+        }
+      }
+    },
+    "OpenAI/GPT-4o Image/gpt-4o-image/text_to_image": {
+      "cost_unit_price_cents": 3,
+      "cost_billing_config": {
+        "key": "output_count",
+        "overrides": {
+          "2": 3.5,
+          "4": 4
+        }
+      }
+    },
+    "OpenAI/GPT/gpt-5.2/chat_completion": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/gpt-5.2/response": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/gpt-5.4/chat_completion": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 250,
+      "cost_cache_read_price_per_1m_cents": 25,
+      "cost_output_price_per_1m_cents": 1500
+    },
+    "OpenAI/GPT/gpt-5.4/response": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 250,
+      "cost_cache_read_price_per_1m_cents": 25,
+      "cost_output_price_per_1m_cents": 1500
+    },
+    "OpenAI/GPT/gpt-5.4-mini/chat_completion": {
+      "cost_unit_price_cents": 10,
+      "cost_input_price_per_1m_cents": 75,
+      "cost_cache_read_price_per_1m_cents": 7.5,
+      "cost_output_price_per_1m_cents": 450
+    },
+    "OpenAI/GPT/gpt-5.4-mini/response": {
+      "cost_unit_price_cents": 10,
+      "cost_input_price_per_1m_cents": 75,
+      "cost_cache_read_price_per_1m_cents": 7.5,
+      "cost_output_price_per_1m_cents": 450
+    },
+    "OpenAI/GPT/gpt-5.5/chat_completion": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_output_price_per_1m_cents": 3000
+    },
+    "OpenAI/GPT/gpt-5.5/response": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_output_price_per_1m_cents": 3000
+    },
+    "OpenAI/GPT/gpt-5.3-codex/chat_completion": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/gpt-5.3-codex/response": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/gpt-5.3-codex-spark/chat_completion": {
+      "cost_unit_price_cents": 10,
+      "cost_input_price_per_1m_cents": 75,
+      "cost_cache_read_price_per_1m_cents": 7.5,
+      "cost_output_price_per_1m_cents": 450
+    },
+    "OpenAI/GPT/gpt-5.3-codex-spark/response": {
+      "cost_unit_price_cents": 10,
+      "cost_input_price_per_1m_cents": 75,
+      "cost_cache_read_price_per_1m_cents": 7.5,
+      "cost_output_price_per_1m_cents": 450
+    },
+    "OpenAI/GPT/gpt-5.4-nano/chat_completion": {
+      "cost_unit_price_cents": 5,
+      "cost_input_price_per_1m_cents": 20,
+      "cost_cache_read_price_per_1m_cents": 2,
+      "cost_output_price_per_1m_cents": 125
+    },
+    "OpenAI/GPT/gpt-5.4-nano/response": {
+      "cost_unit_price_cents": 5,
+      "cost_input_price_per_1m_cents": 20,
+      "cost_cache_read_price_per_1m_cents": 2,
+      "cost_output_price_per_1m_cents": 125
+    },
+    "OpenAI/GPT/codex-auto-review/chat_completion": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/codex-auto-review/response": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 175,
+      "cost_cache_read_price_per_1m_cents": 17.5,
+      "cost_output_price_per_1m_cents": 1400
+    },
+    "OpenAI/GPT/gpt-5.5-pro/response": {
+      "cost_unit_price_cents": 250,
+      "cost_input_price_per_1m_cents": 3000,
+      "cost_output_price_per_1m_cents": 18000
+    },
+    "OpenAI/GPT/gpt-5.4-pro/response": {
+      "cost_unit_price_cents": 250,
+      "cost_input_price_per_1m_cents": 3000,
+      "cost_output_price_per_1m_cents": 18000
+    },
+    "OpenAI/GPT/gpt-5.2-pro/response": {
+      "cost_unit_price_cents": 200,
+      "cost_input_price_per_1m_cents": 2100,
+      "cost_output_price_per_1m_cents": 16800
+    },
+    "Google/Gemini/gemini-2.5-flash/chat_completion": {
+      "cost_unit_price_cents": 5,
+      "cost_input_price_per_1m_cents": 30,
+      "cost_output_price_per_1m_cents": 250
+    },
+    "Google/Gemini/gemini-2.5-pro/chat_completion": {
+      "cost_unit_price_cents": 15,
+      "cost_input_price_per_1m_cents": 125,
+      "cost_output_price_per_1m_cents": 1000
+    },
+    "Google/Gemini/gemini-3.1-pro-preview/chat_completion": {
+      "cost_unit_price_cents": 20,
+      "cost_input_price_per_1m_cents": 200,
+      "cost_output_price_per_1m_cents": 1200
+    },
+    "Google/Gemini/gemini-3-flash-preview/chat_completion": {
+      "cost_unit_price_cents": 5,
+      "cost_input_price_per_1m_cents": 50,
+      "cost_output_price_per_1m_cents": 300
+    },
+    "Google/Gemini/gemini-3-flash-preview/stream_generate_content": {
+      "cost_unit_price_cents": 5,
+      "cost_input_price_per_1m_cents": 50,
+      "cost_output_price_per_1m_cents": 300
+    },
+    "Google/Gemini/gemini-3-pro-preview/chat_completion": {
+      "cost_unit_price_cents": 20,
+      "cost_input_price_per_1m_cents": 200,
+      "cost_output_price_per_1m_cents": 1200
+    },
+    "Anthropic/Claude/claude-opus-4-8/message": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_output_price_per_1m_cents": 2500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_cache_write_5m_price_per_1m_cents": 625,
+      "cost_cache_write_1h_price_per_1m_cents": 1000
+    },
+    "Anthropic/Claude/claude-opus-4-7/message": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_output_price_per_1m_cents": 2500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_cache_write_5m_price_per_1m_cents": 625,
+      "cost_cache_write_1h_price_per_1m_cents": 1000
+    },
+    "Anthropic/Claude/claude-opus-4-5-20251101/message": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_output_price_per_1m_cents": 2500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_cache_write_5m_price_per_1m_cents": 625,
+      "cost_cache_write_1h_price_per_1m_cents": 1000
+    },
+    "Anthropic/Claude/claude-sonnet-4-5-20250929/message": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 300,
+      "cost_output_price_per_1m_cents": 1500,
+      "cost_cache_read_price_per_1m_cents": 30,
+      "cost_cache_write_5m_price_per_1m_cents": 375,
+      "cost_cache_write_1h_price_per_1m_cents": 600
+    },
+    "Anthropic/Claude/claude-opus-4-6/message": {
+      "cost_unit_price_cents": 50,
+      "cost_input_price_per_1m_cents": 500,
+      "cost_output_price_per_1m_cents": 2500,
+      "cost_cache_read_price_per_1m_cents": 50,
+      "cost_cache_write_5m_price_per_1m_cents": 625,
+      "cost_cache_write_1h_price_per_1m_cents": 1000
+    },
+    "Anthropic/Claude/claude-sonnet-4-6/message": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 300,
+      "cost_output_price_per_1m_cents": 1500,
+      "cost_cache_read_price_per_1m_cents": 30,
+      "cost_cache_write_5m_price_per_1m_cents": 375,
+      "cost_cache_write_1h_price_per_1m_cents": 600
+    },
+    "Anthropic/Claude/claude-haiku-4-5-20251001/message": {
+      "cost_unit_price_cents": 10,
+      "cost_input_price_per_1m_cents": 100,
+      "cost_output_price_per_1m_cents": 500,
+      "cost_cache_read_price_per_1m_cents": 10,
+      "cost_cache_write_5m_price_per_1m_cents": 125,
+      "cost_cache_write_1h_price_per_1m_cents": 200
+    },
+    "DeepSeek/DeepSeek/deepseek-v4-flash/message": {
+      "cost_unit_price_cents": 3,
+      "cost_input_price_per_1m_cents": 14,
+      "cost_output_price_per_1m_cents": 28,
+      "cost_cache_read_price_per_1m_cents": 0.28
+    },
+    "DeepSeek/DeepSeek/deepseek-v4-flash/chat_completion": {
+      "cost_unit_price_cents": 3,
+      "cost_input_price_per_1m_cents": 14,
+      "cost_output_price_per_1m_cents": 28,
+      "cost_cache_read_price_per_1m_cents": 0.28
+    },
+    "DeepSeek/DeepSeek/deepseek-v4-pro/message": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 174,
+      "cost_output_price_per_1m_cents": 348,
+      "cost_cache_read_price_per_1m_cents": 1.45
+    },
+    "DeepSeek/DeepSeek/deepseek-v4-pro/chat_completion": {
+      "cost_unit_price_cents": 25,
+      "cost_input_price_per_1m_cents": 174,
+      "cost_output_price_per_1m_cents": 348,
+      "cost_cache_read_price_per_1m_cents": 1.45
+    },
+    "MeiGen-AI/InfiniteTalk/infinitetalk-from-audio/audio_to_video": {
+      "cost_unit_price_cents": 6,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 1.5,
+          "720p": 6
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.2-a14b-text-to-video-turbo/text_to_video": {
+      "cost_unit_price_cents": 20,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 20,
+          "580p": 30,
+          "720p": 40
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.2-a14b-image-to-video-turbo/image_to_video": {
+      "cost_unit_price_cents": 20,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 20,
+          "580p": 30,
+          "720p": 40
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.2-a14b-speech-to-video-turbo/speech_to_video": {
+      "cost_unit_price_cents": 12,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 6,
+          "580p": 9,
+          "720p": 12
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.2-animate-move/animate": {
+      "cost_unit_price_cents": 6.5,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 3,
+          "580p": 5,
+          "720p": 6.5
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.2-animate-replace/animate": {
+      "cost_unit_price_cents": 6.5,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 3,
+          "580p": 5,
+          "720p": 6.5
+        },
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.5-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 6,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 6,
+          "1080p": 10
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.5-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 6,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 6,
+          "1080p": 10
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.6-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 7,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 7,
+          "1080p": 10.5
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.6-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 7,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 7,
+          "1080p": 10.5
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.6-edit-video/edit_video": {
+      "cost_unit_price_cents": 7,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 7,
+          "1080p": 10.5
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.6-flash-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 15,
+      "cost_billing_config": {
+        "key": "audio",
+        "overrides": {
+          "false": 15,
+          "true": 30
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.6-flash-edit-video/edit_video": {
+      "cost_unit_price_cents": 15,
+      "cost_billing_config": {
+        "key": "audio",
+        "overrides": {
+          "false": 15,
+          "true": 30
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.7-text-to-video/text_to_video": {
+      "cost_unit_price_cents": 8,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 8,
+          "1080p": 12
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.7-image-to-video/image_to_video": {
+      "cost_unit_price_cents": 8,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 8,
+          "1080p": 12
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.7-image/text_to_image": {
+      "cost_unit_price_cents": 2.5
+    },
+    "Alibaba/Wan/wan-2.7-image-pro/text_to_image": {
+      "cost_unit_price_cents": 6
+    },
+    "Alibaba/Wan/wan-2.7-r2v/text_to_video": {
+      "cost_unit_price_cents": 8,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 8,
+          "1080p": 12
+        }
+      }
+    },
+    "Alibaba/Wan/wan-2.7-edit-video/edit_video": {
+      "cost_unit_price_cents": 8,
+      "cost_billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 8,
+          "1080p": 12
+        }
+      }
+    },
+    "Luma/Luma/luma-modify-video/modify_video": {
+      "cost_unit_price_cents": 50
+    }
+  }
+}
