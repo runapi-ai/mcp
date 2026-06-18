@@ -18,4 +18,19 @@ describe("pricing", () => {
     expect(info).toBeDefined();
     expect(priceForModel(info!).pricing_url).toBe("https://runapi.ai/pricing");
   });
+
+  it("falls back to pricing page for catalog-only pricing entries", () => {
+    const info = findModelForAction("flux-kontext", "text_to_image", "flux-kontext-pro");
+
+    expect(info).toBeDefined();
+    expect(priceForModel(info!, {
+      endpoints: {
+        "Black Forest Labs/Flux Kontext/flux-kontext-pro/text_to_image": {}
+      }
+    })).toMatchObject({
+      pricing: undefined,
+      pricing_source: "pricing page",
+      pricing_url: "https://runapi.ai/pricing"
+    });
+  });
 });
