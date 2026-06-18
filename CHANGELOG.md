@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.9
+
+- Internal: extracted reusable logic into the standalone `@runapi.ai/mcp-core` package; the server now consumes it. No change to tools, behavior, or output.
+
 ## 0.1.8
 
 - Removed `chat` tool. LLM users should connect directly via SDK.

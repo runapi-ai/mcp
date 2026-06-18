@@ -1,10 +1,1 @@
-export function jsonText(value: unknown) {
-  return {
-    content: [
-      {
-        type: "text" as const,
-        text: JSON.stringify(value, null, 2)
-      }
-    ]
-  };
-}
+export { jsonText } from "@runapi.ai/mcp-core";

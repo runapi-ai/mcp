@@ -22,13 +22,17 @@ describe("stdio MCP server", () => {
   });
 
   it("lists and calls tools through the real stdio transport", async () => {
-    const tsxPath = path.resolve("node_modules/.bin/tsx");
-    expect(fs.existsSync(tsxPath)).toBe(true);
+    // tsx may live in this package's node_modules or be hoisted to the workspace root.
+    const tsxPath = [
+      path.resolve("node_modules/.bin/tsx"),
+      path.resolve("../../node_modules/.bin/tsx")
+    ].find((candidate) => fs.existsSync(candidate));
+    expect(tsxPath).toBeDefined();
     tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "runapi-mcp-home-"));
 
     client = new Client({ name: "runapi-mcp-test", version: "0.1.0" });
     transport = new StdioClientTransport({
-      command: tsxPath,
+      command: tsxPath!,
       args: ["src/index.ts"],
       cwd: process.cwd(),
       stderr: "pipe",

@@ -1,36 +1,8 @@
 {
   "markup_rate": 2.0,
-  "provider_markup": {
-    "Anthropic": 0.5,
-    "DeepSeek": 2.0
-  },
+  "provider_markup": {},
   "endpoint_markup": {
-    "Luma/Luma/luma-modify-video/modify_video": 1.0,
-    "OpenAI/GPT/gpt-5.2/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.2/response": 0.5,
-    "OpenAI/GPT/gpt-5.4/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.4/response": 0.5,
-    "OpenAI/GPT/gpt-5.4-mini/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.4-mini/response": 0.5,
-    "OpenAI/GPT/gpt-5.5/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.5/response": 0.5,
-    "OpenAI/GPT/gpt-5.3-codex/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.3-codex/response": 0.5,
-    "OpenAI/GPT/gpt-5.3-codex-spark/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.3-codex-spark/response": 0.5,
-    "OpenAI/GPT/gpt-5.4-nano/chat_completion": 0.5,
-    "OpenAI/GPT/gpt-5.4-nano/response": 0.5,
-    "OpenAI/GPT/codex-auto-review/chat_completion": 0.5,
-    "OpenAI/GPT/codex-auto-review/response": 0.5,
-    "OpenAI/GPT/gpt-5.5-pro/response": 0.5,
-    "OpenAI/GPT/gpt-5.4-pro/response": 0.5,
-    "OpenAI/GPT/gpt-5.2-pro/response": 0.5,
-    "Google/Gemini/gemini-2.5-flash/chat_completion": 0.5,
-    "Google/Gemini/gemini-2.5-pro/chat_completion": 0.5,
-    "Google/Gemini/gemini-3.1-pro-preview/chat_completion": 0.5,
-    "Google/Gemini/gemini-3-flash-preview/chat_completion": 0.5,
-    "Google/Gemini/gemini-3-flash-preview/stream_generate_content": 0.5,
-    "Google/Gemini/gemini-3-pro-preview/chat_completion": 0.5
+    "Luma/Luma/luma-modify-video/modify_video": 1.0
   },
   "endpoints": {
     "Suno/Suno/suno-v4/text_to_music": {
@@ -838,227 +810,41 @@
         }
       }
     },
-    "OpenAI/GPT/gpt-5.2/chat_completion": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/gpt-5.2/response": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/gpt-5.4/chat_completion": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 250,
-      "cost_cache_read_price_per_1m_cents": 25,
-      "cost_output_price_per_1m_cents": 1500
-    },
-    "OpenAI/GPT/gpt-5.4/response": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 250,
-      "cost_cache_read_price_per_1m_cents": 25,
-      "cost_output_price_per_1m_cents": 1500
-    },
-    "OpenAI/GPT/gpt-5.4-mini/chat_completion": {
-      "cost_unit_price_cents": 10,
-      "cost_input_price_per_1m_cents": 75,
-      "cost_cache_read_price_per_1m_cents": 7.5,
-      "cost_output_price_per_1m_cents": 450
-    },
-    "OpenAI/GPT/gpt-5.4-mini/response": {
-      "cost_unit_price_cents": 10,
-      "cost_input_price_per_1m_cents": 75,
-      "cost_cache_read_price_per_1m_cents": 7.5,
-      "cost_output_price_per_1m_cents": 450
-    },
-    "OpenAI/GPT/gpt-5.5/chat_completion": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_output_price_per_1m_cents": 3000
-    },
-    "OpenAI/GPT/gpt-5.5/response": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_output_price_per_1m_cents": 3000
-    },
-    "OpenAI/GPT/gpt-5.3-codex/chat_completion": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/gpt-5.3-codex/response": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/gpt-5.3-codex-spark/chat_completion": {
-      "cost_unit_price_cents": 10,
-      "cost_input_price_per_1m_cents": 75,
-      "cost_cache_read_price_per_1m_cents": 7.5,
-      "cost_output_price_per_1m_cents": 450
-    },
-    "OpenAI/GPT/gpt-5.3-codex-spark/response": {
-      "cost_unit_price_cents": 10,
-      "cost_input_price_per_1m_cents": 75,
-      "cost_cache_read_price_per_1m_cents": 7.5,
-      "cost_output_price_per_1m_cents": 450
-    },
-    "OpenAI/GPT/gpt-5.4-nano/chat_completion": {
-      "cost_unit_price_cents": 5,
-      "cost_input_price_per_1m_cents": 20,
-      "cost_cache_read_price_per_1m_cents": 2,
-      "cost_output_price_per_1m_cents": 125
-    },
-    "OpenAI/GPT/gpt-5.4-nano/response": {
-      "cost_unit_price_cents": 5,
-      "cost_input_price_per_1m_cents": 20,
-      "cost_cache_read_price_per_1m_cents": 2,
-      "cost_output_price_per_1m_cents": 125
-    },
-    "OpenAI/GPT/codex-auto-review/chat_completion": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/codex-auto-review/response": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 175,
-      "cost_cache_read_price_per_1m_cents": 17.5,
-      "cost_output_price_per_1m_cents": 1400
-    },
-    "OpenAI/GPT/gpt-5.5-pro/response": {
-      "cost_unit_price_cents": 250,
-      "cost_input_price_per_1m_cents": 3000,
-      "cost_output_price_per_1m_cents": 18000
-    },
-    "OpenAI/GPT/gpt-5.4-pro/response": {
-      "cost_unit_price_cents": 250,
-      "cost_input_price_per_1m_cents": 3000,
-      "cost_output_price_per_1m_cents": 18000
-    },
-    "OpenAI/GPT/gpt-5.2-pro/response": {
-      "cost_unit_price_cents": 200,
-      "cost_input_price_per_1m_cents": 2100,
-      "cost_output_price_per_1m_cents": 16800
-    },
-    "Google/Gemini/gemini-2.5-flash/chat_completion": {
-      "cost_unit_price_cents": 5,
-      "cost_input_price_per_1m_cents": 30,
-      "cost_output_price_per_1m_cents": 250
-    },
-    "Google/Gemini/gemini-2.5-pro/chat_completion": {
-      "cost_unit_price_cents": 15,
-      "cost_input_price_per_1m_cents": 125,
-      "cost_output_price_per_1m_cents": 1000
-    },
-    "Google/Gemini/gemini-3.1-pro-preview/chat_completion": {
-      "cost_unit_price_cents": 20,
-      "cost_input_price_per_1m_cents": 200,
-      "cost_output_price_per_1m_cents": 1200
-    },
-    "Google/Gemini/gemini-3-flash-preview/chat_completion": {
-      "cost_unit_price_cents": 5,
-      "cost_input_price_per_1m_cents": 50,
-      "cost_output_price_per_1m_cents": 300
-    },
-    "Google/Gemini/gemini-3-flash-preview/stream_generate_content": {
-      "cost_unit_price_cents": 5,
-      "cost_input_price_per_1m_cents": 50,
-      "cost_output_price_per_1m_cents": 300
-    },
-    "Google/Gemini/gemini-3-pro-preview/chat_completion": {
-      "cost_unit_price_cents": 20,
-      "cost_input_price_per_1m_cents": 200,
-      "cost_output_price_per_1m_cents": 1200
-    },
-    "Anthropic/Claude/claude-opus-4-8/message": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_output_price_per_1m_cents": 2500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_cache_write_5m_price_per_1m_cents": 625,
-      "cost_cache_write_1h_price_per_1m_cents": 1000
-    },
-    "Anthropic/Claude/claude-opus-4-7/message": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_output_price_per_1m_cents": 2500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_cache_write_5m_price_per_1m_cents": 625,
-      "cost_cache_write_1h_price_per_1m_cents": 1000
-    },
-    "Anthropic/Claude/claude-opus-4-5-20251101/message": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_output_price_per_1m_cents": 2500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_cache_write_5m_price_per_1m_cents": 625,
-      "cost_cache_write_1h_price_per_1m_cents": 1000
-    },
-    "Anthropic/Claude/claude-sonnet-4-5-20250929/message": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 300,
-      "cost_output_price_per_1m_cents": 1500,
-      "cost_cache_read_price_per_1m_cents": 30,
-      "cost_cache_write_5m_price_per_1m_cents": 375,
-      "cost_cache_write_1h_price_per_1m_cents": 600
-    },
-    "Anthropic/Claude/claude-opus-4-6/message": {
-      "cost_unit_price_cents": 50,
-      "cost_input_price_per_1m_cents": 500,
-      "cost_output_price_per_1m_cents": 2500,
-      "cost_cache_read_price_per_1m_cents": 50,
-      "cost_cache_write_5m_price_per_1m_cents": 625,
-      "cost_cache_write_1h_price_per_1m_cents": 1000
-    },
-    "Anthropic/Claude/claude-sonnet-4-6/message": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 300,
-      "cost_output_price_per_1m_cents": 1500,
-      "cost_cache_read_price_per_1m_cents": 30,
-      "cost_cache_write_5m_price_per_1m_cents": 375,
-      "cost_cache_write_1h_price_per_1m_cents": 600
-    },
-    "Anthropic/Claude/claude-haiku-4-5-20251001/message": {
-      "cost_unit_price_cents": 10,
-      "cost_input_price_per_1m_cents": 100,
-      "cost_output_price_per_1m_cents": 500,
-      "cost_cache_read_price_per_1m_cents": 10,
-      "cost_cache_write_5m_price_per_1m_cents": 125,
-      "cost_cache_write_1h_price_per_1m_cents": 200
-    },
-    "DeepSeek/DeepSeek/deepseek-v4-flash/message": {
-      "cost_unit_price_cents": 3,
-      "cost_input_price_per_1m_cents": 14,
-      "cost_output_price_per_1m_cents": 28,
-      "cost_cache_read_price_per_1m_cents": 0.28
-    },
-    "DeepSeek/DeepSeek/deepseek-v4-flash/chat_completion": {
-      "cost_unit_price_cents": 3,
-      "cost_input_price_per_1m_cents": 14,
-      "cost_output_price_per_1m_cents": 28,
-      "cost_cache_read_price_per_1m_cents": 0.28
-    },
-    "DeepSeek/DeepSeek/deepseek-v4-pro/message": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 174,
-      "cost_output_price_per_1m_cents": 348,
-      "cost_cache_read_price_per_1m_cents": 1.45
-    },
-    "DeepSeek/DeepSeek/deepseek-v4-pro/chat_completion": {
-      "cost_unit_price_cents": 25,
-      "cost_input_price_per_1m_cents": 174,
-      "cost_output_price_per_1m_cents": 348,
-      "cost_cache_read_price_per_1m_cents": 1.45
-    },
+    "OpenAI/GPT/gpt-5.2/chat_completion": {},
+    "OpenAI/GPT/gpt-5.2/response": {},
+    "OpenAI/GPT/gpt-5.4/chat_completion": {},
+    "OpenAI/GPT/gpt-5.4/response": {},
+    "OpenAI/GPT/gpt-5.4-mini/chat_completion": {},
+    "OpenAI/GPT/gpt-5.4-mini/response": {},
+    "OpenAI/GPT/gpt-5.5/chat_completion": {},
+    "OpenAI/GPT/gpt-5.5/response": {},
+    "OpenAI/GPT/gpt-5.3-codex/chat_completion": {},
+    "OpenAI/GPT/gpt-5.3-codex/response": {},
+    "OpenAI/GPT/gpt-5.3-codex-spark/chat_completion": {},
+    "OpenAI/GPT/gpt-5.3-codex-spark/response": {},
+    "OpenAI/GPT/gpt-5.4-nano/chat_completion": {},
+    "OpenAI/GPT/gpt-5.4-nano/response": {},
+    "OpenAI/GPT/gpt-5.5-pro/response": {},
+    "OpenAI/GPT/gpt-5.4-pro/response": {},
+    "OpenAI/GPT/gpt-5.2-pro/response": {},
+    "Google/Gemini/gemini-2.5-flash/chat_completion": {},
+    "Google/Gemini/gemini-2.5-pro/chat_completion": {},
+    "Google/Gemini/gemini-3.1-pro-preview/chat_completion": {},
+    "Google/Gemini/gemini-3.5-flash/stream_generate_content": {},
+    "Google/Gemini/gemini-3-flash-preview/chat_completion": {},
+    "Google/Gemini/gemini-3-flash-preview/stream_generate_content": {},
+    "Google/Gemini/gemini-3-pro-preview/chat_completion": {},
+    "Anthropic/Claude/claude-opus-4-8/message": {},
+    "Anthropic/Claude/claude-opus-4-7/message": {},
+    "Anthropic/Claude/claude-opus-4-5-20251101/message": {},
+    "Anthropic/Claude/claude-sonnet-4-5-20250929/message": {},
+    "Anthropic/Claude/claude-opus-4-6/message": {},
+    "Anthropic/Claude/claude-sonnet-4-6/message": {},
+    "Anthropic/Claude/claude-haiku-4-5-20251001/message": {},
+    "DeepSeek/DeepSeek/deepseek-v4-flash/message": {},
+    "DeepSeek/DeepSeek/deepseek-v4-flash/chat_completion": {},
+    "DeepSeek/DeepSeek/deepseek-v4-pro/message": {},
+    "DeepSeek/DeepSeek/deepseek-v4-pro/chat_completion": {},
     "MeiGen-AI/InfiniteTalk/infinitetalk-from-audio/audio_to_video": {
       "cost_unit_price_cents": 6,
       "cost_billing_config": {

@@ -22,6 +22,7 @@ Use RunAPI tools to turn a media request into a validated task.
 5. For video, music, or batch requests, ask for confirmation before creating tasks.
 6. Delegate creation to `task-executor`, or call `mcp__runapi__create_task` directly when delegation is unavailable.
 7. Present task ID, status, output URLs, and cost fields when available.
+8. Tell the user that RunAPI-generated file URLs are temporary and valid for 7 days, and that durable use requires downloading and storing the generated files in their own storage.
 
 ## Rules
 
@@ -31,3 +32,4 @@ Use RunAPI tools to turn a media request into a validated task.
 - Do not describe generated media as if you inspected it.
 - Use `wait=false` when the user asks to submit only.
 - Use `mcp__runapi__get_task` for follow-up status checks.
+- For app/backend integrations, include a storage step for generated images, videos, audio, or other files before treating the workflow as production-ready.

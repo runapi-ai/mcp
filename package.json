@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, and balance checks.",
   "type": "module",
   "main": "dist/src/index.js",
@@ -25,7 +25,7 @@
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "sync:data": "tsx scripts/sync-data.ts .."
+    "sync:data": "tsx scripts/sync-data.ts ../../.."
   },
   "keywords": [
     "runapi",
@@ -51,10 +51,11 @@
     "url": "https://github.com/runapi-ai/mcp/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@runapi.ai/mcp-core": "0.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
