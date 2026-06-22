@@ -1,7 +1,7 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and model discovery — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 providers in one MCP server.</strong>
+  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and model discovery — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 model families in one MCP server.</strong>
 </p>
 
 <p align="center">

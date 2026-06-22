@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { contract, findModel, findModelForAction, listActionGroups, listContractModels } from "../../src/lib/contract.js";
 
 describe("contract helpers", () => {
-  it("loads the embedded contract", () => {
+  it("loads the embedded contract with no internal fields", () => {
     expect(contract.catalog_models.length).toBeGreaterThan(100);
     expect(Object.keys(contract.actions).length).toBeGreaterThan(40);
-    expect(contract.unresolved_actions).toEqual([]);
+    // The embedded contract must not ship provider names.
+    expect(Object.values(contract.actions).every((action) => !("provider" in action))).toBe(true);
   });
 
   it("finds model metadata", () => {
