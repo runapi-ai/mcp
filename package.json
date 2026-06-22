@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, and balance checks.",
   "type": "module",
   "main": "dist/src/index.js",
@@ -8,11 +8,11 @@
     "runapi-mcp": "dist/bin/runapi-mcp.js"
   },
   "files": [
-    "dist",
+    "dist/src",
+    "dist/bin",
     "data/contract.json",
     "data/pricing.json",
     "examples",
-    "evals",
     "glama.json",
     "README.md",
     "README.zh-CN.md",

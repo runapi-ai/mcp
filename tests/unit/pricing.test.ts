@@ -25,7 +25,7 @@ describe("pricing", () => {
     expect(info).toBeDefined();
     expect(priceForModel(info!, {
       endpoints: {
-        "Black Forest Labs/Flux Kontext/flux-kontext-pro/text_to_image": {}
+        "flux-kontext-pro/text_to_image": {}
       }
     })).toMatchObject({
       pricing: undefined,
