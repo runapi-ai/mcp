@@ -195,6 +195,9 @@
       ],
       "fields_by_model": {
         "text-to-dialogue-v3": {
+          "dialogue": {
+            "required": true
+          },
           "stability": {
             "enum": [
               0.0,
@@ -213,6 +216,9 @@
       ],
       "fields_by_model": {
         "sound-effect-v2": {
+          "text": {
+            "required": true
+          },
           "output_format": {
             "enum": [
               "mp3_22050_32",
@@ -247,8 +253,16 @@
         "text-to-speech-turbo-v2.5"
       ],
       "fields_by_model": {
-        "text-to-speech-multilingual-v2": {},
-        "text-to-speech-turbo-v2.5": {}
+        "text-to-speech-multilingual-v2": {
+          "text": {
+            "required": true
+          }
+        },
+        "text-to-speech-turbo-v2.5": {
+          "text": {
+            "required": true
+          }
+        }
       }
     },
     "flux-2/remix-image": {
@@ -260,6 +274,9 @@
       ],
       "fields_by_model": {
         "flux-2-flex-remix-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -283,6 +300,9 @@
           }
         },
         "flux-2-pro-remix-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -316,6 +336,9 @@
       ],
       "fields_by_model": {
         "flux-2-flex-text-to-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -335,6 +358,9 @@
           }
         },
         "flux-2-pro-text-to-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -484,7 +510,14 @@
         "gemini-omni-audio"
       ],
       "fields_by_model": {
-        "gemini-omni-audio": {}
+        "gemini-omni-audio": {
+          "name": {
+            "required": true
+          },
+          "audio_id": {
+            "required": true
+          }
+        }
       }
     },
     "gemini-omni/create-character": {
@@ -495,6 +528,9 @@
       ],
       "fields_by_model": {
         "gemini-omni-character": {
+          "descriptions": {
+            "required": true
+          },
           "reference_image_url": {
             "required": true
           }
@@ -509,6 +545,9 @@
       ],
       "fields_by_model": {
         "gemini-omni-text-to-video": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "16:9",
@@ -521,7 +560,8 @@
               6,
               8,
               10
-            ]
+            ],
+            "required": true
           },
           "output_resolution": {
             "enum": [
@@ -547,7 +587,8 @@
               "1:1",
               "3:2",
               "2:3"
-            ]
+            ],
+            "required": true
           },
           "output_count": {
             "enum": [
@@ -567,12 +608,38 @@
       ],
       "fields_by_model": {
         "gpt-image-2": {
+          "prompt": {
+            "required": true
+          },
+          "aspect_ratio": {
+            "enum": [
+              "auto",
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "5:4",
+              "4:5",
+              "16:9",
+              "9:16",
+              "2:1",
+              "1:2",
+              "3:1",
+              "1:3",
+              "21:9",
+              "9:21"
+            ]
+          },
           "output_resolution": {
             "enum": [
               "1k",
               "2k",
               "4k"
             ]
+          },
+          "source_image_urls": {
+            "required": true
           }
         }
       }
@@ -585,6 +652,29 @@
       ],
       "fields_by_model": {
         "gpt-image-2": {
+          "prompt": {
+            "required": true
+          },
+          "aspect_ratio": {
+            "enum": [
+              "auto",
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "5:4",
+              "4:5",
+              "16:9",
+              "9:16",
+              "2:1",
+              "1:2",
+              "3:1",
+              "1:3",
+              "21:9",
+              "9:21"
+            ]
+          },
           "output_resolution": {
             "enum": [
               "1k",
@@ -603,6 +693,24 @@
       ],
       "fields_by_model": {
         "gpt-image-1.5": {
+          "prompt": {
+            "required": true
+          },
+          "quality": {
+            "enum": [
+              "medium",
+              "high"
+            ],
+            "required": true
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2"
+            ],
+            "required": true
+          },
           "source_image_urls": {
             "required": true
           }
@@ -616,7 +724,26 @@
         "gpt-image-1.5"
       ],
       "fields_by_model": {
-        "gpt-image-1.5": {}
+        "gpt-image-1.5": {
+          "prompt": {
+            "required": true
+          },
+          "quality": {
+            "enum": [
+              "medium",
+              "high"
+            ],
+            "required": true
+          },
+          "aspect_ratio": {
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2"
+            ],
+            "required": true
+          }
+        }
       }
     },
     "grok-imagine/edit-image": {
@@ -1859,6 +1986,9 @@
       ],
       "fields_by_model": {
         "luma-modify-video": {
+          "prompt": {
+            "required": true
+          },
           "source_video_url": {
             "required": true
           }
@@ -2006,6 +2136,9 @@
       ],
       "fields_by_model": {
         "qwen-2-edit-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -2038,6 +2171,9 @@
       ],
       "fields_by_model": {
         "qwen-2-remix-image": {
+          "prompt": {
+            "required": true
+          },
           "acceleration": {
             "enum": [
               "none",
@@ -2065,6 +2201,9 @@
       ],
       "fields_by_model": {
         "qwen-2-text-to-image": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "1:1",
@@ -2119,6 +2258,9 @@
       ],
       "fields_by_model": {
         "runway-aleph": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "16:9",
@@ -2143,6 +2285,9 @@
       ],
       "fields_by_model": {
         "runway": {
+          "prompt": {
+            "required": true
+          },
           "source_task_id": {
             "required": true
           },
@@ -2164,6 +2309,9 @@
       ],
       "fields_by_model": {
         "runway": {
+          "prompt": {
+            "required": true
+          },
           "aspect_ratio": {
             "enum": [
               "16:9",
@@ -2874,6 +3022,47 @@
         "suno-v5",
         "suno-v5.5"
       ],
+      "rules": [
+        {
+          "when": {
+            "vocal_mode": "auto_lyrics"
+          },
+          "required": [
+            "prompt"
+          ],
+          "forbidden": [
+            "lyrics",
+            "style",
+            "title"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "exact_lyrics"
+          },
+          "required": [
+            "lyrics",
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "instrumental"
+          },
+          "required": [
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt",
+            "lyrics"
+          ]
+        }
+      ],
       "fields_by_model": {
         "suno-v4": {
           "model": {
@@ -2881,47 +3070,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3000,47 +3148,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3119,47 +3226,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3238,47 +3304,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3357,47 +3382,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3476,47 +3460,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3602,6 +3545,47 @@
         "suno-v5",
         "suno-v5.5"
       ],
+      "rules": [
+        {
+          "when": {
+            "vocal_mode": "auto_lyrics"
+          },
+          "required": [
+            "prompt"
+          ],
+          "forbidden": [
+            "lyrics",
+            "style",
+            "title"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "exact_lyrics"
+          },
+          "required": [
+            "lyrics",
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "instrumental"
+          },
+          "required": [
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt",
+            "lyrics"
+          ]
+        }
+      ],
       "fields_by_model": {
         "suno-v4": {
           "model": {
@@ -3609,47 +3593,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3724,47 +3667,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3839,47 +3741,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -3954,47 +3815,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -4069,47 +3889,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -4184,47 +3963,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5125,6 +4863,47 @@
         "suno-v5",
         "suno-v5.5"
       ],
+      "rules": [
+        {
+          "when": {
+            "vocal_mode": "auto_lyrics"
+          },
+          "required": [
+            "prompt"
+          ],
+          "forbidden": [
+            "lyrics",
+            "style",
+            "title"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "exact_lyrics"
+          },
+          "required": [
+            "lyrics",
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "instrumental"
+          },
+          "required": [
+            "style",
+            "title"
+          ],
+          "forbidden": [
+            "prompt",
+            "lyrics"
+          ]
+        }
+      ],
       "fields_by_model": {
         "suno-v4": {
           "model": {
@@ -5132,47 +4911,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5254,47 +4992,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5376,47 +5073,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5498,47 +5154,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5620,47 +5235,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -5742,47 +5316,6 @@
             "required": true,
             "description": "Model slug."
           },
-          "rules": [
-            {
-              "when": {
-                "vocal_mode": "auto_lyrics"
-              },
-              "required": [
-                "prompt"
-              ],
-              "forbidden": [
-                "lyrics",
-                "style",
-                "title"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "exact_lyrics"
-              },
-              "required": [
-                "lyrics",
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt"
-              ]
-            },
-            {
-              "when": {
-                "vocal_mode": "instrumental"
-              },
-              "required": [
-                "style",
-                "title"
-              ],
-              "forbidden": [
-                "prompt",
-                "lyrics"
-              ]
-            }
-          ],
           "style": {
             "type": "string",
             "description": "Music style."
@@ -6072,7 +5605,8 @@
               2,
               4,
               8
-            ]
+            ],
+            "required": true
           },
           "source_image_url": {
             "required": true
@@ -6530,7 +6064,8 @@
               "3:4",
               "16:9",
               "9:16"
-            ]
+            ],
+            "required": true
           }
         }
       }
