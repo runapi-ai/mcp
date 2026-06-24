@@ -1,9 +1,28 @@
 #!/usr/bin/env node
+import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const railsRoot = path.resolve(process.argv[2] || "..");
 const destination = path.resolve("data");
+const ifRailsRoot = process.argv.includes("--if-rails-root");
+const railsRootFiles = [
+  path.join(railsRoot, "sdk", "contract.json"),
+  path.join(railsRoot, "db", "pricing.yml"),
+  path.join(railsRoot, "lib", "mcp", "final_pricing.rb")
+];
+
+if (ifRailsRoot && !railsRootFiles.every((file) => fs.existsSync(file))) {
+  console.log(`Skipping data sync; ${railsRoot} is not a Rails root with MCP source data.`);
+  process.exit(0);
+}
+
+for (const file of railsRootFiles) {
+  if (!fs.existsSync(file)) {
+    console.error(`Missing required data source: ${file}`);
+    process.exit(1);
+  }
+}
 
 // Embed the published artifact's data through the shared Ruby helper
 // (lib/mcp/final_pricing.rb), the same one the per-model generator uses, so the
