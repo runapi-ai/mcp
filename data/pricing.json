@@ -203,13 +203,23 @@
       }
     },
     "seedance-1.5-pro/text_to_video": {
-      "unit_price_cents": 4,
+      "unit_price_cents": 15,
       "billing_config": {
-        "key": "output_resolution",
-        "overrides": {
-          "480p": 1.75,
-          "720p": 3.5,
-          "1080p": 7.5
+        "keys": [
+          "generate_audio",
+          "output_resolution"
+        ],
+        "matrix": {
+          "false": {
+            "480p": 1.75,
+            "720p": 3.5,
+            "1080p": 7.5
+          },
+          "true": {
+            "480p": 3.5,
+            "720p": 7,
+            "1080p": 15
+          }
         }
       }
     },
