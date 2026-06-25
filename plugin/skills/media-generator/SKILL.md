@@ -6,7 +6,12 @@ description: >-
   produce generated media through RunAPI. Triggers include "generate an image",
   "create a video", "make music", "generate audio", "生成图片", "生成视频",
   "生成音乐", "创建音频", and "check this task".
+allowed-tools: mcp__runapi__list_models, mcp__runapi__get_model_info, mcp__runapi__create_task, mcp__runapi__get_task
 version: 0.1.0
+author: RunAPI <contact@runapi.ai>
+license: Apache-2.0
+compatibility: Designed for Claude Code
+tags: [mcp, media, image-generation, video-generation, audio-generation]
 ---
 
 # RunAPI Media Generator
