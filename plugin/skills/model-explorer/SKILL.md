@@ -5,7 +5,12 @@ description: >-
   needs pricing, asks for required fields, searches by modality, or wants a
   recommendation. Triggers include "what models", "compare models", "cheapest",
   "pricing", "required params", "有哪些模型", "比较模型", and "价格".
+allowed-tools: mcp__runapi__list_models, mcp__runapi__get_model_info, mcp__runapi__check_pricing
 version: 0.1.0
+author: RunAPI <support@runapi.ai>
+license: Apache-2.0
+compatibility: Designed for Claude Code
+tags: [mcp, model-discovery, pricing, image-generation, video-generation]
 ---
 
 # RunAPI Model Explorer
