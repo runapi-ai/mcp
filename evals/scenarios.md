@@ -68,7 +68,7 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 ### E1 — No API Key
 
 - Input: "Check my balance" with no API key configured.
-- Expected: Calls `check_balance`, returns setup guidance for `RUNAPI_API_KEY` or config file.
+- Expected: Calls `check_balance`, then calls or recommends the `login` tool for browser login; mentions `RUNAPI_API_KEY` only as a headless fallback.
 - Rule: Phase 0 API key check.
 - Failure modes: asks user to paste key in chat.
 

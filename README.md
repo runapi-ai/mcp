@@ -31,10 +31,10 @@ RunAPI MCP Server connects MCP-compatible coding tools to RunAPI.
 It lets an assistant browse the RunAPI catalog, inspect model inputs, check current pricing snapshots, create media tasks, poll task status, and check account balance.
 
 The discovery tools work without an API key because they use the embedded build-time catalog.
-Authenticated operations require `RUNAPI_API_KEY`.
+Authenticated operations use the `login` tool, `runapi login`, `RUNAPI_API_KEY`, or shared RunAPI config.
 
 This package is a pure client.
-It does not run a local generation backend and does not require changes to your RunAPI account beyond creating an API key for authenticated tools.
+It does not run a local generation backend and only needs RunAPI sign-in for authenticated tools.
 
 ---
 
@@ -64,10 +64,7 @@ Compatibility fallback for non-Claude Code platforms or manual JSON config:
   "mcpServers": {
     "runapi": {
       "command": "npx",
-      "args": ["-y", "@runapi.ai/mcp"],
-      "env": {
-        "RUNAPI_API_KEY": "${RUNAPI_API_KEY}"
-      }
+      "args": ["-y", "@runapi.ai/mcp"]
     }
   }
 }
@@ -83,8 +80,9 @@ npx @runapi.ai/mcp init windsurf
 npx @runapi.ai/mcp init roo
 ```
 
-Free catalog tools work even when `RUNAPI_API_KEY` is not configured.
-For task creation and balance checks, create an API key in the RunAPI dashboard and expose it as `RUNAPI_API_KEY`.
+Free catalog tools work before sign-in.
+For task creation, task status, and balance checks, ask your assistant to call the `login` tool. It opens a browser login and saves credentials to `~/.config/runapi/config.json`, the same file used by `runapi login`.
+Headless and CI hosts can still set `RUNAPI_API_KEY` before starting the MCP host.
 
 ---
 
@@ -97,6 +95,7 @@ For task creation and balance checks, create an API key in the RunAPI dashboard 
 | `list_actions` | No | Group endpoint action names by modality. |
 | `check_pricing` | No | Return pricing snapshot data for a `service` + `action` + `model` combination. |
 | `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. |
+| `login` | No | Start browser login and save RunAPI credentials to shared local config. |
 | `create_task` | Yes | Create a media task and optionally poll until completion. |
 | `get_task` | Yes | Fetch status and latest payload for an existing media task. |
 | `check_balance` | Yes | Return account balance and spending metrics. |
@@ -183,7 +182,7 @@ Check my RunAPI balance.
 Expected behavior:
 
 1. The assistant calls `check_balance`.
-2. If no key is configured, it explains how to set `RUNAPI_API_KEY`.
+2. If no key is configured, it calls `login` for browser login, or explains `RUNAPI_API_KEY` for headless hosts.
 
 ## Catalog Coverage
 
@@ -297,11 +296,11 @@ npx -y @runapi.ai/mcp
 
 The server reads configuration in this order:
 
-1. `RUNAPI_API_KEY` environment variable
-2. `~/.config/runapi/config.json`
+1. `RUNAPI_API_KEY` environment variable, useful for headless and CI hosts
+2. `~/.config/runapi/config.json`, created by the MCP `login` tool or `runapi login`
 3. No key, which still allows free catalog tools
 
-Example config file:
+The config file is normally managed by login. A pre-provisioned headless config can use:
 
 ```json
 {
