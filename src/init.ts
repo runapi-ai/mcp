@@ -49,12 +49,12 @@ export async function runInit(args: string[]) {
   console.log(`Wrote ${file}`);
   console.log();
   console.log("Next steps:");
-  console.log("  1. Sign up at https://runapi.ai and go to Dashboard > API Keys");
-  console.log("  2. Save your key:");
-  console.log('     mkdir -p ~/.config/runapi && echo \'{"api_key":"YOUR_KEY"}\' > ~/.config/runapi/config.json');
-  console.log(`  3. Restart ${platformName(platform)}`);
+  console.log(`  1. Restart ${platformName(platform)} so it loads the RunAPI MCP server.`);
+  console.log("  2. Free tools (model browsing, pricing, prompt search) work before sign-in.");
+  console.log("  3. For task creation, task status, or balance, ask your assistant to call the RunAPI login tool.");
+  console.log("     The login flow opens a browser and saves credentials to ~/.config/runapi/config.json.");
+  console.log("     Terminal users can run `runapi login`; headless hosts can set RUNAPI_API_KEY.");
   console.log();
-  console.log("Free tools (model browsing, pricing, prompt search) work without a key.");
   console.log('Try asking: "Find image prompt examples for a logo"');
 }
 

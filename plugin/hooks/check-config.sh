@@ -19,7 +19,7 @@ cat <<'EOF'
 RunAPI plugin loaded. Free catalog and prompt search tools are available now.
 
 To generate images, videos, music, or audio:
-  1. Sign up at https://runapi.ai and go to Dashboard > API Keys
-  2. Save your key: mkdir -p ~/.config/runapi && echo '{"api_key":"YOUR_KEY"}' > ~/.config/runapi/config.json
-  3. Restart Claude Code
+  1. Ask Claude Code to call the RunAPI login tool for browser login
+  2. Or run `runapi login` in a terminal; both write ~/.config/runapi/config.json
+  3. Headless hosts can set RUNAPI_API_KEY before starting Claude Code
 EOF

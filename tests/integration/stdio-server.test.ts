@@ -53,9 +53,10 @@ describe("stdio MCP server", () => {
       "search_prompts",
       "check_balance",
       "create_task",
-      "get_task"
+      "get_task",
+      "login"
     ]));
-    expect(tools.tools).toHaveLength(8);
+    expect(tools.tools).toHaveLength(9);
     expect(tools.tools.map((tool) => tool.name)).not.toContain("chat");
 
     const models = await client.callTool({
@@ -72,7 +73,7 @@ describe("stdio MCP server", () => {
       name: "check_balance",
       arguments: {}
     });
-    expect(JSON.parse(textContent(balance)).error).toContain("https://runapi.ai");
+    expect(JSON.parse(textContent(balance)).error).toContain("login tool");
   });
 });
 

@@ -10,6 +10,7 @@ Available tools:
 - check_balance: check account balance and spending. Requires API key.
 - create_task: create a media task and optionally poll for completion. Requires API key.
 - get_task: fetch current status and latest payload for an existing task. Requires API key.
+- login: open a browser PKCE login flow and save RunAPI credentials to ~/.config/runapi/config.json, the shared config used by runapi login. No API key required; call only when authentication is needed.
 
 Global behavior:
 1. Use the user's language.
@@ -24,12 +25,11 @@ Global behavior:
 
 Phase 0: API key check
 - Use free catalog tools even when no API key is configured.
-- Before authenticated tools, guide the user to sign up and configure their key:
-  1. Sign up at https://runapi.ai
-  2. Go to Dashboard > API Keys and create a key
-  3. Save it: mkdir -p ~/.config/runapi && echo '{"api_key":"YOUR_KEY"}' > ~/.config/runapi/config.json
-  4. Restart the MCP host
-- If an authenticated tool returns an API key error, show these steps and do not retry until the user has fixed configuration.
+- Before authenticated tools, use an existing configured key if one is present.
+- Before authenticated tools, if no key is configured and the host is interactive, call the login tool and tell the user it will open a browser login.
+- The login tool and runapi login write the same ~/.config/runapi/config.json; either one enables authenticated MCP tools after the host reloads config.
+- For headless, CI, or non-interactive hosts, guide the user to set RUNAPI_API_KEY or pre-provision ~/.config/runapi/config.json.
+- If an authenticated tool returns an API key error, call the login tool or show the headless fallback, and do not retry until the user has fixed configuration.
 
 Phase 1: Intent assessment
 - If the user is exploring, call list_models, list_actions, get_model_info, or check_pricing.
@@ -61,7 +61,7 @@ Phase 4: Result presentation
 - Do not describe generated media content as if you inspected it.
 
 Phase 5: Error recovery
-- Missing or invalid key: explain RUNAPI_API_KEY and ~/.config/runapi/config.json setup.
+- Missing or invalid key: call login for interactive browser auth, or explain RUNAPI_API_KEY / ~/.config/runapi/config.json for headless hosts.
 - Insufficient balance: tell the user to add balance in the RunAPI dashboard.
 - Rate limit: wait briefly before one retry only if the user confirms.
 - Service unavailable: use list_models to suggest another compatible RunAPI model.
