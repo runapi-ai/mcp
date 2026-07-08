@@ -12,18 +12,26 @@ The plugin MCP config runs:
 npx -y @runapi.ai/mcp
 ```
 
-Authenticated tools require `RUNAPI_API_KEY`.
-Free catalog tools work without a key.
+Free catalog tools work before sign-in.
+Authenticated tools can use the MCP `login` tool, `runapi login`, `RUNAPI_API_KEY`, or shared RunAPI config.
 
 ## Configure
 
-Set an API key in your shell before starting Claude Code:
+For interactive use, ask Claude Code to call the RunAPI `login` tool. It opens a browser and writes credentials to the shared RunAPI config.
+
+Terminal users can run:
+
+```bash
+runapi login
+```
+
+Headless hosts can set an API key before starting Claude Code:
 
 ```bash
 export RUNAPI_API_KEY="your_runapi_key"
 ```
 
-You can also create:
+The login flows and headless provisioning share this config file:
 
 ```json
 {
@@ -31,7 +39,7 @@ You can also create:
 }
 ```
 
-at `~/.config/runapi/config.json`.
+`~/.config/runapi/config.json`
 
 ## Included
 

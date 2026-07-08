@@ -18,7 +18,7 @@ RunAPI MCP Server 让 Claude Code、Cursor、VS Code、Windsurf、Roo 等 MCP Ho
 它支持浏览模型目录、查看模型输入参数、查询价格快照、创建媒体任务、轮询任务状态和查询账户余额。
 
 目录发现工具不需要 API Key，因为它们使用包内嵌的构建时目录数据。
-创建任务和查询余额需要 `RUNAPI_API_KEY`。
+认证工具可以使用 `login` tool、`runapi login`、`RUNAPI_API_KEY` 或共享的 RunAPI config。
 
 ---
 
@@ -48,10 +48,7 @@ claude mcp add runapi -s project -- npx -y @runapi.ai/mcp
   "mcpServers": {
     "runapi": {
       "command": "npx",
-      "args": ["-y", "@runapi.ai/mcp"],
-      "env": {
-        "RUNAPI_API_KEY": "${RUNAPI_API_KEY}"
-      }
+      "args": ["-y", "@runapi.ai/mcp"]
     }
   }
 }
@@ -67,8 +64,9 @@ npx @runapi.ai/mcp init windsurf
 npx @runapi.ai/mcp init roo
 ```
 
-免费目录工具即使没有 `RUNAPI_API_KEY` 也可用。
-认证工具需要先在 RunAPI Dashboard 创建 API Key，并把它设置为 `RUNAPI_API_KEY`。
+免费目录工具登录前即可使用。
+创建任务、查询任务和查询余额时，让助手调用 `login` tool。它会打开浏览器登录，并把凭据保存到 `~/.config/runapi/config.json`，也就是 `runapi login` 使用的同一个文件。
+无浏览器或 CI 环境仍然可以在启动 MCP Host 前设置 `RUNAPI_API_KEY`。
 
 ---
 
@@ -81,6 +79,7 @@ npx @runapi.ai/mcp init roo
 | `list_actions` | 否 | 按 modality 分组列出 endpoint action 名称。 |
 | `check_pricing` | 否 | 查询 `service` + `action` + `model` 组合的价格快照。 |
 | `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。 |
+| `login` | 否 | 打开浏览器登录，并把 RunAPI 凭据保存到共享本地配置。 |
 | `create_task` | 是 | 创建媒体任务，并可选择轮询到完成。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
 | `check_balance` | 是 | 查询账户余额和消费指标。 |
@@ -164,7 +163,7 @@ RunAPI 有哪些图片模型？
 预期行为：
 
 1. 调用 `check_balance`。
-2. 如果没有配置 key，说明如何设置 `RUNAPI_API_KEY`。
+2. 如果没有配置 key，调用 `login` 进行浏览器登录；无浏览器环境则说明如何设置 `RUNAPI_API_KEY`。
 
 ## Catalog Coverage
 
@@ -264,11 +263,11 @@ npx @runapi.ai/mcp init roo
 
 Server 按以下顺序读取配置：
 
-1. `RUNAPI_API_KEY` 环境变量
-2. `~/.config/runapi/config.json`
+1. `RUNAPI_API_KEY` 环境变量，适合无浏览器和 CI 环境
+2. `~/.config/runapi/config.json`，由 MCP `login` tool 或 `runapi login` 创建
 3. 无 key，仅允许免费目录工具
 
-示例配置：
+配置文件通常由登录流程管理。无浏览器环境预置配置时可以使用：
 
 ```json
 {

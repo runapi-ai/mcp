@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { friendlyError, PollTimeoutError, RunApiClientError } from "../../src/lib/errors.js";
 import { RunApiClient, taskIdFromResponse, taskStatus } from "../../src/lib/runapi-client.js";
@@ -14,6 +17,29 @@ describe("RunApiClient", () => {
         authorization: "Bearer test_key"
       })
     }));
+  });
+
+  it("reloads the default config for authenticated requests", async () => {
+    const originalHome = process.env.HOME;
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "runapi-aggregate-client-home-"));
+    const fetchImpl = vi.fn(async () => jsonResponse({ balance_cents: 100 }));
+
+    try {
+      process.env.HOME = tempHome;
+      const client = new RunApiClient(undefined, fetchImpl as any);
+      const configFile = path.join(tempHome, ".config", "runapi", "config.json");
+      fs.mkdirSync(path.dirname(configFile), { recursive: true });
+      fs.writeFileSync(configFile, JSON.stringify({ api_key: "new_token" }));
+
+      await client.balance();
+
+      expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/me/balance"), expect.objectContaining({
+        headers: expect.objectContaining({ authorization: "Bearer new_token" })
+      }));
+    } finally {
+      process.env.HOME = originalHome;
+      fs.rmSync(tempHome, { recursive: true, force: true });
+    }
   });
 
   it("does not require auth for list_models", async () => {
