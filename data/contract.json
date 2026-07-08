@@ -99,6 +99,7 @@
     "luma-modify-video",
     "nano-banana",
     "nano-banana-2",
+    "nano-banana-2-lite",
     "nano-banana-edit",
     "nano-banana-pro",
     "qwen-2-edit-image",
@@ -110,6 +111,7 @@
     "runway",
     "runway-aleph",
     "seedance-1.5-pro",
+    "seedance-2-mini",
     "seedance-2.0",
     "seedance-2.0-fast",
     "seedance-v1-lite",
@@ -2145,9 +2147,6 @@
           },
           "seed": {
             "type": "integer"
-          },
-          "output_count": {
-            "type": "integer"
           }
         },
         "imagen-4-fast": {
@@ -2176,15 +2175,6 @@
           },
           "seed": {
             "type": "integer"
-          },
-          "output_count": {
-            "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ]
           }
         },
         "imagen-4-ultra": {
@@ -2211,9 +2201,6 @@
             ]
           },
           "seed": {
-            "type": "integer"
-          },
-          "output_count": {
             "type": "integer"
           }
         }
@@ -2923,7 +2910,19 @@
       "models": [
         "nano-banana",
         "nano-banana-2",
+        "nano-banana-2-lite",
         "nano-banana-pro"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "nano-banana-2-lite"
+          },
+          "forbidden": [
+            "output_resolution",
+            "output_format"
+          ]
+        }
       ],
       "fields_by_model": {
         "nano-banana": {
@@ -3012,6 +3011,52 @@
               "2k",
               "4k"
             ]
+          },
+          "reference_image_urls": {
+            "type": "array"
+          }
+        },
+        "nano-banana-2-lite": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "output_format": {
+            "type": "string"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "1:4",
+              "1:8",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:1",
+              "4:3",
+              "4:5",
+              "5:4",
+              "8:1",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ],
+            "default": "auto",
+            "required": true
+          },
+          "output_resolution": {
+            "type": "string"
           },
           "reference_image_urls": {
             "type": "array"
@@ -3399,6 +3444,7 @@
       "endpoint": "text_to_video",
       "models": [
         "seedance-1.5-pro",
+        "seedance-2-mini",
         "seedance-2.0",
         "seedance-2.0-fast",
         "seedance-v1-lite",
@@ -3452,6 +3498,44 @@
           },
           "lock_camera": {
             "type": "boolean"
+          }
+        },
+        "seedance-2-mini": {
+          "prompt": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9",
+              "auto"
+            ]
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 4
+          },
+          "generate_audio": {
+            "type": "boolean"
           },
           "first_frame_image_url": {
             "type": "string"
@@ -3470,9 +3554,6 @@
           },
           "web_search": {
             "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           }
         },
         "seedance-2.0": {
@@ -3502,7 +3583,8 @@
             "enum": [
               "480p",
               "720p",
-              "1080p"
+              "1080p",
+              "4k"
             ]
           },
           "duration_seconds": {
@@ -3514,12 +3596,6 @@
             "type": "boolean"
           },
           "enable_safety_checker": {
-            "type": "boolean"
-          },
-          "source_image_urls": {
-            "type": "array"
-          },
-          "lock_camera": {
             "type": "boolean"
           },
           "first_frame_image_url": {
@@ -3539,9 +3615,6 @@
           },
           "web_search": {
             "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           }
         },
         "seedance-2.0-fast": {
@@ -3584,12 +3657,6 @@
           "enable_safety_checker": {
             "type": "boolean"
           },
-          "source_image_urls": {
-            "type": "array"
-          },
-          "lock_camera": {
-            "type": "boolean"
-          },
           "first_frame_image_url": {
             "type": "string"
           },
@@ -3607,9 +3674,6 @@
           },
           "web_search": {
             "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           }
         },
         "seedance-v1-lite": {
@@ -3649,14 +3713,8 @@
             ],
             "required": true
           },
-          "generate_audio": {
-            "type": "boolean"
-          },
           "enable_safety_checker": {
             "type": "boolean"
-          },
-          "source_image_urls": {
-            "type": "array"
           },
           "lock_camera": {
             "type": "boolean"
@@ -3666,18 +3724,6 @@
           },
           "last_frame_image_url": {
             "type": "string"
-          },
-          "reference_image_urls": {
-            "type": "array"
-          },
-          "reference_video_urls": {
-            "type": "array"
-          },
-          "reference_audio_urls": {
-            "type": "array"
-          },
-          "web_search": {
-            "type": "boolean"
           },
           "seed": {
             "type": "integer"
@@ -3720,35 +3766,14 @@
             ],
             "required": true
           },
-          "generate_audio": {
-            "type": "boolean"
-          },
           "enable_safety_checker": {
             "type": "boolean"
-          },
-          "source_image_urls": {
-            "type": "array"
           },
           "lock_camera": {
             "type": "boolean"
           },
           "first_frame_image_url": {
             "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "reference_image_urls": {
-            "type": "array"
-          },
-          "reference_video_urls": {
-            "type": "array"
-          },
-          "reference_audio_urls": {
-            "type": "array"
-          },
-          "web_search": {
-            "type": "boolean"
           },
           "seed": {
             "type": "integer"
@@ -3762,9 +3787,6 @@
             "type": "string"
           },
           "callback_url": {
-            "type": "string"
-          },
-          "aspect_ratio": {
             "type": "string"
           },
           "output_resolution": {
@@ -3782,39 +3804,12 @@
             ],
             "required": true
           },
-          "generate_audio": {
-            "type": "boolean"
-          },
           "enable_safety_checker": {
-            "type": "boolean"
-          },
-          "source_image_urls": {
-            "type": "array"
-          },
-          "lock_camera": {
             "type": "boolean"
           },
           "first_frame_image_url": {
             "type": "string",
             "required": true
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "reference_image_urls": {
-            "type": "array"
-          },
-          "reference_video_urls": {
-            "type": "array"
-          },
-          "reference_audio_urls": {
-            "type": "array"
-          },
-          "web_search": {
-            "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           }
         }
       }
@@ -6227,32 +6222,51 @@
         "_": {
           "task_id": {
             "type": "string",
-            "required": true,
-            "description": "Source task ID."
+            "description": "Source task ID. Use with audio_id; do not combine with upload_url/model."
           },
           "audio_id": {
             "type": "string",
-            "required": true,
-            "description": "Audio ID within the source task."
+            "description": "Audio ID within the source task. Use with task_id; do not combine with upload_url/model."
+          },
+          "upload_url": {
+            "type": "string",
+            "description": "Uploaded source audio URL. Use with model; do not combine with task_id/audio_id."
+          },
+          "model": {
+            "type": "string",
+            "enum": [
+              "suno-v4",
+              "suno-v4.5",
+              "suno-v4.5-all",
+              "suno-v4.5-plus",
+              "suno-v5",
+              "suno-v5.5"
+            ],
+            "description": "Model slug for uploaded source audio."
           },
           "lyrics": {
             "type": "string",
+            "required": true,
             "description": "Replacement section lyrics."
           },
           "tags": {
             "type": "string",
+            "required": true,
             "description": "Style or genre tags."
           },
           "title": {
             "type": "string",
+            "required": true,
             "description": "Song title."
           },
           "infill_start_time": {
             "type": "number",
+            "required": true,
             "description": "Section start time in seconds."
           },
           "infill_end_time": {
             "type": "number",
+            "required": true,
             "description": "Section end time in seconds."
           },
           "callback_url": {
@@ -6265,6 +6279,7 @@
           },
           "full_lyrics": {
             "type": "string",
+            "required": true,
             "description": "Complete song lyrics for context."
           }
         }
