@@ -224,7 +224,7 @@
       }
     },
     "seedance-2.0/text_to_video": {
-      "unit_price_cents": 102,
+      "unit_price_cents": 208,
       "billing_config": {
         "keys": [
           "input_mode",
@@ -234,7 +234,8 @@
           "generated": {
             "480p": 19,
             "720p": 41,
-            "1080p": 102
+            "1080p": 102,
+            "4k": 208
           },
           "video": {
             "480p": 11.5,
@@ -259,6 +260,25 @@
           "video": {
             "480p": 9,
             "720p": 20
+          }
+        }
+      }
+    },
+    "seedance-2-mini/text_to_video": {
+      "unit_price_cents": 57,
+      "billing_config": {
+        "keys": [
+          "pricing_input_mode",
+          "output_resolution"
+        ],
+        "matrix": {
+          "standard": {
+            "480p": 19,
+            "720p": 41
+          },
+          "reference": {
+            "480p": 27,
+            "720p": 56.25
           }
         }
       }
@@ -493,6 +513,9 @@
           "4k": 18
         }
       }
+    },
+    "nano-banana-2-lite/text_to_image": {
+      "unit_price_cents": 3
     },
     "imagen-4/text_to_image": {
       "unit_price_cents": 8
@@ -1228,6 +1251,9 @@
     "seedance-2.0-fast/text_to_video_query": {
       "unit_price_cents": 0
     },
+    "seedance-2-mini/text_to_video_query": {
+      "unit_price_cents": 0
+    },
     "seedance-v1-lite/text_to_video_query": {
       "unit_price_cents": 0
     },
@@ -1298,6 +1324,9 @@
       "unit_price_cents": 0
     },
     "nano-banana-2/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "nano-banana-2-lite/text_to_image_query": {
       "unit_price_cents": 0
     },
     "nano-banana-edit/edit_image_query": {
