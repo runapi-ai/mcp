@@ -107,6 +107,28 @@ describe("catalog tool handlers", () => {
     );
   });
 
+  it("exposes generated contract input rules for Kling V3 Turbo", () => {
+    const result = getModelInfoHandler({
+      service: "kling",
+      action: "image_to_video",
+      model: "kling-v3-turbo-image-to-video"
+    });
+
+    expect(result).toMatchObject({
+      model: "kling-v3-turbo-image-to-video",
+      service: "kling",
+      action: "image_to_video"
+    });
+    expect("input_rules" in result ? result.input_rules : []).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          when: { model: "kling-v3-turbo-image-to-video" },
+          forbidden: expect.arrayContaining(["negative_prompt", "cfg_scale", "last_frame_image_url"])
+        })
+      ])
+    );
+  });
+
   it("returns a helpful response for unknown model info", () => {
     const result = getModelInfoHandler("missing-model");
 

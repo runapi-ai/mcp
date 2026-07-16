@@ -55,12 +55,16 @@
     "gpt-5.4-pro",
     "gpt-5.5",
     "gpt-5.5-pro",
+    "gpt-5.6-luna",
+    "gpt-5.6-sol",
+    "gpt-5.6-terra",
     "gpt-image-1.5",
     "gpt-image-2",
     "grok-imagine-edit-image",
     "grok-imagine-image-to-video",
     "grok-imagine-text-to-image",
     "grok-imagine-text-to-video",
+    "grok-imagine-video-1.5-preview",
     "hailuo-02-image-to-video-pro",
     "hailuo-02-image-to-video-standard",
     "hailuo-02-text-to-video-pro",
@@ -96,12 +100,17 @@
     "kling-v2.1-standard",
     "kling-v2.5-turbo-image-to-video-pro",
     "kling-v2.5-turbo-text-to-video-pro",
+    "kling-v3-turbo-image-to-video",
+    "kling-v3-turbo-text-to-video",
     "luma-modify-video",
     "nano-banana",
     "nano-banana-2",
     "nano-banana-2-lite",
     "nano-banana-edit",
     "nano-banana-pro",
+    "omnihuman-1.5",
+    "omnihuman-1.5-human-identification",
+    "omnihuman-1.5-subject-detection",
     "qwen-2-edit-image",
     "qwen-2-remix-image",
     "qwen-2-text-to-image",
@@ -141,6 +150,7 @@
     "topaz-upscale-video",
     "veo-3.1",
     "veo-3.1-fast",
+    "volcengine-lip-sync",
     "wan-2.2-a14b-image-to-video-turbo",
     "wan-2.2-a14b-speech-to-video-turbo",
     "wan-2.2-a14b-text-to-video-turbo",
@@ -1070,7 +1080,21 @@
       "model": "Grok Imagine",
       "endpoint": "image_to_video",
       "models": [
-        "grok-imagine-image-to-video"
+        "grok-imagine-image-to-video",
+        "grok-imagine-video-1.5-preview"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "grok-imagine-video-1.5-preview"
+          },
+          "forbidden": [
+            "source_task_id",
+            "index",
+            "motion_style",
+            "enable_safety_checker"
+          ]
+        }
       ],
       "fields_by_model": {
         "grok-imagine-image-to-video": {
@@ -1123,6 +1147,62 @@
           "enable_safety_checker": {
             "type": "boolean"
           }
+        },
+        "grok-imagine-video-1.5-preview": {
+          "model": {
+            "type": "string"
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "source_image_urls": {
+            "type": "array",
+            "required": true
+          },
+          "source_task_id": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 4096,
+            "min": 1,
+            "length": true
+          },
+          "motion_style": {
+            "type": "string"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 8
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3",
+              "auto"
+            ],
+            "default": "auto"
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -1166,7 +1246,19 @@
       "model": "Grok Imagine",
       "endpoint": "text_to_video",
       "models": [
-        "grok-imagine-text-to-video"
+        "grok-imagine-text-to-video",
+        "grok-imagine-video-1.5-preview"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "grok-imagine-video-1.5-preview"
+          },
+          "forbidden": [
+            "motion_style",
+            "enable_safety_checker"
+          ]
+        }
       ],
       "fields_by_model": {
         "grok-imagine-text-to-video": {
@@ -1206,6 +1298,53 @@
               "480p",
               "720p"
             ]
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          }
+        },
+        "grok-imagine-video-1.5-preview": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 4096,
+            "min": 1,
+            "length": true,
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3",
+              "auto"
+            ],
+            "default": "auto"
+          },
+          "motion_style": {
+            "type": "string"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 8
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -2367,7 +2506,53 @@
         "kling-v2.1-master-image-to-video",
         "kling-v2.1-pro",
         "kling-v2.1-standard",
-        "kling-v2.5-turbo-image-to-video-pro"
+        "kling-v2.5-turbo-image-to-video-pro",
+        "kling-v3-turbo-image-to-video"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "kling-v2.1-master-image-to-video"
+          },
+          "forbidden": [
+            "output_resolution"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.1-pro"
+          },
+          "forbidden": [
+            "output_resolution"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.1-standard"
+          },
+          "forbidden": [
+            "output_resolution"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.5-turbo-image-to-video-pro"
+          },
+          "forbidden": [
+            "output_resolution"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v3-turbo-image-to-video"
+          },
+          "forbidden": [
+            "aspect_ratio",
+            "negative_prompt",
+            "cfg_scale",
+            "last_frame_image_url"
+          ]
+        }
       ],
       "fields_by_model": {
         "kling-v2.1-master-image-to-video": {
@@ -2397,6 +2582,9 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -2443,6 +2631,9 @@
             ],
             "description": "Duration in seconds."
           },
+          "output_resolution": {
+            "type": "string"
+          },
           "negative_prompt": {
             "type": "string",
             "description": "Negative prompt."
@@ -2487,6 +2678,9 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -2533,6 +2727,9 @@
             ],
             "description": "Duration in seconds."
           },
+          "output_resolution": {
+            "type": "string"
+          },
           "negative_prompt": {
             "type": "string",
             "description": "Negative prompt."
@@ -2548,6 +2745,68 @@
           "aspect_ratio": {
             "type": "string",
             "description": "Output aspect ratio."
+          }
+        },
+        "kling-v3-turbo-image-to-video": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "First frame image URL."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "description": "Output resolution."
+          },
+          "negative_prompt": {
+            "type": "string"
+          },
+          "cfg_scale": {
+            "type": "number"
+          },
+          "last_frame_image_url": {
+            "type": "string"
           }
         }
       }
@@ -2616,7 +2875,25 @@
       "models": [
         "kling-3.0",
         "kling-v2.1-master-text-to-video",
-        "kling-v2.5-turbo-text-to-video-pro"
+        "kling-v2.5-turbo-text-to-video-pro",
+        "kling-v3-turbo-text-to-video"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "kling-v3-turbo-text-to-video"
+          },
+          "forbidden": [
+            "enable_sound",
+            "negative_prompt",
+            "cfg_scale",
+            "multi_shots",
+            "multi_prompt",
+            "first_frame_image_url",
+            "last_frame_image_url",
+            "kling_elements"
+          ]
+        }
       ],
       "fields_by_model": {
         "kling-3.0": {
@@ -2826,6 +3103,88 @@
           "kling_elements": {
             "type": "array"
           }
+        },
+        "kling-v3-turbo-text-to-video": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "description": "Output resolution."
+          },
+          "negative_prompt": {
+            "type": "string"
+          },
+          "cfg_scale": {
+            "type": "number"
+          },
+          "multi_shots": {
+            "type": "boolean"
+          },
+          "multi_prompt": {
+            "type": "array"
+          },
+          "first_frame_image_url": {
+            "type": "string"
+          },
+          "last_frame_image_url": {
+            "type": "string"
+          },
+          "kling_elements": {
+            "type": "array"
+          }
         }
       }
     },
@@ -2861,9 +3220,64 @@
       "model": "Nano Banana",
       "endpoint": "edit_image",
       "models": [
+        "nano-banana-2-lite",
         "nano-banana-edit"
       ],
+      "rules": [
+        {
+          "when": {
+            "model": "nano-banana-2-lite"
+          },
+          "forbidden": [
+            "output_format"
+          ]
+        }
+      ],
       "fields_by_model": {
+        "nano-banana-2-lite": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "output_format": {
+            "type": "string"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "1:4",
+              "1:8",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:1",
+              "4:3",
+              "4:5",
+              "5:4",
+              "8:1",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ],
+            "default": "auto",
+            "required": true
+          },
+          "source_image_urls": {
+            "type": "array",
+            "required": true
+          }
+        },
         "nano-banana-edit": {
           "model": {
             "type": "string"
@@ -3106,6 +3520,94 @@
           },
           "reference_image_urls": {
             "type": "array"
+          }
+        }
+      }
+    },
+    "omnihuman/audio-to-video": {
+      "model": "OmniHuman",
+      "endpoint": "audio_to_video",
+      "models": [
+        "omnihuman-1.5"
+      ],
+      "fields_by_model": {
+        "omnihuman-1.5": {
+          "model": {
+            "type": "string"
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "source_audio_url": {
+            "type": "string",
+            "required": true
+          },
+          "mask_urls": {
+            "type": "array"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 1000,
+            "length": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "enable_fast_mode": {
+            "type": "boolean"
+          },
+          "seed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "omnihuman/human-identification": {
+      "model": "OmniHuman",
+      "endpoint": "human_identification",
+      "models": [
+        "omnihuman-1.5-human-identification"
+      ],
+      "fields_by_model": {
+        "omnihuman-1.5-human-identification": {
+          "model": {
+            "type": "string"
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "omnihuman/subject-detection": {
+      "model": "OmniHuman",
+      "endpoint": "subject_detection",
+      "models": [
+        "omnihuman-1.5-subject-detection"
+      ],
+      "fields_by_model": {
+        "omnihuman-1.5-subject-detection": {
+          "model": {
+            "type": "string"
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
           }
         }
       }
@@ -7291,6 +7793,83 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "volcengine-lip-sync/lip-sync-video": {
+      "model": "Volcengine Lip Sync",
+      "endpoint": "lip_sync_video",
+      "models": [
+        "volcengine-lip-sync"
+      ],
+      "rules": [
+        {
+          "when": {
+            "mode": "lite"
+          },
+          "forbidden": [
+            "enable_scene_detection"
+          ]
+        },
+        {
+          "when": {
+            "mode": "basic"
+          },
+          "forbidden": [
+            "align_audio",
+            "align_audio_reverse",
+            "template_start_seconds"
+          ]
+        },
+        {
+          "when": {
+            "align_audio_reverse": true
+          },
+          "required": [
+            "align_audio"
+          ]
+        }
+      ],
+      "fields_by_model": {
+        "volcengine-lip-sync": {
+          "model": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "lite",
+              "basic"
+            ],
+            "required": true
+          },
+          "source_video_url": {
+            "type": "string",
+            "required": true
+          },
+          "source_audio_url": {
+            "type": "string",
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "enable_vocal_separation": {
+            "type": "boolean"
+          },
+          "enable_scene_detection": {
+            "type": "boolean"
+          },
+          "align_audio": {
+            "type": "boolean"
+          },
+          "align_audio_reverse": {
+            "type": "boolean"
+          },
+          "template_start_seconds": {
+            "type": "number",
+            "min": 0
           }
         }
       }
