@@ -1,6 +1,6 @@
 {
   "name": "runapi-mcp",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "AI image generation, video generation, music creation, text-to-speech — 130+ models from 18 providers via RunAPI MCP server.",
   "repository": "https://github.com/runapi-ai/mcp",
   "author": {

@@ -12,6 +12,25 @@ describe("pricing", () => {
     });
   });
 
+  it("returns build-time pricing for Kling V3 Turbo resolution pricing", () => {
+    const info = findModelForAction("kling", "text_to_video", "kling-v3-turbo-text-to-video");
+
+    expect(info).toBeDefined();
+    expect(priceForModel(info!)).toMatchObject({
+      pricing_source: "build-time pricing snapshot",
+      pricing: {
+        unit_price_cents: 18,
+        billing_config: {
+          key: "output_resolution",
+          overrides: {
+            "720p": 18,
+            "1080p": 22.5
+          }
+        }
+      }
+    });
+  });
+
   it("falls back to pricing page when endpoint is absent from the snapshot", () => {
     const info = findModelForAction("gemini-omni", "create_audio", "gemini-omni-audio");
 

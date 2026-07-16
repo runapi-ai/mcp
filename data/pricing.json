@@ -283,6 +283,15 @@
         }
       }
     },
+    "omnihuman-1.5/audio_to_video": {
+      "unit_price_cents": 27
+    },
+    "omnihuman-1.5-human-identification/human_identification": {
+      "unit_price_cents": 0
+    },
+    "omnihuman-1.5-subject-detection/subject_detection": {
+      "unit_price_cents": 0
+    },
     "seedream-4.5-text-to-image/text_to_image": {
       "unit_price_cents": 7
     },
@@ -312,6 +321,9 @@
         }
       }
     },
+    "volcengine-lip-sync/lip_sync_video": {
+      "unit_price_cents": 8
+    },
     "grok-imagine-text-to-video/text_to_video": {
       "unit_price_cents": 2,
       "billing_config": {
@@ -322,7 +334,27 @@
         }
       }
     },
+    "grok-imagine-video-1.5-preview/text_to_video": {
+      "unit_price_cents": 2,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 1.6,
+          "720p": 3
+        }
+      }
+    },
     "grok-imagine-image-to-video/image_to_video": {
+      "unit_price_cents": 2,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "480p": 1.6,
+          "720p": 3
+        }
+      }
+    },
+    "grok-imagine-video-1.5-preview/image_to_video": {
       "unit_price_cents": 2,
       "billing_config": {
         "key": "output_resolution",
@@ -503,6 +535,9 @@
     "nano-banana-edit/edit_image": {
       "unit_price_cents": 4
     },
+    "nano-banana-2-lite/edit_image": {
+      "unit_price_cents": 3
+    },
     "nano-banana-2/text_to_image": {
       "unit_price_cents": 8,
       "billing_config": {
@@ -673,6 +708,26 @@
     },
     "kling-v2.5-turbo-image-to-video-pro/image_to_video": {
       "unit_price_cents": 9
+    },
+    "kling-v3-turbo-text-to-video/text_to_video": {
+      "unit_price_cents": 18,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 18,
+          "1080p": 22.5
+        }
+      }
+    },
+    "kling-v3-turbo-image-to-video/image_to_video": {
+      "unit_price_cents": 18,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 18,
+          "1080p": 22.5
+        }
+      }
     },
     "flux-kontext-pro/text_to_image": {
       "unit_price_cents": 5
@@ -893,6 +948,12 @@
     "gpt-5.4-mini/response": {},
     "gpt-5.5/chat_completion": {},
     "gpt-5.5/response": {},
+    "gpt-5.6-sol/chat_completion": {},
+    "gpt-5.6-sol/response": {},
+    "gpt-5.6-terra/chat_completion": {},
+    "gpt-5.6-terra/response": {},
+    "gpt-5.6-luna/chat_completion": {},
+    "gpt-5.6-luna/response": {},
     "gpt-5.3-codex/chat_completion": {},
     "gpt-5.3-codex/response": {},
     "gpt-5.3-codex-spark/chat_completion": {},
@@ -1263,6 +1324,15 @@
     "seedance-v1-pro-fast/text_to_video_query": {
       "unit_price_cents": 0
     },
+    "omnihuman-1.5/audio_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "omnihuman-1.5-human-identification/human_identification_query": {
+      "unit_price_cents": 0
+    },
+    "omnihuman-1.5-subject-detection/subject_detection_query": {
+      "unit_price_cents": 0
+    },
     "seedream-4.5-edit/edit_image_query": {
       "unit_price_cents": 0
     },
@@ -1279,6 +1349,9 @@
       "unit_price_cents": 0
     },
     "seedream-v4-text-to-image/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "volcengine-lip-sync/lip_sync_video_query": {
       "unit_price_cents": 0
     },
     "audio-isolation/isolate_audio_query": {
@@ -1324,6 +1397,9 @@
       "unit_price_cents": 0
     },
     "nano-banana-2/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "nano-banana-2-lite/edit_image_query": {
       "unit_price_cents": 0
     },
     "nano-banana-2-lite/text_to_image_query": {
@@ -1402,6 +1478,12 @@
       "unit_price_cents": 0
     },
     "kling-v2.5-turbo-text-to-video-pro/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "kling-v3-turbo-image-to-video/image_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "kling-v3-turbo-text-to-video/text_to_video_query": {
       "unit_price_cents": 0
     },
     "luma-modify-video/modify_video_query": {
@@ -1602,10 +1684,16 @@
     "grok-imagine-image-to-video/image_to_video_query": {
       "unit_price_cents": 0
     },
+    "grok-imagine-video-1.5-preview/image_to_video_query": {
+      "unit_price_cents": 0
+    },
     "grok-imagine-text-to-image/text_to_image_query": {
       "unit_price_cents": 0
     },
     "grok-imagine-text-to-video/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "grok-imagine-video-1.5-preview/text_to_video_query": {
       "unit_price_cents": 0
     }
   }
