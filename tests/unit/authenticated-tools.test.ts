@@ -137,6 +137,29 @@ describe("authenticated tool handlers", () => {
     });
   });
 
+  it("rejects generated contract input rule violations before creating Kling V3 tasks", async () => {
+    const createTask = vi.fn();
+    const result = await createTaskHandler({
+      service: "kling",
+      action: "image_to_video",
+      model: "kling-v3-turbo-image-to-video",
+      params: {
+        prompt: "Animate this frame",
+        first_frame_image_url: "https://example.test/start.png",
+        negative_prompt: "blur"
+      },
+      wait: false
+    }, {
+      createTask,
+      pollTask: vi.fn()
+    });
+
+    expect(createTask).not.toHaveBeenCalled();
+    expect(result).toMatchObject({
+      error: "Invalid RunAPI parameters: model=kling-v3-turbo-image-to-video must not include negative_prompt."
+    });
+  });
+
   it("gets task status and maps service errors", async () => {
     await expect(getTaskHandler({
       service: "suno",

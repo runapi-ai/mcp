@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, and balance checks.",
   "type": "module",
   "main": "dist/src/index.js",
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@runapi.ai/mcp-core": "0.1.5",
+    "@runapi.ai/mcp-core": "0.1.6",
     "zod": "^3.25.76"
   },
   "devDependencies": {
