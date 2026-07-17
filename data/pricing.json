@@ -1,5 +1,20 @@
 {
   "endpoints": {
+    "midjourney-v8.1/text_to_image": {
+      "unit_price_cents": 6
+    },
+    "midjourney-edit-image/edit_image": {
+      "unit_price_cents": 8
+    },
+    "midjourney-image-to-video/image_to_video": {
+      "unit_price_cents": 62
+    },
+    "_/image_to_prompt": {
+      "unit_price_cents": 6
+    },
+    "_/get_seed": {
+      "unit_price_cents": 0
+    },
     "suno-v4/text_to_music": {
       "unit_price_cents": 12
     },
@@ -361,6 +376,28 @@
         "overrides": {
           "480p": 1.6,
           "720p": 3
+        }
+      }
+    },
+    "grok-imagine-video-1.5-fast/text_to_video": {
+      "unit_price_cents": 39,
+      "billing_config": {
+        "key": "duration_band",
+        "overrides": {
+          "1-10": 9,
+          "11-20": 24,
+          "21-30": 39
+        }
+      }
+    },
+    "grok-imagine-video-1.5-fast/image_to_video": {
+      "unit_price_cents": 39,
+      "billing_config": {
+        "key": "duration_band",
+        "overrides": {
+          "1-10": 9,
+          "11-20": 24,
+          "21-30": 39
         }
       }
     },
@@ -1687,6 +1724,9 @@
     "grok-imagine-video-1.5-preview/image_to_video_query": {
       "unit_price_cents": 0
     },
+    "grok-imagine-video-1.5-fast/image_to_video_query": {
+      "unit_price_cents": 0
+    },
     "grok-imagine-text-to-image/text_to_image_query": {
       "unit_price_cents": 0
     },
@@ -1694,6 +1734,18 @@
       "unit_price_cents": 0
     },
     "grok-imagine-video-1.5-preview/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "grok-imagine-video-1.5-fast/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "midjourney-v8.1/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "midjourney-edit-image/edit_image_query": {
+      "unit_price_cents": 0
+    },
+    "midjourney-image-to-video/image_to_video_query": {
       "unit_price_cents": 0
     }
   }

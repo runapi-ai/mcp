@@ -72,6 +72,22 @@ describe("authenticated tool handlers", () => {
     });
   });
 
+  it("returns synchronous operation results without task or polling wrappers", async () => {
+    const createTask = vi.fn(async () => ({ seed: 8_675_309 }));
+    const pollTask = vi.fn();
+
+    const result = await createTaskHandler({
+      service: "midjourney",
+      action: "get_seed",
+      params: { image_id: "image_123" },
+      wait: true
+    }, { createTask, pollTask });
+
+    expect(createTask).toHaveBeenCalledWith("midjourney", "get_seed", { image_id: "image_123" });
+    expect(pollTask).not.toHaveBeenCalled();
+    expect(result).toEqual({ result: { seed: 8_675_309 } });
+  });
+
   it("returns a helpful error for unsupported task combinations", async () => {
     const result = await createTaskHandler({
       service: "missing",

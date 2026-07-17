@@ -1,4 +1,4 @@
-import { findModelForAction } from "../lib/contract.js";
+import { findAction, findModelForAction } from "../lib/contract.js";
 import { friendlyError } from "../lib/errors.js";
 import { validateInputRules } from "../lib/input-rules.js";
 import { taskIdFromResponse, taskStatus, type RunApiClient } from "../lib/runapi-client.js";
@@ -36,6 +36,7 @@ export async function createTaskHandler(
 ) {
   try {
     const info = findModelForAction(input.service, input.action, input.model);
+    const action = findAction(input.service, input.action) as ({ task_type?: string } | undefined);
     if (!info) {
       return {
         error: "Unsupported RunAPI service/action/model combination.",
@@ -56,6 +57,10 @@ export async function createTaskHandler(
     }
 
     const created = await client.createTask(input.service, input.action, body);
+    if (action?.task_type === "synchronous") {
+      return { result: created };
+    }
+
     const taskId = taskIdFromResponse(created);
 
     if (!input.wait || !taskId) {
