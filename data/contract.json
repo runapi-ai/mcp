@@ -64,6 +64,7 @@
     "grok-imagine-image-to-video",
     "grok-imagine-text-to-image",
     "grok-imagine-text-to-video",
+    "grok-imagine-video-1.5-fast",
     "grok-imagine-video-1.5-preview",
     "hailuo-02-image-to-video-pro",
     "hailuo-02-image-to-video-standard",
@@ -103,6 +104,9 @@
     "kling-v3-turbo-image-to-video",
     "kling-v3-turbo-text-to-video",
     "luma-modify-video",
+    "midjourney-edit-image",
+    "midjourney-image-to-video",
+    "midjourney-v8.1",
     "nano-banana",
     "nano-banana-2",
     "nano-banana-2-lite",
@@ -175,6 +179,7 @@
     "elevenlabs/isolate-audio": {
       "model": "ElevenLabs",
       "endpoint": "isolate_audio",
+      "task_type": "asynchronous",
       "models": [
         "audio-isolation"
       ],
@@ -193,6 +198,7 @@
     "elevenlabs/speech-to-text": {
       "model": "ElevenLabs",
       "endpoint": "speech_to_text",
+      "task_type": "asynchronous",
       "models": [
         "speech-to-text"
       ],
@@ -220,6 +226,7 @@
     "elevenlabs/text-to-dialogue": {
       "model": "ElevenLabs",
       "endpoint": "text_to_dialogue",
+      "task_type": "asynchronous",
       "models": [
         "text-to-dialogue-v3"
       ],
@@ -249,6 +256,7 @@
     "elevenlabs/text-to-sound": {
       "model": "ElevenLabs",
       "endpoint": "text_to_sound",
+      "task_type": "asynchronous",
       "models": [
         "sound-effect-v2"
       ],
@@ -300,6 +308,7 @@
     "elevenlabs/text-to-speech": {
       "model": "ElevenLabs",
       "endpoint": "text_to_speech",
+      "task_type": "asynchronous",
       "models": [
         "text-to-speech-multilingual-v2",
         "text-to-speech-turbo-v2.5"
@@ -398,6 +407,7 @@
     "flux-2/remix-image": {
       "model": "Flux 2",
       "endpoint": "remix_image",
+      "task_type": "asynchronous",
       "models": [
         "flux-2-flex-remix-image",
         "flux-2-pro-remix-image"
@@ -486,6 +496,7 @@
     "flux-2/text-to-image": {
       "model": "Flux 2",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "flux-2-flex-text-to-image",
         "flux-2-pro-text-to-image"
@@ -564,6 +575,7 @@
     "flux-kontext/text-to-image": {
       "model": "Flux Kontext",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "flux-kontext-max",
         "flux-kontext-pro"
@@ -686,6 +698,7 @@
     "gemini-omni/create-audio": {
       "model": "Gemini Omni",
       "endpoint": "create_audio",
+      "task_type": "synchronous",
       "models": [
         "gemini-omni-audio"
       ],
@@ -711,6 +724,7 @@
     "gemini-omni/create-character": {
       "model": "Gemini Omni",
       "endpoint": "create_character",
+      "task_type": "synchronous",
       "models": [
         "gemini-omni-character"
       ],
@@ -736,6 +750,7 @@
     "gemini-omni/text-to-video": {
       "model": "Gemini Omni",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "gemini-omni-text-to-video"
       ],
@@ -794,6 +809,7 @@
     "gpt-4o-image/text-to-image": {
       "model": "GPT-4o Image",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "gpt-4o-image"
       ],
@@ -840,6 +856,7 @@
     "gpt-image-2/edit-image": {
       "model": "GPT Image 2",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "gpt-image-2"
       ],
@@ -894,6 +911,7 @@
     "gpt-image-2/text-to-image": {
       "model": "GPT Image 2",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "gpt-image-2"
       ],
@@ -944,6 +962,7 @@
     "gpt-image/edit-image": {
       "model": "GPT Image",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "gpt-image-1.5"
       ],
@@ -986,6 +1005,7 @@
     "gpt-image/text-to-image": {
       "model": "GPT Image",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "gpt-image-1.5"
       ],
@@ -1024,6 +1044,7 @@
     "grok-imagine/edit-image": {
       "model": "Grok Imagine",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "grok-imagine-edit-image"
       ],
@@ -1051,6 +1072,7 @@
     "grok-imagine/extend": {
       "model": "Grok Imagine",
       "endpoint": "extend_video",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -1079,11 +1101,32 @@
     "grok-imagine/image-to-video": {
       "model": "Grok Imagine",
       "endpoint": "image_to_video",
+      "task_type": "asynchronous",
       "models": [
         "grok-imagine-image-to-video",
+        "grok-imagine-video-1.5-fast",
         "grok-imagine-video-1.5-preview"
       ],
       "rules": [
+        {
+          "when": {
+            "model": "grok-imagine-image-to-video"
+          },
+          "forbidden": [
+            "reference_image_urls"
+          ]
+        },
+        {
+          "when": {
+            "model": "grok-imagine-video-1.5-fast"
+          },
+          "forbidden": [
+            "source_task_id",
+            "index",
+            "motion_style",
+            "enable_safety_checker"
+          ]
+        },
         {
           "when": {
             "model": "grok-imagine-video-1.5-preview"
@@ -1091,6 +1134,7 @@
           "forbidden": [
             "source_task_id",
             "index",
+            "reference_image_urls",
             "motion_style",
             "enable_safety_checker"
           ]
@@ -1105,6 +1149,9 @@
             "type": "string"
           },
           "source_image_urls": {
+            "type": "array"
+          },
+          "reference_image_urls": {
             "type": "array"
           },
           "source_task_id": {
@@ -1148,6 +1195,60 @@
             "type": "boolean"
           }
         },
+        "grok-imagine-video-1.5-fast": {
+          "model": {
+            "type": "string"
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "source_image_urls": {
+            "type": "array",
+            "required": true
+          },
+          "reference_image_urls": {
+            "type": "array"
+          },
+          "source_task_id": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "motion_style": {
+            "type": "string"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 30,
+            "min": 1,
+            "default": 8
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ]
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          }
+        },
         "grok-imagine-video-1.5-preview": {
           "model": {
             "type": "string"
@@ -1158,6 +1259,9 @@
           "source_image_urls": {
             "type": "array",
             "required": true
+          },
+          "reference_image_urls": {
+            "type": "array"
           },
           "source_task_id": {
             "type": "string"
@@ -1209,6 +1313,7 @@
     "grok-imagine/text-to-image": {
       "model": "Grok Imagine",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "grok-imagine-text-to-image"
       ],
@@ -1245,16 +1350,36 @@
     "grok-imagine/text-to-video": {
       "model": "Grok Imagine",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "grok-imagine-text-to-video",
+        "grok-imagine-video-1.5-fast",
         "grok-imagine-video-1.5-preview"
       ],
       "rules": [
         {
           "when": {
+            "model": "grok-imagine-text-to-video"
+          },
+          "forbidden": [
+            "reference_image_urls"
+          ]
+        },
+        {
+          "when": {
+            "model": "grok-imagine-video-1.5-fast"
+          },
+          "forbidden": [
+            "motion_style",
+            "enable_safety_checker"
+          ]
+        },
+        {
+          "when": {
             "model": "grok-imagine-video-1.5-preview"
           },
           "forbidden": [
+            "reference_image_urls",
             "motion_style",
             "enable_safety_checker"
           ]
@@ -1270,6 +1395,9 @@
           },
           "callback_url": {
             "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array"
           },
           "aspect_ratio": {
             "type": "string",
@@ -1303,6 +1431,51 @@
             "type": "boolean"
           }
         },
+        "grok-imagine-video-1.5-fast": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ]
+          },
+          "motion_style": {
+            "type": "string"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 30,
+            "min": 1,
+            "default": 8
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          }
+        },
         "grok-imagine-video-1.5-preview": {
           "model": {
             "type": "string"
@@ -1316,6 +1489,9 @@
           },
           "callback_url": {
             "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array"
           },
           "aspect_ratio": {
             "type": "string",
@@ -1355,6 +1531,7 @@
     "grok-imagine/upscale-image": {
       "model": "Grok Imagine",
       "endpoint": "upscale_image",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -1370,6 +1547,7 @@
     "hailuo/image-to-video": {
       "model": "Hailuo",
       "endpoint": "image_to_video",
+      "task_type": "asynchronous",
       "models": [
         "hailuo-02-image-to-video-pro",
         "hailuo-02-image-to-video-standard",
@@ -1526,6 +1704,7 @@
     "hailuo/text-to-video": {
       "model": "Hailuo",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "hailuo-02-text-to-video-pro",
         "hailuo-02-text-to-video-standard"
@@ -1580,6 +1759,7 @@
     "happyhorse/edit-video": {
       "model": "HappyHorse",
       "endpoint": "edit_video",
+      "task_type": "asynchronous",
       "models": [
         "happyhorse-edit-video"
       ],
@@ -1624,6 +1804,7 @@
     "happyhorse/image-to-video": {
       "model": "HappyHorse",
       "endpoint": "image_to_video",
+      "task_type": "asynchronous",
       "models": [
         "happyhorse-image-to-video"
       ],
@@ -1661,6 +1842,7 @@
     "happyhorse/text-to-video": {
       "model": "HappyHorse",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "happyhorse-character",
         "happyhorse-text-to-video"
@@ -1746,6 +1928,7 @@
     "ideogram-v3/edit-image": {
       "model": "Ideogram V3",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "ideogram-v3-character-edit",
         "ideogram-v3-edit"
@@ -1858,6 +2041,7 @@
     "ideogram-v3/reframe-image": {
       "model": "Ideogram V3",
       "endpoint": "reframe_image",
+      "task_type": "asynchronous",
       "models": [
         "ideogram-v3-reframe"
       ],
@@ -1918,6 +2102,7 @@
     "ideogram-v3/remix-image": {
       "model": "Ideogram V3",
       "endpoint": "remix_image",
+      "task_type": "asynchronous",
       "models": [
         "ideogram-v3-character-remix",
         "ideogram-v3-remix"
@@ -2072,6 +2257,7 @@
     "ideogram-v3/text-to-image": {
       "model": "Ideogram V3",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "ideogram-v3-character",
         "ideogram-v3-text-to-image"
@@ -2200,6 +2386,7 @@
     "imagen-4/remix-image": {
       "model": "Imagen 4",
       "endpoint": "remix_image",
+      "task_type": "asynchronous",
       "models": [
         "imagen-4-pro-remix-image"
       ],
@@ -2255,6 +2442,7 @@
     "imagen-4/text-to-image": {
       "model": "Imagen 4",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "imagen-4",
         "imagen-4-fast",
@@ -2348,6 +2536,7 @@
     "infinitetalk/audio-to-video": {
       "model": "InfiniteTalk",
       "endpoint": "audio_to_video",
+      "task_type": "asynchronous",
       "models": [
         "infinitetalk-from-audio"
       ],
@@ -2386,6 +2575,7 @@
     "kling/avatar": {
       "model": "Kling",
       "endpoint": "ai_avatar",
+      "task_type": "asynchronous",
       "models": [
         "kling-ai-avatar-pro",
         "kling-ai-avatar-standard",
@@ -2502,6 +2692,7 @@
     "kling/image-to-video": {
       "model": "Kling",
       "endpoint": "image_to_video",
+      "task_type": "asynchronous",
       "models": [
         "kling-v2.1-master-image-to-video",
         "kling-v2.1-pro",
@@ -2814,6 +3005,7 @@
     "kling/motion-control": {
       "model": "Kling",
       "endpoint": "motion_control",
+      "task_type": "asynchronous",
       "models": [
         "kling-3.0"
       ],
@@ -2872,6 +3064,7 @@
     "kling/text-to-video": {
       "model": "Kling",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "kling-3.0",
         "kling-v2.1-master-text-to-video",
@@ -3191,6 +3384,7 @@
     "luma/modify-video": {
       "model": "Luma",
       "endpoint": "modify_video",
+      "task_type": "asynchronous",
       "models": [
         "luma-modify-video"
       ],
@@ -3216,9 +3410,140 @@
         }
       }
     },
+    "midjourney/edit-image": {
+      "model": "Midjourney",
+      "endpoint": "edit_image",
+      "task_type": "asynchronous",
+      "models": [
+        "midjourney-edit-image"
+      ],
+      "fields_by_model": {
+        "midjourney-edit-image": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "required": true
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "mask_url": {
+            "type": "string"
+          },
+          "include_split_images": {
+            "type": "boolean",
+            "default": false
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "midjourney/get-seed": {
+      "model": "Midjourney",
+      "endpoint": "get_seed",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "image_id": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    "midjourney/image-to-prompt": {
+      "model": "Midjourney",
+      "endpoint": "image_to_prompt",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    "midjourney/image-to-video": {
+      "model": "Midjourney",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "midjourney-image-to-video"
+      ],
+      "fields_by_model": {
+        "midjourney-image-to-video": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "last_frame_image_url": {
+            "type": "string"
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p"
+            ],
+            "default": "480p"
+          },
+          "enable_loop": {
+            "type": "boolean",
+            "default": false
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "midjourney/text-to-image": {
+      "model": "Midjourney",
+      "endpoint": "text_to_image",
+      "task_type": "asynchronous",
+      "models": [
+        "midjourney-v8.1"
+      ],
+      "fields_by_model": {
+        "midjourney-v8.1": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "required": true
+          },
+          "enable_prompt_translation": {
+            "type": "boolean",
+            "default": false
+          },
+          "include_split_images": {
+            "type": "boolean",
+            "default": false
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "nano-banana/edit-image": {
       "model": "Nano Banana",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "nano-banana-2-lite",
         "nano-banana-edit"
@@ -3246,9 +3571,6 @@
             "required": true
           },
           "callback_url": {
-            "type": "string"
-          },
-          "output_format": {
             "type": "string"
           },
           "aspect_ratio": {
@@ -3321,6 +3643,7 @@
     "nano-banana/text-to-image": {
       "model": "Nano Banana",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "nano-banana",
         "nano-banana-2",
@@ -3444,9 +3767,6 @@
           "callback_url": {
             "type": "string"
           },
-          "output_format": {
-            "type": "string"
-          },
           "aspect_ratio": {
             "type": "string",
             "enum": [
@@ -3468,9 +3788,6 @@
             ],
             "default": "auto",
             "required": true
-          },
-          "output_resolution": {
-            "type": "string"
           },
           "reference_image_urls": {
             "type": "array"
@@ -3527,6 +3844,7 @@
     "omnihuman/audio-to-video": {
       "model": "OmniHuman",
       "endpoint": "audio_to_video",
+      "task_type": "asynchronous",
       "models": [
         "omnihuman-1.5"
       ],
@@ -3573,6 +3891,7 @@
     "omnihuman/human-identification": {
       "model": "OmniHuman",
       "endpoint": "human_identification",
+      "task_type": "asynchronous",
       "models": [
         "omnihuman-1.5-human-identification"
       ],
@@ -3594,6 +3913,7 @@
     "omnihuman/subject-detection": {
       "model": "OmniHuman",
       "endpoint": "subject_detection",
+      "task_type": "asynchronous",
       "models": [
         "omnihuman-1.5-subject-detection"
       ],
@@ -3615,6 +3935,7 @@
     "qwen-2/edit-image": {
       "model": "Qwen 2",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "qwen-2-edit-image"
       ],
@@ -3666,6 +3987,7 @@
     "qwen-2/remix-image": {
       "model": "Qwen 2",
       "endpoint": "remix_image",
+      "task_type": "asynchronous",
       "models": [
         "qwen-2-remix-image"
       ],
@@ -3724,6 +4046,7 @@
     "qwen-2/text-to-image": {
       "model": "Qwen 2",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "qwen-2-text-to-image"
       ],
@@ -3768,6 +4091,7 @@
     "recraft/remove-background": {
       "model": "Recraft",
       "endpoint": "remove_background",
+      "task_type": "asynchronous",
       "models": [
         "recraft-remove-background"
       ],
@@ -3789,6 +4113,7 @@
     "recraft/upscale-image": {
       "model": "Recraft",
       "endpoint": "upscale_image",
+      "task_type": "asynchronous",
       "models": [
         "recraft-crisp-upscale"
       ],
@@ -3810,6 +4135,7 @@
     "runway-aleph/edit-video": {
       "model": "Runway Aleph",
       "endpoint": "edit_video",
+      "task_type": "asynchronous",
       "models": [
         "runway-aleph"
       ],
@@ -3855,6 +4181,7 @@
     "runway/extend-video": {
       "model": "Runway",
       "endpoint": "extend_video",
+      "task_type": "asynchronous",
       "models": [
         "runway"
       ],
@@ -3891,6 +4218,7 @@
     "runway/text-to-video": {
       "model": "Runway",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "runway"
       ],
@@ -3944,6 +4272,7 @@
     "seedance/text-to-video": {
       "model": "Seedance",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "seedance-1.5-pro",
         "seedance-2-mini",
@@ -4319,6 +4648,7 @@
     "seedream/edit-image": {
       "model": "Seedream",
       "endpoint": "edit_image",
+      "task_type": "asynchronous",
       "models": [
         "seedream-4.5-edit",
         "seedream-5-lite-edit",
@@ -4484,6 +4814,7 @@
     "seedream/text-to-image": {
       "model": "Seedream",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "seedream-4.5-text-to-image",
         "seedream-5-lite-text-to-image",
@@ -4637,6 +4968,7 @@
     "suno/add-instrumental": {
       "model": "Suno",
       "endpoint": "add_instrumental",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4.5-plus",
         "suno-v5",
@@ -4792,6 +5124,7 @@
     "suno/add-vocals": {
       "model": "Suno",
       "endpoint": "add_vocals",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4.5-plus",
         "suno-v5"
@@ -4908,6 +5241,7 @@
     "suno/boost-style": {
       "model": "Suno",
       "endpoint": "boost_style",
+      "task_type": "synchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -4921,6 +5255,7 @@
     "suno/check-voice": {
       "model": "Suno",
       "endpoint": "check_voice",
+      "task_type": "synchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -4935,6 +5270,7 @@
     "suno/convert-audio": {
       "model": "Suno",
       "endpoint": "convert_audio",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -4956,6 +5292,7 @@
     "suno/cover-audio": {
       "model": "Suno",
       "endpoint": "cover_audio",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4",
         "suno-v4.5",
@@ -5479,6 +5816,7 @@
     "suno/create-mashup": {
       "model": "Suno",
       "endpoint": "create_mashup",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4",
         "suno-v4.5",
@@ -5978,6 +6316,7 @@
     "suno/extend-music": {
       "model": "Suno",
       "endpoint": "extend_music",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4",
         "suno-v4.5",
@@ -6562,6 +6901,7 @@
     "suno/generate-artwork": {
       "model": "Suno",
       "endpoint": "generate_artwork",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6580,6 +6920,7 @@
     "suno/generate-lyrics": {
       "model": "Suno",
       "endpoint": "generate_lyrics",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6597,6 +6938,7 @@
     "suno/generate-midi": {
       "model": "Suno",
       "endpoint": "generate_midi",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6614,6 +6956,7 @@
     "suno/generate-persona": {
       "model": "Suno",
       "endpoint": "generate_persona",
+      "task_type": "synchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6639,6 +6982,7 @@
     "suno/generate-voice": {
       "model": "Suno",
       "endpoint": "generate_voice",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6684,6 +7028,7 @@
     "suno/get-timestamped-lyrics": {
       "model": "Suno",
       "endpoint": "get_timestamped_lyrics",
+      "task_type": "synchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6701,6 +7046,7 @@
     "suno/regenerate-validation-phrase": {
       "model": "Suno",
       "endpoint": "regenerate_validation_phrase",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6719,6 +7065,7 @@
     "suno/replace-section": {
       "model": "Suno",
       "endpoint": "replace_section",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6790,6 +7137,7 @@
     "suno/separate-audio-stems": {
       "model": "Suno",
       "endpoint": "separate_audio_stems",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -6817,6 +7165,7 @@
     "suno/text-to-music": {
       "model": "Suno",
       "endpoint": "text_to_music",
+      "task_type": "asynchronous",
       "models": [
         "suno-v4",
         "suno-v4.5",
@@ -7376,6 +7725,7 @@
     "suno/text-to-sound": {
       "model": "Suno",
       "endpoint": "text_to_sound",
+      "task_type": "asynchronous",
       "models": [
         "suno-v5",
         "suno-v5.5"
@@ -7502,6 +7852,7 @@
     "suno/visualize-music": {
       "model": "Suno",
       "endpoint": "visualize_music",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -7531,6 +7882,7 @@
     "suno/voice-to-validation-phrase": {
       "model": "Suno",
       "endpoint": "voice_to_validation_phrase",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -7574,6 +7926,7 @@
     "topaz/upscale-image": {
       "model": "Topaz",
       "endpoint": "upscale_image",
+      "task_type": "asynchronous",
       "models": [
         "topaz-upscale-image"
       ],
@@ -7605,6 +7958,7 @@
     "topaz/upscale-video": {
       "model": "Topaz",
       "endpoint": "upscale_video",
+      "task_type": "asynchronous",
       "models": [
         "topaz-upscale-video"
       ],
@@ -7634,6 +7988,7 @@
     "veo-3-1/extend-video": {
       "model": "Veo 3.1",
       "endpoint": "extend_video",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -7659,6 +8014,7 @@
     "veo-3-1/text-to-video": {
       "model": "Veo 3.1",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "veo-3.1",
         "veo-3.1-fast"
@@ -7775,6 +8131,7 @@
     "veo-3-1/upscale-video": {
       "model": "Veo 3.1",
       "endpoint": "upscale_video",
+      "task_type": "asynchronous",
       "models": [],
       "fields_by_model": {
         "_": {
@@ -7800,6 +8157,7 @@
     "volcengine-lip-sync/lip-sync-video": {
       "model": "Volcengine Lip Sync",
       "endpoint": "lip_sync_video",
+      "task_type": "asynchronous",
       "models": [
         "volcengine-lip-sync"
       ],
@@ -7877,6 +8235,7 @@
     "wan/animate": {
       "model": "Wan",
       "endpoint": "animate",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.2-animate-move",
         "wan-2.2-animate-replace"
@@ -7941,6 +8300,7 @@
     "wan/edit-video": {
       "model": "Wan",
       "endpoint": "edit_video",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.6-edit-video",
         "wan-2.6-flash-edit-video",
@@ -8131,6 +8491,7 @@
     "wan/image-to-video": {
       "model": "Wan",
       "endpoint": "image_to_video",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.2-a14b-image-to-video-turbo",
         "wan-2.5-image-to-video",
@@ -8483,6 +8844,7 @@
     "wan/speech-to-video": {
       "model": "Wan",
       "endpoint": "speech_to_video",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.2-a14b-speech-to-video-turbo"
       ],
@@ -8544,6 +8906,7 @@
     "wan/text-to-image": {
       "model": "Wan",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.7-image",
         "wan-2.7-image-pro"
@@ -8672,6 +9035,7 @@
     "wan/text-to-video": {
       "model": "Wan",
       "endpoint": "text_to_video",
+      "task_type": "asynchronous",
       "models": [
         "wan-2.2-a14b-text-to-video-turbo",
         "wan-2.5-text-to-video",
@@ -8995,6 +9359,7 @@
     "z-image/text-to-image": {
       "model": "Z Image",
       "endpoint": "text_to_image",
+      "task_type": "asynchronous",
       "models": [
         "z-image"
       ],

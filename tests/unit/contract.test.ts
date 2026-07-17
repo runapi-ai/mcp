@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { contract, findModel, findModelForAction, listActionGroups, listContractModels } from "../../src/lib/contract.js";
+import { validateInputRules } from "../../src/lib/input-rules.js";
+import { validateParams } from "../../src/lib/schema.js";
 
 describe("contract helpers", () => {
   it("loads the embedded contract with no internal fields", () => {
@@ -38,5 +40,24 @@ describe("contract helpers", () => {
     const missing = listContractModels().filter((model) => !embeddedModels.has(model.model));
 
     expect(missing).toEqual([]);
+  });
+
+  it("rejects Nano Banana Lite forbidden fields after model schema validation", () => {
+    const info = findModelForAction("nano-banana", "edit_image", "nano-banana-2-lite");
+
+    expect(info).toBeDefined();
+    expect(info!.fields).not.toHaveProperty("output_format");
+
+    // MCP validation intentionally passes undeclared API-specific params through,
+    // so the model-scoped rule remains the enforcement layer for forbidden fields.
+    const params = validateParams(info!.fields, {
+      model: "nano-banana-2-lite",
+      prompt: "Edit this image",
+      source_image_urls: ["https://cdn.runapi.ai/example.png"],
+      aspect_ratio: "auto",
+      output_format: "png"
+    });
+    expect(params).toHaveProperty("output_format", "png");
+    expect(validateInputRules(info!, params)).toBe("model=nano-banana-2-lite must not include output_format.");
   });
 });

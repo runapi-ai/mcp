@@ -16,15 +16,15 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
 
   server.tool(
     "create_task",
-    "Create a RunAPI media task and optionally poll until completion.",
+    "Run a RunAPI operation. Asynchronous operations can optionally poll until completion.",
     {
       service: z.string().describe("RunAPI service slug returned by list_models"),
       action: z.string().describe("RunAPI endpoint name, for example text_to_image"),
       model: z.string().optional().describe("RunAPI model slug"),
       params: z.record(z.unknown()).default({}).describe("Endpoint parameters validated against data/contract.json where constrained."),
-      wait: z.boolean().default(true).describe("Poll until the task reaches a terminal status."),
-      timeout_ms: z.number().int().positive().optional(),
-      poll_interval_ms: z.number().int().positive().optional()
+      wait: z.boolean().default(true).describe("For asynchronous endpoints, poll until the task reaches a terminal status."),
+      timeout_ms: z.number().int().positive().optional().describe("Polling timeout for asynchronous endpoints."),
+      poll_interval_ms: z.number().int().positive().optional().describe("Polling interval for asynchronous endpoints.")
     },
     async ({ service, action, model, params, wait, timeout_ms, poll_interval_ms }, extra) => {
       const progressToken = extra._meta?.progressToken;
