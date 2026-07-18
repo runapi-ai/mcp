@@ -6,12 +6,12 @@
     "url": "https://github.com/runapi-ai/mcp",
     "source": "github"
   },
-  "version": "0.1.18",
+  "version": "0.1.19",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@runapi.ai/mcp",
-      "version": "0.1.18",
+      "version": "0.1.19",
       "transport": {
         "type": "stdio"
       },
