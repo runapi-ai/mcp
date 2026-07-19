@@ -1,42 +1,56 @@
 name: Validate
 
 on:
-  pull_request:
   push:
-    branches:
-      - main
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
-  typecheck-build:
+  package:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - run: npm run typecheck
-      - run: npm run build
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - run: npm test
-
-  pack:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - run: npm pack --dry-run
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test
+      - name: Verify server identity
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+          const server = JSON.parse(fs.readFileSync("server.json", "utf8"));
+          const expectedName = "io.github.runapi-builder/runapi-mcp";
+          const declared = server.packages?.[0];
+          if (server.name !== expectedName || pkg.mcpName !== expectedName) throw new Error("server name drift");
+          if (server.version !== pkg.version || declared?.version !== pkg.version) throw new Error("server version drift");
+          if (declared?.identifier !== pkg.name || declared?.transport?.type !== "stdio") throw new Error("server package drift");
+          NODE
+      - name: Stdio smoke
+        run: npm test -- tests/integration/stdio-server.test.ts
+      - name: Verify package boundary
+        run: |
+          npm pack --dry-run --json --ignore-scripts > "$RUNNER_TEMP/npm-pack.json"
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const report = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/npm-pack.json", "utf8"));
+          const files = report[0].files.map((entry) => entry.path);
+          const required = ["package.json","README.md","README.zh-CN.md","CHANGELOG.md","LICENSE","data/contract.json","data/pricing.json","glama.json"];
+          const requiredPrefixes = ["dist/","dist/bin/"];
+          const missing = required.filter((path) => !files.includes(path));
+          const missingPrefixes = requiredPrefixes.filter((prefix) => !files.some((path) => path.startsWith(prefix)));
+          const forbidden = files.filter((path) => ["src/", "tests/", "scripts/", ".github/"].some((prefix) => path.startsWith(prefix)));
+          if (missing.length || missingPrefixes.length || forbidden.length) {
+            throw new Error(JSON.stringify({ missing, missingPrefixes, forbidden }));
+          }
+          NODE
