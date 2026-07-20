@@ -1,5 +1,11 @@
 {
   "endpoints": {
+    "fuzz-2.0/text_to_music": {
+      "unit_price_cents": 17
+    },
+    "fuzz-2.0/text_to_music_query": {
+      "unit_price_cents": 0
+    },
     "midjourney-v8.1/text_to_image": {
       "unit_price_cents": 6
     },
@@ -10,6 +16,9 @@
       "unit_price_cents": 62
     },
     "_/image_to_prompt": {
+      "unit_price_cents": 6
+    },
+    "_/shorten_prompt": {
       "unit_price_cents": 6
     },
     "_/get_seed": {
@@ -319,6 +328,26 @@
     "seedream-5-lite-edit/edit_image": {
       "unit_price_cents": 6
     },
+    "seedream-5-pro-text-to-image/text_to_image": {
+      "unit_price_cents": 7,
+      "billing_config": {
+        "key": "output_quality",
+        "overrides": {
+          "basic": 7,
+          "high": 14
+        }
+      }
+    },
+    "seedream-5-pro-edit/edit_image": {
+      "unit_price_cents": 7,
+      "billing_config": {
+        "key": "output_quality",
+        "overrides": {
+          "basic": 7,
+          "high": 14
+        }
+      }
+    },
     "seedream-v4-text-to-image/text_to_image": {
       "unit_price_cents": 10
     },
@@ -609,6 +638,9 @@
         }
       }
     },
+    "gemini-omni-flash-preview/text_to_video": {
+      "unit_price_cents": 60
+    },
     "gemini-omni-text-to-video/text_to_video": {
       "unit_price_cents": 360,
       "billing_config": {
@@ -649,6 +681,14 @@
           }
         }
       }
+    },
+    "gemini-2.5-pro-tts/text_to_speech": {
+      "input_price_per_1m_cents": 140,
+      "output_price_per_1m_cents": 2800
+    },
+    "gemini-3.1-flash-tts/text_to_speech": {
+      "input_price_per_1m_cents": 140,
+      "output_price_per_1m_cents": 2800
     },
     "runway/text_to_video": {
       "unit_price_cents": 30,
@@ -925,6 +965,18 @@
     "audio-isolation/isolate_audio": {
       "unit_price_cents": 12
     },
+    "s1/text_to_speech": {
+      "unit_price_cents": 2
+    },
+    "s2-pro/text_to_speech": {
+      "unit_price_cents": 2
+    },
+    "tts-1/text_to_speech": {
+      "unit_price_cents": 4
+    },
+    "tts-1-hd/text_to_speech": {
+      "unit_price_cents": 8
+    },
     "gpt-image-1.5/text_to_image": {
       "unit_price_cents": 4,
       "billing_config": {
@@ -1041,6 +1093,7 @@
     "MiniMax-M2.7/chat_completion": {},
     "MiniMax-M2.7-highspeed/chat_completion": {},
     "MiniMax-M3/chat_completion": {},
+    "grok-4.5/chat_completion": {},
     "infinitetalk-from-audio/audio_to_video": {
       "unit_price_cents": 12,
       "billing_config": {
@@ -1379,6 +1432,12 @@
     "seedream-5-lite-text-to-image/text_to_image_query": {
       "unit_price_cents": 0
     },
+    "seedream-5-pro-edit/edit_image_query": {
+      "unit_price_cents": 0
+    },
+    "seedream-5-pro-text-to-image/text_to_image_query": {
+      "unit_price_cents": 0
+    },
     "seedream-v4-edit/edit_image_query": {
       "unit_price_cents": 0
     },
@@ -1412,7 +1471,16 @@
     "gemini-omni-character/create_character": {
       "unit_price_cents": 0
     },
+    "gemini-omni-flash-preview/text_to_video_query": {
+      "unit_price_cents": 0
+    },
     "gemini-omni-text-to-video/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "gemini-2.5-pro-tts/text_to_speech_query": {
+      "unit_price_cents": 0
+    },
+    "gemini-3.1-flash-tts/text_to_speech_query": {
       "unit_price_cents": 0
     },
     "imagen-4/text_to_image_query": {

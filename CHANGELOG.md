@@ -1,5 +1,25 @@
 # Changelog
 
+## [v0.2.0](https://github.com/runapi-ai/mcp/releases/tag/v0.2.0) - 2026-07-20
+
+### Breaking
+- Replace Grok Imagine image-to-video `source_image_urls` with scalar `source_image_url`.
+  Migration: Set `source_image_url` to the source image URL when creating an image-to-video task.
+
+### Added
+- Refresh the aggregate contract and pricing data so `shorten_prompt` is available through the all-model MCP server.
+- Include the current Grok Imagine Video 1.5 Fast contract and pricing data in the aggregate MCP server.
+- Add Gemini TTS model discovery, input contracts, task creation, and task polling.
+- Add Seedream 5 Pro text-to-image and edit-image models with model-specific validation.
+- Expose advanced stem separation parameters and response metadata through the aggregate MCP server.
+
+### Changed
+- Publish Seedream 5-Lite output format metadata and model-specific validation in the aggregate MCP server.
+
+### Fixed
+- Enforce model-specific collection limits from the current RunAPI input contract.
+
+
 ## [v0.1.19](https://github.com/runapi-ai/mcp/releases/tag/v0.1.19) - 2026-07-18
 
 ### Fixed

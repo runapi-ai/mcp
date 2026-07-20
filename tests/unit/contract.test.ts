@@ -60,4 +60,28 @@ describe("contract helpers", () => {
     expect(params).toHaveProperty("output_format", "png");
     expect(validateInputRules(info!, params)).toBe("model=nano-banana-2-lite must not include output_format.");
   });
+
+  it("rejects Seedream 5 Pro v4-only controls from the embedded contract", () => {
+    for (const [action, model] of [
+      ["text_to_image", "seedream-5-pro-text-to-image"],
+      ["edit_image", "seedream-5-pro-edit"]
+    ] as const) {
+      const info = findModelForAction("seedream", action, model);
+
+      expect(info).toBeDefined();
+      expect(info!.fields).not.toHaveProperty("output_resolution");
+      expect(info!.fields).not.toHaveProperty("output_count");
+      expect(info!.fields).not.toHaveProperty("seed");
+
+      const params = validateParams(info!.fields, {
+        model,
+        prompt: "Create a polished product image",
+        aspect_ratio: "1:1",
+        output_quality: "high",
+        ...(action === "edit_image" ? { source_image_urls: ["https://cdn.runapi.ai/example.png"] } : {}),
+        output_resolution: "2k"
+      });
+      expect(validateInputRules(info!, params)).toBe(`model=${model} must not include output_resolution.`);
+    }
+  });
 });
