@@ -26,14 +26,18 @@
     "flux-2-pro-text-to-image",
     "flux-kontext-max",
     "flux-kontext-pro",
+    "fuzz-2.0",
     "gemini-2.5-flash",
     "gemini-2.5-pro",
+    "gemini-2.5-pro-tts",
     "gemini-3-flash-preview",
     "gemini-3-pro-preview",
+    "gemini-3.1-flash-tts",
     "gemini-3.1-pro-preview",
     "gemini-3.5-flash",
     "gemini-omni-audio",
     "gemini-omni-character",
+    "gemini-omni-flash-preview",
     "gemini-omni-text-to-video",
     "glm-4.5",
     "glm-4.5-air",
@@ -58,6 +62,7 @@
     "gpt-5.6-terra",
     "gpt-image-1.5",
     "gpt-image-2",
+    "grok-4.5",
     "grok-imagine-edit-image",
     "grok-imagine-image-to-video",
     "grok-imagine-text-to-image",
@@ -120,6 +125,8 @@
     "recraft-remove-background",
     "runway",
     "runway-aleph",
+    "s1",
+    "s2-pro",
     "seedance-1.5-pro",
     "seedance-2-mini",
     "seedance-2.0",
@@ -131,6 +138,8 @@
     "seedream-4.5-text-to-image",
     "seedream-5-lite-edit",
     "seedream-5-lite-text-to-image",
+    "seedream-5-pro-edit",
+    "seedream-5-pro-text-to-image",
     "seedream-v4-edit",
     "seedream-v4-text-to-image",
     "sound-effect-v2",
@@ -149,6 +158,8 @@
     "text-to-speech-turbo-v2.5",
     "topaz-upscale-image",
     "topaz-upscale-video",
+    "tts-1",
+    "tts-1-hd",
     "veo-3.1",
     "veo-3.1-fast",
     "volcengine-lip-sync",
@@ -401,6 +412,35 @@
         }
       }
     },
+    "fish-audio/text-to-speech": {
+      "model": "Fish Audio",
+      "endpoint": "text_to_speech",
+      "task_type": "synchronous",
+      "models": [
+        "s1",
+        "s2-pro"
+      ],
+      "fields_by_model": {
+        "s1": {
+          "model": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "required": true
+          }
+        },
+        "s2-pro": {
+          "model": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
     "flux-2/remix-image": {
       "model": "Flux 2",
       "endpoint": "remix_image",
@@ -420,7 +460,9 @@
           },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 8,
+            "min_items": 1
           },
           "aspect_ratio": {
             "type": "string",
@@ -459,7 +501,9 @@
           },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 8,
+            "min_items": 1
           },
           "aspect_ratio": {
             "type": "string",
@@ -749,23 +793,35 @@
       "endpoint": "text_to_video",
       "task_type": "asynchronous",
       "models": [
+        "gemini-omni-flash-preview",
         "gemini-omni-text-to-video"
       ],
+      "rules": [
+        {
+          "when": {
+            "model": "gemini-omni-flash-preview"
+          },
+          "forbidden": [
+            "reference_image_urls",
+            "audio_ids",
+            "video_list",
+            "character_ids",
+            "duration_seconds",
+            "seed"
+          ]
+        }
+      ],
       "fields_by_model": {
-        "gemini-omni-text-to-video": {
+        "gemini-omni-flash-preview": {
+          "model": {
+            "type": "string"
+          },
           "prompt": {
             "type": "string",
             "required": true
           },
           "duration_seconds": {
-            "type": "integer",
-            "enum": [
-              4,
-              6,
-              8,
-              10
-            ],
-            "required": true
+            "type": "integer"
           },
           "callback_url": {
             "type": "string"
@@ -787,6 +843,62 @@
             "enum": [
               "16:9",
               "9:16"
+            ],
+            "default": "16:9"
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p"
+            ],
+            "default": "720p"
+          },
+          "seed": {
+            "type": "integer"
+          }
+        },
+        "gemini-omni-text-to-video": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "required": true
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              4,
+              6,
+              8,
+              10
+            ],
+            "required": true
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "max_items": 7
+          },
+          "audio_ids": {
+            "type": "array",
+            "max_items": 3
+          },
+          "video_list": {
+            "type": "array",
+            "max_items": 1
+          },
+          "character_ids": {
+            "type": "array",
+            "max_items": 3
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16"
             ]
           },
           "output_resolution": {
@@ -799,6 +911,309 @@
           },
           "seed": {
             "type": "integer"
+          }
+        }
+      }
+    },
+    "gemini-tts/text-to-speech": {
+      "model": "Gemini TTS",
+      "endpoint": "text_to_speech",
+      "task_type": "asynchronous",
+      "models": [
+        "gemini-2.5-pro-tts",
+        "gemini-3.1-flash-tts"
+      ],
+      "fields_by_model": {
+        "gemini-2.5-pro-tts": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "temperature": {
+            "type": "number",
+            "max": 2,
+            "min": 0,
+            "default": 1,
+            "description": "Sampling temperature."
+          },
+          "scene": {
+            "type": "string",
+            "description": "Scene and recording environment."
+          },
+          "sample_context": {
+            "type": "string",
+            "description": "Overall delivery context and tone."
+          },
+          "speakers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pace": {
+                  "enum": [
+                    "Natural",
+                    "Rapid Fire",
+                    "The Drift",
+                    "Staccato"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker pace."
+                },
+                "style": {
+                  "enum": [
+                    "Vocal Smile",
+                    "Newscaster",
+                    "Whisper",
+                    "Empathetic",
+                    "Promo/Hype",
+                    "Deadpan"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker delivery style."
+                },
+                "accent": {
+                  "enum": [
+                    "Neutral",
+                    "American (Gen)",
+                    "American (Valley)",
+                    "American (South)",
+                    "British (RP)",
+                    "British (Brixton)",
+                    "Transatlantic",
+                    "Australian"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker accent."
+                },
+                "speaker_id": {
+                  "type": "string",
+                  "pattern": "^Speaker [1-9][0-9]*$",
+                  "required": true,
+                  "description": "Unique identifier in Speaker N format."
+                },
+                "voice_name": {
+                  "enum": [
+                    "Achernar",
+                    "Achird",
+                    "Algenib",
+                    "Algieba",
+                    "Alnilam",
+                    "Aoede",
+                    "Autonoe",
+                    "Callirrhoe",
+                    "Charon",
+                    "Despina",
+                    "Enceladus",
+                    "Erinome",
+                    "Fenrir",
+                    "Gacrux",
+                    "Iapetus",
+                    "Kore",
+                    "Laomedeia",
+                    "Leda",
+                    "Orus",
+                    "Puck",
+                    "Pulcherrima",
+                    "Rasalgethi",
+                    "Sadachbia",
+                    "Sadaltager",
+                    "Schedar",
+                    "Sulafat",
+                    "Umbriel",
+                    "Vindemiatrix",
+                    "Zephyr",
+                    "Zubenelgenubi"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Preset voice name."
+                },
+                "audio_profile": {
+                  "type": "string",
+                  "description": "Optional voice character guidance."
+                }
+              }
+            },
+            "required": true,
+            "min_items": 1,
+            "description": "Non-empty speaker configurations with unique Speaker N identifiers."
+          },
+          "dialogue_turns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "max": 10000,
+                  "type": "string",
+                  "length": true,
+                  "required": true,
+                  "description": "Spoken text, up to 10,000 characters."
+                },
+                "speaker_id": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Identifier matching a configured speakers[].speaker_id."
+                }
+              }
+            },
+            "required": true,
+            "min_items": 1,
+            "description": "Non-empty ordered dialogue turns whose speaker ids reference configured speakers."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "gemini-3.1-flash-tts": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "temperature": {
+            "type": "number",
+            "max": 2,
+            "min": 0,
+            "default": 1,
+            "description": "Sampling temperature."
+          },
+          "scene": {
+            "type": "string",
+            "description": "Scene and recording environment."
+          },
+          "sample_context": {
+            "type": "string",
+            "description": "Overall delivery context and tone."
+          },
+          "speakers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pace": {
+                  "enum": [
+                    "Natural",
+                    "Rapid Fire",
+                    "The Drift",
+                    "Staccato"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker pace."
+                },
+                "style": {
+                  "enum": [
+                    "Vocal Smile",
+                    "Newscaster",
+                    "Whisper",
+                    "Empathetic",
+                    "Promo/Hype",
+                    "Deadpan"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker delivery style."
+                },
+                "accent": {
+                  "enum": [
+                    "Neutral",
+                    "American (Gen)",
+                    "American (Valley)",
+                    "American (South)",
+                    "British (RP)",
+                    "British (Brixton)",
+                    "Transatlantic",
+                    "Australian"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Speaker accent."
+                },
+                "speaker_id": {
+                  "type": "string",
+                  "pattern": "^Speaker [1-9][0-9]*$",
+                  "required": true,
+                  "description": "Unique identifier in Speaker N format."
+                },
+                "voice_name": {
+                  "enum": [
+                    "Achernar",
+                    "Achird",
+                    "Algenib",
+                    "Algieba",
+                    "Alnilam",
+                    "Aoede",
+                    "Autonoe",
+                    "Callirrhoe",
+                    "Charon",
+                    "Despina",
+                    "Enceladus",
+                    "Erinome",
+                    "Fenrir",
+                    "Gacrux",
+                    "Iapetus",
+                    "Kore",
+                    "Laomedeia",
+                    "Leda",
+                    "Orus",
+                    "Puck",
+                    "Pulcherrima",
+                    "Rasalgethi",
+                    "Sadachbia",
+                    "Sadaltager",
+                    "Schedar",
+                    "Sulafat",
+                    "Umbriel",
+                    "Vindemiatrix",
+                    "Zephyr",
+                    "Zubenelgenubi"
+                  ],
+                  "type": "string",
+                  "required": true,
+                  "description": "Preset voice name."
+                },
+                "audio_profile": {
+                  "type": "string",
+                  "description": "Optional voice character guidance."
+                }
+              }
+            },
+            "required": true,
+            "min_items": 1,
+            "description": "Non-empty speaker configurations with unique Speaker N identifiers."
+          },
+          "dialogue_turns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "max": 10000,
+                  "type": "string",
+                  "length": true,
+                  "required": true,
+                  "description": "Spoken text, up to 10,000 characters."
+                },
+                "speaker_id": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Identifier matching a configured speakers[].speaker_id."
+                }
+              }
+            },
+            "required": true,
+            "min_items": 1,
+            "description": "Non-empty ordered dialogue turns whose speaker ids reference configured speakers."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -828,7 +1243,8 @@
             "required": true
           },
           "source_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 5
           },
           "mask_url": {
             "type": "string"
@@ -1145,8 +1561,8 @@
           "callback_url": {
             "type": "string"
           },
-          "source_image_urls": {
-            "type": "array"
+          "source_image_url": {
+            "type": "string"
           },
           "reference_image_urls": {
             "type": "array"
@@ -1199,8 +1615,8 @@
           "callback_url": {
             "type": "string"
           },
-          "source_image_urls": {
-            "type": "array",
+          "source_image_url": {
+            "type": "string",
             "required": true
           },
           "reference_image_urls": {
@@ -1253,8 +1669,8 @@
           "callback_url": {
             "type": "string"
           },
-          "source_image_urls": {
-            "type": "array",
+          "source_image_url": {
+            "type": "string",
             "required": true
           },
           "reference_image_urls": {
@@ -1773,7 +2189,8 @@
             "required": true
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 5
           },
           "output_resolution": {
             "type": "string",
@@ -1854,7 +2271,9 @@
           },
           "reference_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 9,
+            "min_items": 1
           },
           "output_resolution": {
             "type": "string",
@@ -2397,7 +2816,9 @@
           },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 8,
+            "min_items": 1
           },
           "callback_url": {
             "type": "string"
@@ -3507,6 +3928,20 @@
         }
       }
     },
+    "midjourney/shorten-prompt": {
+      "model": "Midjourney",
+      "endpoint": "shorten_prompt",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "prompt": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
     "midjourney/text-to-image": {
       "model": "Midjourney",
       "endpoint": "text_to_image",
@@ -3594,7 +4029,9 @@
           },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 10,
+            "min_items": 1
           }
         },
         "nano-banana-edit": {
@@ -3787,7 +4224,8 @@
             "required": true
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 10
           }
         },
         "nano-banana-pro": {
@@ -3859,7 +4297,8 @@
             "required": true
           },
           "mask_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 5
           },
           "prompt": {
             "type": "string",
@@ -3925,6 +4364,103 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "openai-tts/text-to-speech": {
+      "model": "OpenAI TTS",
+      "endpoint": "text_to_speech",
+      "task_type": "synchronous",
+      "models": [
+        "tts-1",
+        "tts-1-hd"
+      ],
+      "fields_by_model": {
+        "tts-1": {
+          "model": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "max": 4096,
+            "length": true,
+            "required": true
+          }
+        },
+        "tts-1-hd": {
+          "model": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "max": 4096,
+            "length": true,
+            "required": true
+          }
+        }
+      }
+    },
+    "producer/text-to-music": {
+      "model": "Producer",
+      "endpoint": "text_to_music",
+      "task_type": "asynchronous",
+      "models": [
+        "fuzz-2.0"
+      ],
+      "rules": [
+        {
+          "when": {
+            "vocal_mode": "exact_lyrics"
+          },
+          "required": [
+            "lyrics"
+          ]
+        },
+        {
+          "when": {
+            "vocal_mode": "instrumental"
+          },
+          "forbidden": [
+            "lyrics"
+          ]
+        }
+      ],
+      "fields_by_model": {
+        "fuzz-2.0": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -4322,7 +4858,8 @@
             "type": "boolean"
           },
           "source_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 2
           },
           "lock_camera": {
             "type": "boolean"
@@ -4372,13 +4909,16 @@
             "type": "string"
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 9
           },
           "reference_video_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "reference_audio_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "web_search": {
             "type": "boolean"
@@ -4433,13 +4973,16 @@
             "type": "string"
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 9
           },
           "reference_video_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "reference_audio_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "web_search": {
             "type": "boolean"
@@ -4492,13 +5035,16 @@
             "type": "string"
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 9
           },
           "reference_video_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "reference_audio_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3
           },
           "web_search": {
             "type": "boolean"
@@ -4649,7 +5195,36 @@
       "models": [
         "seedream-4.5-edit",
         "seedream-5-lite-edit",
+        "seedream-5-pro-edit",
         "seedream-v4-edit"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "seedream-4.5-edit"
+          },
+          "forbidden": [
+            "output_format"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedream-5-pro-edit"
+          },
+          "forbidden": [
+            "output_resolution",
+            "output_count",
+            "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedream-v4-edit"
+          },
+          "forbidden": [
+            "output_format"
+          ]
+        }
       ],
       "fields_by_model": {
         "seedream-4.5-edit": {
@@ -4681,9 +5256,14 @@
             ],
             "required": true
           },
+          "output_format": {
+            "type": "string"
+          },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 14,
+            "min_items": 1
           },
           "output_resolution": {
             "type": "string"
@@ -4730,9 +5310,19 @@
             ],
             "required": true
           },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png"
+          },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 14,
+            "min_items": 1
           },
           "output_resolution": {
             "type": "string"
@@ -4742,6 +5332,60 @@
           },
           "seed": {
             "type": "integer"
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "seedream-5-pro-edit": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png"
+          },
+          "source_image_urls": {
+            "type": "array",
+            "required": true,
+            "max_items": 10,
+            "min_items": 1
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -4773,9 +5417,14 @@
           "output_quality": {
             "type": "string"
           },
+          "output_format": {
+            "type": "string"
+          },
           "source_image_urls": {
             "type": "array",
-            "required": true
+            "required": true,
+            "max_items": 10,
+            "min_items": 1
           },
           "output_resolution": {
             "type": "string",
@@ -4815,7 +5464,36 @@
       "models": [
         "seedream-4.5-text-to-image",
         "seedream-5-lite-text-to-image",
+        "seedream-5-pro-text-to-image",
         "seedream-v4-text-to-image"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "seedream-4.5-text-to-image"
+          },
+          "forbidden": [
+            "output_format"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedream-5-pro-text-to-image"
+          },
+          "forbidden": [
+            "output_resolution",
+            "output_count",
+            "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedream-v4-text-to-image"
+          },
+          "forbidden": [
+            "output_format"
+          ]
+        }
       ],
       "fields_by_model": {
         "seedream-4.5-text-to-image": {
@@ -4846,6 +5524,9 @@
               "high"
             ],
             "required": true
+          },
+          "output_format": {
+            "type": "string"
           },
           "output_resolution": {
             "type": "string"
@@ -4892,6 +5573,14 @@
             ],
             "required": true
           },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png"
+          },
           "output_resolution": {
             "type": "string"
           },
@@ -4900,6 +5589,54 @@
           },
           "seed": {
             "type": "integer"
+          },
+          "enable_safety_checker": {
+            "type": "boolean"
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "seedream-5-pro-text-to-image": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "required": true
+          },
+          "output_quality": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "high"
+            ],
+            "required": true
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png"
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -4929,6 +5666,9 @@
             ]
           },
           "output_quality": {
+            "type": "string"
+          },
+          "output_format": {
             "type": "string"
           },
           "output_resolution": {
@@ -5897,6 +6637,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -5971,6 +6713,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -6045,6 +6789,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -6119,6 +6865,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -6193,6 +6941,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -6267,6 +7017,8 @@
           "upload_url_list": {
             "type": "array",
             "required": true,
+            "max_items": 2,
+            "min_items": 2,
             "description": "Two audio URLs to mashup."
           },
           "vocal_mode": {
@@ -7136,6 +7888,16 @@
       "endpoint": "separate_audio_stems",
       "task_type": "asynchronous",
       "models": [],
+      "rules": [
+        {
+          "when": {
+            "type": "split_stem_advanced"
+          },
+          "required": [
+            "stem_name"
+          ]
+        }
+      ],
       "fields_by_model": {
         "_": {
           "task_id": {
@@ -7150,7 +7912,117 @@
           },
           "type": {
             "type": "string",
-            "description": "Stem separation type."
+            "enum": [
+              "separate_vocal",
+              "split_stem",
+              "split_stem_advanced"
+            ],
+            "default": "separate_vocal",
+            "description": "Stem separation mode."
+          },
+          "stem_name": {
+            "type": "string",
+            "enum": [
+              "Lead Vocal",
+              "Drum Kit",
+              "Kick",
+              "Snare",
+              "Risers",
+              "Bass",
+              "Backing Vocals",
+              "Piano",
+              "Electric Guitar",
+              "Percussion",
+              "String Section",
+              "Synth",
+              "Acoustic Guitar",
+              "Sound Effects",
+              "Synth Pad",
+              "Synth Bass",
+              "Guitar",
+              "Brass Section",
+              "Organ",
+              "Electronic Drum Kit",
+              "Lead Electric Guitar",
+              "Synth Keys",
+              "Rhythm Electric Guitar",
+              "Electric Piano",
+              "Upright Bass",
+              "Keyboards",
+              "Distorted Electric Guitar",
+              "Synth Strings",
+              "Synth Lead",
+              "Woodwinds",
+              "Rhythm Acoustic Guitar",
+              "Flute",
+              "Harp",
+              "Tambourine",
+              "Trumpet",
+              "Arpeggiator",
+              "Accordion",
+              "Fiddle",
+              "Pedal Steel Guitar",
+              "Synth Voice",
+              "Violin",
+              "Digital Piano",
+              "Synth Brass",
+              "Mandolin",
+              "Choir",
+              "Banjo",
+              "Bells",
+              "Clarinet",
+              "Tenor Saxophone",
+              "Trombone",
+              "Shaker",
+              "French Horn",
+              "Glockenspiel",
+              "Electric Bass",
+              "Cello",
+              "Timpani",
+              "Harmonica",
+              "Marimba",
+              "Vibraphone",
+              "Lap Steel Guitar",
+              "Saxophone",
+              "Orchestra",
+              "Horns",
+              "Cymbals",
+              "Hand Clap",
+              "Oboe",
+              "Celesta",
+              "Congas",
+              "Drone",
+              "Alto Saxophone",
+              "Double Bass",
+              "Ukulele",
+              "Harpsichord",
+              "Baritone Saxophone",
+              "Xylophone",
+              "Tuba",
+              "Bass Guitar",
+              "Whistle",
+              "Lead Guitar",
+              "Rhodes",
+              "808",
+              "Bongos",
+              "Bassoon",
+              "Cowbell",
+              "Viola",
+              "Sitar",
+              "Steel Drums",
+              "Piccolo",
+              "Theremin",
+              "Bagpipes",
+              "Hi-Hat",
+              "Music Box",
+              "Melodica",
+              "Tabla",
+              "Koto",
+              "Djembe",
+              "Taiko",
+              "Didgeridoo"
+            ],
+            "description": "Target stem for advanced separation. Required when type is split_stem_advanced."
           },
           "callback_url": {
             "type": "string",
@@ -8067,7 +8939,9 @@
             "type": "string"
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3,
+            "min_items": 1
           }
         },
         "veo-3.1-fast": {
@@ -8120,7 +8994,9 @@
             "type": "string"
           },
           "reference_image_urls": {
-            "type": "array"
+            "type": "array",
+            "max_items": 3,
+            "min_items": 1
           }
         }
       }
@@ -8496,6 +9372,24 @@
         "wan-2.6-image-to-video",
         "wan-2.7-image-to-video"
       ],
+      "rules": [
+        {
+          "when": {
+            "model": "wan-2.6-flash-image-to-video"
+          },
+          "forbidden": [
+            "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.6-image-to-video"
+          },
+          "forbidden": [
+            "seed"
+          ]
+        }
+      ],
       "fields_by_model": {
         "wan-2.2-a14b-image-to-video-turbo": {
           "model": {
@@ -8672,9 +9566,6 @@
           "enable_prompt_expansion": {
             "type": "boolean"
           },
-          "seed": {
-            "type": "integer"
-          },
           "acceleration": {
             "type": "string"
           },
@@ -8740,9 +9631,6 @@
           },
           "enable_prompt_expansion": {
             "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           },
           "acceleration": {
             "type": "string"
@@ -9040,6 +9928,16 @@
         "wan-2.7-r2v",
         "wan-2.7-text-to-video"
       ],
+      "rules": [
+        {
+          "when": {
+            "model": "wan-2.6-text-to-video"
+          },
+          "forbidden": [
+            "seed"
+          ]
+        }
+      ],
       "fields_by_model": {
         "wan-2.2-a14b-text-to-video-turbo": {
           "model": {
@@ -9205,9 +10103,6 @@
           },
           "enable_prompt_expansion": {
             "type": "boolean"
-          },
-          "seed": {
-            "type": "integer"
           },
           "acceleration": {
             "type": "string"

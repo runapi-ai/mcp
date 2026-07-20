@@ -5,6 +5,8 @@ import { describe, expect, it, vi } from "vitest";
 import { friendlyError, PollTimeoutError, RunApiClientError } from "../../src/lib/errors.js";
 import { RunApiClient, taskIdFromResponse, taskStatus } from "../../src/lib/runapi-client.js";
 
+const TASK_ID = "123e4567-e89b-42d3-a456-426614174000";
+
 describe("RunApiClient", () => {
   it("injects bearer auth for authenticated requests", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ balance_cents: 100 }));
@@ -77,7 +79,7 @@ describe("RunApiClient", () => {
   });
 
   it("normalizes service slugs when creating tasks", async () => {
-    const fetchImpl = vi.fn(async () => jsonResponse({ id: "task_123", status: "queued" }));
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "queued" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await client.createTask("flux-kontext", "text_to_image", { prompt: "test" });
@@ -88,24 +90,24 @@ describe("RunApiClient", () => {
   });
 
   it("builds task routes using service/action/id for media polling", async () => {
-    const fetchImpl = vi.fn(async () => jsonResponse({ id: "task_123", status: "completed" }));
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "completed" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
-    await client.getTask("flux-kontext", "task_123", "text_to_image");
+    await client.getTask("flux-kontext", TASK_ID, "text_to_image");
 
-    expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/flux_kontext/text_to_image/task_123"), expect.any(Object));
+    expect(fetchImpl).toHaveBeenCalledWith(new URL(`https://runapi.ai/api/v1/flux_kontext/text_to_image/${TASK_ID}`), expect.any(Object));
   });
 
   it("normalizes service slugs while polling tasks", async () => {
-    const fetchImpl = vi.fn(async () => jsonResponse({ id: "task_123", status: "completed" }));
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "completed" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
-    await client.pollTask("flux-kontext", "task_123", "text_to_image", {
+    await client.pollTask("flux-kontext", TASK_ID, "text_to_image", {
       intervalMs: 1,
       timeoutMs: 100
     });
 
-    expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/flux_kontext/text_to_image/task_123"), expect.any(Object));
+    expect(fetchImpl).toHaveBeenCalledWith(new URL(`https://runapi.ai/api/v1/flux_kontext/text_to_image/${TASK_ID}`), expect.any(Object));
   });
 
   it("maps friendly errors", () => {
@@ -119,12 +121,12 @@ describe("RunApiClient", () => {
 
   it("polls until a terminal status", async () => {
     const fetchImpl = vi.fn()
-      .mockResolvedValueOnce(jsonResponse({ id: "task_123", status: "running" }))
-      .mockResolvedValueOnce(jsonResponse({ id: "task_123", status: "completed" }));
+      .mockResolvedValueOnce(jsonResponse({ id: TASK_ID, status: "running" }))
+      .mockResolvedValueOnce(jsonResponse({ id: TASK_ID, status: "completed" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
     const progress = vi.fn();
 
-    const result = await client.pollTask("suno", "task_123", "text_to_music", {
+    const result = await client.pollTask("suno", TASK_ID, "text_to_music", {
       intervalMs: 1,
       timeoutMs: 100,
       onProgress: progress
@@ -135,10 +137,10 @@ describe("RunApiClient", () => {
   });
 
   it("times out while polling non-terminal tasks", async () => {
-    const fetchImpl = vi.fn(async () => jsonResponse({ id: "task_123", status: "running" }));
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "running" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
-    await expect(client.pollTask("suno", "task_123", "text_to_music", {
+    await expect(client.pollTask("suno", TASK_ID, "text_to_music", {
       intervalMs: 1,
       timeoutMs: 5
     })).rejects.toThrow(PollTimeoutError);
