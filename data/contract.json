@@ -62,6 +62,7 @@
     "gpt-5.6-terra",
     "gpt-image-1.5",
     "gpt-image-2",
+    "grok-4.3",
     "grok-4.5",
     "grok-imagine-edit-image",
     "grok-imagine-image-to-video",
@@ -428,6 +429,25 @@
           "text": {
             "type": "string",
             "required": true
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Exact transcript of the reference audio."
+                },
+                "audio": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Base64-encoded raw audio bytes."
+                }
+              }
+            },
+            "description": "Inline reference audio samples for this request."
           }
         },
         "s2-pro": {
@@ -437,6 +457,25 @@
           "text": {
             "type": "string",
             "required": true
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Exact transcript of the reference audio."
+                },
+                "audio": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Base64-encoded raw audio bytes."
+                }
+              }
+            },
+            "description": "Inline reference audio samples for this request."
           }
         }
       }
@@ -4863,6 +4902,11 @@
           },
           "lock_camera": {
             "type": "boolean"
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": -1
           }
         },
         "seedance-2-mini": {
@@ -5184,6 +5228,11 @@
           "first_frame_image_url": {
             "type": "string",
             "required": true
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": -1
           }
         }
       }
@@ -5971,6 +6020,30 @@
           "style": {
             "type": "string",
             "description": "Style preset."
+          }
+        }
+      }
+    },
+    "suno/blend-lyrics": {
+      "model": "Suno",
+      "endpoint": "blend_lyrics",
+      "task_type": "asynchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "lyrics_a": {
+            "type": "string",
+            "required": true,
+            "description": "First lyrics text to blend."
+          },
+          "lyrics_b": {
+            "type": "string",
+            "required": true,
+            "description": "Second lyrics text to blend."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -7675,6 +7748,7 @@
         "_": {
           "prompt": {
             "type": "string",
+            "required": true,
             "description": "Lyrics generation prompt."
           },
           "callback_url": {
