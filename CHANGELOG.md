@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.2.1](https://github.com/runapi-ai/mcp/releases/tag/v0.2.1) - 2026-07-21
+
+### Added
+- Expose optional `seed` constraints for Seedance 1.5 Pro and V1 Pro Fast tools.
+
+### Changed
+- Refresh the embedded catalog and pricing data from the canonical RunAPI contract.
+
+
 ## [v0.2.0](https://github.com/runapi-ai/mcp/releases/tag/v0.2.0) - 2026-07-20
 
 ### Breaking

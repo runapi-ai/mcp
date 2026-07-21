@@ -144,6 +144,9 @@
     "_/generate_lyrics": {
       "unit_price_cents": 1
     },
+    "_/blend_lyrics": {
+      "unit_price_cents": 1
+    },
     "_/replace_section": {
       "unit_price_cents": 5
     },
@@ -409,24 +412,24 @@
       }
     },
     "grok-imagine-video-1.5-fast/text_to_video": {
-      "unit_price_cents": 39,
+      "unit_price_cents": 75,
       "billing_config": {
         "key": "duration_band",
         "overrides": {
-          "1-10": 9,
-          "11-20": 24,
-          "21-30": 39
+          "1-10": 18,
+          "11-20": 45,
+          "21-30": 75
         }
       }
     },
     "grok-imagine-video-1.5-fast/image_to_video": {
-      "unit_price_cents": 39,
+      "unit_price_cents": 75,
       "billing_config": {
         "key": "duration_band",
         "overrides": {
-          "1-10": 9,
-          "11-20": 24,
-          "21-30": 39
+          "1-10": 18,
+          "11-20": 45,
+          "21-30": 75
         }
       }
     },
@@ -1094,6 +1097,8 @@
     "MiniMax-M2.7-highspeed/chat_completion": {},
     "MiniMax-M3/chat_completion": {},
     "grok-4.5/chat_completion": {},
+    "grok-4.5/response": {},
+    "grok-4.3/response": {},
     "infinitetalk-from-audio/audio_to_video": {
       "unit_price_cents": 12,
       "billing_config": {
@@ -1643,6 +1648,9 @@
       "unit_price_cents": 0
     },
     "_/convert_audio_query": {
+      "unit_price_cents": 0
+    },
+    "_/blend_lyrics_query": {
       "unit_price_cents": 0
     },
     "_/generate_artwork": {
