@@ -1,5 +1,24 @@
 # Changelog
 
+## [v0.3.0](https://github.com/runapi-ai/mcp/releases/tag/v0.3.0) - 2026-07-22
+
+### Added
+- Add inline Fish Audio reference samples to the aggregate speech contract.
+- Add Suno lyric blending and its current contract metadata.
+- Add Grok 4.3 and Grok 4.5 Responses support to the aggregate model contract.
+- Add Flux image generation and editing contract data to aggregate model discovery and pricing lookup.
+
+### Changed
+- Refresh the embedded pricing data after the reviewed Suno generation pricing change.
+
+### Removed
+- Remove `gemini-3-pro-preview` from the aggregate MCP model contract.
+  Migration: Choose another currently supported model ID; no replacement alias is provided.
+
+### Fixed
+- Sync Grok Imagine 1.5 Fast pricing metadata with the canonical catalog.
+
+
 ## [v0.2.1](https://github.com/runapi-ai/mcp/releases/tag/v0.2.1) - 2026-07-21
 
 ### Added
