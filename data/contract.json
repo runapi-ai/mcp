@@ -22,16 +22,18 @@
     "deepseek-v4-pro",
     "flux-2-flex-remix-image",
     "flux-2-flex-text-to-image",
+    "flux-2-klein",
     "flux-2-pro-remix-image",
     "flux-2-pro-text-to-image",
+    "flux-dev",
     "flux-kontext-max",
     "flux-kontext-pro",
+    "flux-pro",
     "fuzz-2.0",
     "gemini-2.5-flash",
     "gemini-2.5-pro",
     "gemini-2.5-pro-tts",
     "gemini-3-flash-preview",
-    "gemini-3-pro-preview",
     "gemini-3.1-flash-tts",
     "gemini-3.1-pro-preview",
     "gemini-3.5-flash",
@@ -62,6 +64,7 @@
     "gpt-5.6-terra",
     "gpt-image-1.5",
     "gpt-image-2",
+    "grok-4.20-0309-non-reasoning",
     "grok-4.3",
     "grok-4.5",
     "grok-imagine-edit-image",
@@ -76,6 +79,9 @@
     "hailuo-02-text-to-video-standard",
     "hailuo-2.3-image-to-video-pro",
     "hailuo-2.3-image-to-video-standard",
+    "happyhorse-1.0-i2v",
+    "happyhorse-1.0-r2v",
+    "happyhorse-1.0-t2v",
     "happyhorse-character",
     "happyhorse-edit-video",
     "happyhorse-image-to-video",
@@ -94,6 +100,7 @@
     "infinitetalk-from-audio",
     "kimi-k2.5",
     "kimi-k2.6",
+    "kimi-k2.7-code",
     "kling-3.0",
     "kling-ai-avatar-pro",
     "kling-ai-avatar-standard",
@@ -105,6 +112,7 @@
     "kling-v2.1-standard",
     "kling-v2.5-turbo-image-to-video-pro",
     "kling-v2.5-turbo-text-to-video-pro",
+    "kling-v2.6",
     "kling-v3-turbo-image-to-video",
     "kling-v3-turbo-text-to-video",
     "luma-modify-video",
@@ -120,8 +128,10 @@
     "omnihuman-1.5-human-identification",
     "omnihuman-1.5-subject-detection",
     "qwen-2-edit-image",
-    "qwen-2-remix-image",
     "qwen-2-text-to-image",
+    "qwen-image-edit-image",
+    "qwen-image-remix-image",
+    "qwen-image-text-to-image",
     "recraft-crisp-upscale",
     "recraft-remove-background",
     "runway",
@@ -163,6 +173,7 @@
     "tts-1-hd",
     "veo-3.1",
     "veo-3.1-fast",
+    "veo-3.1-lite",
     "volcengine-lip-sync",
     "wan-2.2-a14b-image-to-video-turbo",
     "wan-2.2-a14b-speech-to-video-turbo",
@@ -771,6 +782,212 @@
           "watermark": {
             "type": "string",
             "description": "Watermark identifier."
+          }
+        }
+      }
+    },
+    "flux/remix-image": {
+      "model": "Flux",
+      "endpoint": "remix_image",
+      "task_type": "asynchronous",
+      "models": [
+        "flux-dev",
+        "flux-pro"
+      ],
+      "fields_by_model": {
+        "flux-dev": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "flux-pro": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "flux/text-to-image": {
+      "model": "Flux",
+      "endpoint": "text_to_image",
+      "task_type": "asynchronous",
+      "models": [
+        "flux-2-klein",
+        "flux-dev",
+        "flux-pro"
+      ],
+      "fields_by_model": {
+        "flux-2-klein": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "flux-dev": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "flux-pro": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1
+          },
+          "callback_url": {
+            "type": "string"
           }
         }
       }
@@ -2259,9 +2476,38 @@
       "endpoint": "image_to_video",
       "task_type": "asynchronous",
       "models": [
+        "happyhorse-1.0-i2v",
         "happyhorse-image-to-video"
       ],
       "fields_by_model": {
+        "happyhorse-1.0-i2v": {
+          "model": {
+            "type": "string"
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "duration_seconds": {
+            "type": "integer"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
         "happyhorse-image-to-video": {
           "model": {
             "type": "string"
@@ -2297,10 +2543,89 @@
       "endpoint": "text_to_video",
       "task_type": "asynchronous",
       "models": [
+        "happyhorse-1.0-r2v",
+        "happyhorse-1.0-t2v",
         "happyhorse-character",
         "happyhorse-text-to-video"
       ],
       "fields_by_model": {
+        "happyhorse-1.0-r2v": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "required": true,
+            "max_items": 9,
+            "min_items": 1
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "duration_seconds": {
+            "type": "integer"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
+        "happyhorse-1.0-t2v": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array"
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ]
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ]
+          },
+          "duration_seconds": {
+            "type": "integer"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        },
         "happyhorse-character": {
           "model": {
             "type": "string"
@@ -3155,6 +3480,7 @@
         "kling-v2.1-pro",
         "kling-v2.1-standard",
         "kling-v2.5-turbo-image-to-video-pro",
+        "kling-v2.6",
         "kling-v3-turbo-image-to-video"
       ],
       "rules": [
@@ -3163,7 +3489,9 @@
             "model": "kling-v2.1-master-image-to-video"
           },
           "forbidden": [
-            "output_resolution"
+            "output_resolution",
+            "mode",
+            "enable_sound"
           ]
         },
         {
@@ -3171,7 +3499,9 @@
             "model": "kling-v2.1-pro"
           },
           "forbidden": [
-            "output_resolution"
+            "output_resolution",
+            "mode",
+            "enable_sound"
           ]
         },
         {
@@ -3179,7 +3509,9 @@
             "model": "kling-v2.1-standard"
           },
           "forbidden": [
-            "output_resolution"
+            "output_resolution",
+            "mode",
+            "enable_sound"
           ]
         },
         {
@@ -3187,7 +3519,19 @@
             "model": "kling-v2.5-turbo-image-to-video-pro"
           },
           "forbidden": [
-            "output_resolution"
+            "output_resolution",
+            "mode",
+            "enable_sound"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.6"
+          },
+          "forbidden": [
+            "output_resolution",
+            "negative_prompt",
+            "cfg_scale"
           ]
         },
         {
@@ -3195,6 +3539,8 @@
             "model": "kling-v3-turbo-image-to-video"
           },
           "forbidden": [
+            "mode",
+            "enable_sound",
             "aspect_ratio",
             "negative_prompt",
             "cfg_scale",
@@ -3223,6 +3569,12 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3230,6 +3582,10 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string"
@@ -3245,10 +3601,6 @@
           "last_frame_image_url": {
             "type": "string",
             "description": "Final frame image URL for supported image-to-video models."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "description": "Output aspect ratio."
           }
         },
         "kling-v2.1-pro": {
@@ -3271,6 +3623,12 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3278,6 +3636,10 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string"
@@ -3293,10 +3655,6 @@
           "last_frame_image_url": {
             "type": "string",
             "description": "Final frame image URL for supported image-to-video models."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "description": "Output aspect ratio."
           }
         },
         "kling-v2.1-standard": {
@@ -3319,6 +3677,12 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3326,6 +3690,10 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string"
@@ -3341,10 +3709,6 @@
           "last_frame_image_url": {
             "type": "string",
             "description": "Final frame image URL for supported image-to-video models."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "description": "Output aspect ratio."
           }
         },
         "kling-v2.5-turbo-image-to-video-pro": {
@@ -3367,6 +3731,12 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3374,6 +3744,10 @@
               10
             ],
             "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string"
@@ -3389,10 +3763,76 @@
           "last_frame_image_url": {
             "type": "string",
             "description": "Final frame image URL for supported image-to-video models."
+          }
+        },
+        "kling-v2.6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "First frame image URL."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Generation mode."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable sound generation; requires pro mode."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5,
+              10
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
           },
           "aspect_ratio": {
             "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
             "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string"
+          },
+          "negative_prompt": {
+            "type": "string"
+          },
+          "cfg_scale": {
+            "type": "number"
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "description": "Final frame image URL; requires pro mode and 5 seconds."
           }
         },
         "kling-v3-turbo-image-to-video": {
@@ -3418,6 +3858,12 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
+          "enable_sound": {
+            "type": "boolean"
+          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3437,6 +3883,9 @@
             ],
             "default": 5,
             "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string"
           },
           "output_resolution": {
             "type": "string",
@@ -3526,14 +3975,55 @@
         "kling-3.0",
         "kling-v2.1-master-text-to-video",
         "kling-v2.5-turbo-text-to-video-pro",
+        "kling-v2.6",
         "kling-v3-turbo-text-to-video"
       ],
       "rules": [
         {
           "when": {
+            "model": "kling-3.0"
+          },
+          "forbidden": [
+            "mode"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.1-master-text-to-video"
+          },
+          "forbidden": [
+            "mode"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.5-turbo-text-to-video-pro"
+          },
+          "forbidden": [
+            "mode"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.6"
+          },
+          "forbidden": [
+            "output_resolution",
+            "negative_prompt",
+            "cfg_scale",
+            "multi_shots",
+            "multi_prompt",
+            "first_frame_image_url",
+            "last_frame_image_url",
+            "kling_elements"
+          ]
+        },
+        {
+          "when": {
             "model": "kling-v3-turbo-text-to-video"
           },
           "forbidden": [
+            "mode",
             "enable_sound",
             "negative_prompt",
             "cfg_scale",
@@ -3559,6 +4049,9 @@
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string"
           },
           "enable_sound": {
             "type": "boolean",
@@ -3644,6 +4137,9 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
           "enable_sound": {
             "type": "boolean",
             "description": "Enable sound generation."
@@ -3706,6 +4202,9 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
+          "mode": {
+            "type": "string"
+          },
           "enable_sound": {
             "type": "boolean",
             "description": "Enable sound generation."
@@ -3754,6 +4253,82 @@
             "type": "array"
           }
         },
+        "kling-v2.6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Generation mode."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable sound generation; requires pro mode."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5,
+              10
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string"
+          },
+          "negative_prompt": {
+            "type": "string"
+          },
+          "cfg_scale": {
+            "type": "number"
+          },
+          "multi_shots": {
+            "type": "boolean"
+          },
+          "multi_prompt": {
+            "type": "array"
+          },
+          "first_frame_image_url": {
+            "type": "string"
+          },
+          "last_frame_image_url": {
+            "type": "string"
+          },
+          "kling_elements": {
+            "type": "array"
+          }
+        },
         "kling-v3-turbo-text-to-video": {
           "model": {
             "type": "string",
@@ -3771,6 +4346,9 @@
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string"
           },
           "enable_sound": {
             "type": "boolean"
@@ -3893,6 +4471,28 @@
           "include_split_images": {
             "type": "boolean",
             "default": false
+          },
+          "callback_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "midjourney/extend-video": {
+      "model": "Midjourney",
+      "endpoint": "extend_video",
+      "task_type": "asynchronous",
+      "models": [
+        "midjourney-image-to-video"
+      ],
+      "fields_by_model": {
+        "midjourney-image-to-video": {
+          "source_task_id": {
+            "type": "string",
+            "required": true
+          },
+          "prompt": {
+            "type": "string"
           },
           "callback_url": {
             "type": "string"
@@ -4556,65 +5156,6 @@
         }
       }
     },
-    "qwen-2/remix-image": {
-      "model": "Qwen 2",
-      "endpoint": "remix_image",
-      "task_type": "asynchronous",
-      "models": [
-        "qwen-2-remix-image"
-      ],
-      "fields_by_model": {
-        "qwen-2-remix-image": {
-          "model": {
-            "type": "string"
-          },
-          "prompt": {
-            "type": "string",
-            "required": true
-          },
-          "source_image_url": {
-            "type": "string",
-            "required": true
-          },
-          "strength": {
-            "type": "number"
-          },
-          "output_format": {
-            "type": "string",
-            "enum": [
-              "png",
-              "jpeg"
-            ]
-          },
-          "acceleration": {
-            "type": "string",
-            "enum": [
-              "none",
-              "regular",
-              "high"
-            ]
-          },
-          "negative_prompt": {
-            "type": "string"
-          },
-          "seed": {
-            "type": "integer"
-          },
-          "num_inference_steps": {
-            "type": "integer"
-          },
-          "guidance_scale": {
-            "type": "number"
-          },
-          "enable_safety_checker": {
-            "type": "boolean"
-          },
-          "callback_url": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "qwen-2/text-to-image": {
       "model": "Qwen 2",
       "endpoint": "text_to_image",
@@ -4656,6 +5197,173 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "qwen-image/edit-image": {
+      "model": "Qwen Image",
+      "endpoint": "edit_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-image-edit-image"
+      ],
+      "fields_by_model": {
+        "qwen-image-edit-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Edit instruction for the source image."
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "Public HTTPS source image URL (JPEG, PNG, or WebP; maximum 10 MB)."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ],
+            "default": "1:1",
+            "description": "Output aspect ratio."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        }
+      }
+    },
+    "qwen-image/remix-image": {
+      "model": "Qwen Image",
+      "endpoint": "remix_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-image-remix-image"
+      ],
+      "fields_by_model": {
+        "qwen-image-remix-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Prompt describing the requested remix."
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "Public HTTPS source image URL (JPEG, PNG, or WebP; maximum 10 MB)."
+          },
+          "strength": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "default": 0.8,
+            "description": "Creative deviation from the source image, from 0 (faithful) to 1 (creative)."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        }
+      }
+    },
+    "qwen-image/text-to-image": {
+      "model": "Qwen Image",
+      "endpoint": "text_to_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-image-text-to-image"
+      ],
+      "fields_by_model": {
+        "qwen-image-text-to-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image generation prompt."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:4",
+              "9:16",
+              "4:3",
+              "16:9"
+            ],
+            "default": "1:1",
+            "description": "Output aspect ratio."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Integer seed for reproducible results."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
           }
         }
       }
@@ -8960,7 +9668,39 @@
       "task_type": "asynchronous",
       "models": [
         "veo-3.1",
-        "veo-3.1-fast"
+        "veo-3.1-fast",
+        "veo-3.1-lite"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "veo-3.1-lite"
+          },
+          "forbidden": [
+            "seeds",
+            "output_resolution"
+          ]
+        },
+        {
+          "when": {
+            "model": "veo-3.1-lite",
+            "input_mode": "reference",
+            "duration_seconds": 4
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "model": "veo-3.1-lite",
+            "input_mode": "reference",
+            "duration_seconds": 6
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        }
       ],
       "fields_by_model": {
         "veo-3.1": {
@@ -9039,6 +9779,61 @@
               "16:9",
               "9:16",
               "auto"
+            ]
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              4,
+              6,
+              8
+            ]
+          },
+          "seeds": {
+            "type": "integer"
+          },
+          "callback_url": {
+            "type": "string"
+          },
+          "enable_translation": {
+            "type": "boolean"
+          },
+          "watermark": {
+            "type": "string"
+          },
+          "first_frame_image_url": {
+            "type": "string"
+          },
+          "last_frame_image_url": {
+            "type": "string"
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "max_items": 3,
+            "min_items": 1
+          }
+        },
+        "veo-3.1-lite": {
+          "prompt": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "input_mode": {
+            "type": "string",
+            "enum": [
+              "text",
+              "first_and_last_frames",
+              "reference"
+            ],
+            "default": "text"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16"
             ]
           },
           "duration_seconds": {

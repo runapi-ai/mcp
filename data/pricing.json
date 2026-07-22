@@ -15,6 +15,9 @@
     "midjourney-image-to-video/image_to_video": {
       "unit_price_cents": 62
     },
+    "midjourney-image-to-video/extend_video": {
+      "unit_price_cents": 62
+    },
     "_/image_to_prompt": {
       "unit_price_cents": 6
     },
@@ -25,7 +28,7 @@
       "unit_price_cents": 0
     },
     "suno-v4/text_to_music": {
-      "unit_price_cents": 12
+      "unit_price_cents": 22
     },
     "suno-v4/extend_music": {
       "unit_price_cents": 12
@@ -37,7 +40,7 @@
       "unit_price_cents": 12
     },
     "suno-v4.5/text_to_music": {
-      "unit_price_cents": 12
+      "unit_price_cents": 22
     },
     "suno-v4.5/extend_music": {
       "unit_price_cents": 12
@@ -61,7 +64,7 @@
       "unit_price_cents": 12
     },
     "suno-v4.5-plus/text_to_music": {
-      "unit_price_cents": 12
+      "unit_price_cents": 22
     },
     "suno-v4.5-plus/extend_music": {
       "unit_price_cents": 12
@@ -79,7 +82,7 @@
       "unit_price_cents": 12
     },
     "suno-v5/text_to_music": {
-      "unit_price_cents": 12
+      "unit_price_cents": 22
     },
     "suno-v5/extend_music": {
       "unit_price_cents": 12
@@ -103,7 +106,7 @@
       "unit_price_cents": 3
     },
     "suno-v5.5/text_to_music": {
-      "unit_price_cents": 12
+      "unit_price_cents": 22
     },
     "suno-v5.5/extend_music": {
       "unit_price_cents": 12
@@ -121,11 +124,12 @@
       "unit_price_cents": 1
     },
     "_/separate_audio_stems": {
-      "unit_price_cents": 10,
+      "unit_price_cents": 16,
       "billing_config": {
         "key": "type",
         "overrides": {
-          "split_stem": 50
+          "split_stem": 62.5,
+          "split_stem_advanced": 10
         }
       }
     },
@@ -167,6 +171,9 @@
     },
     "veo-3.1-fast/text_to_video": {
       "unit_price_cents": 60
+    },
+    "veo-3.1-lite/text_to_video": {
+      "unit_price_cents": 30
     },
     "_/upscale_video": {
       "unit_price_cents": 120,
@@ -550,6 +557,36 @@
         }
       }
     },
+    "happyhorse-1.0-i2v/image_to_video": {
+      "unit_price_cents": 54,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 31.5,
+          "1080p": 54
+        }
+      }
+    },
+    "happyhorse-1.0-r2v/text_to_video": {
+      "unit_price_cents": 54,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 31.5,
+          "1080p": 54
+        }
+      }
+    },
+    "happyhorse-1.0-t2v/text_to_video": {
+      "unit_price_cents": 54,
+      "billing_config": {
+        "key": "output_resolution",
+        "overrides": {
+          "720p": 31.5,
+          "1080p": 54
+        }
+      }
+    },
     "happyhorse-edit-video/edit_video": {
       "unit_price_cents": 48,
       "billing_config": {
@@ -748,7 +785,7 @@
     "kling-3.0/motion_control": {
       "unit_price_cents": 20,
       "billing_config": {
-        "key": "resolution",
+        "key": "output_resolution",
         "overrides": {
           "720p": 20,
           "1080p": 27
@@ -789,6 +826,42 @@
     "kling-v2.5-turbo-image-to-video-pro/image_to_video": {
       "unit_price_cents": 9
     },
+    "kling-v2.6/text_to_video": {
+      "unit_price_cents": 40,
+      "billing_config": {
+        "keys": [
+          "mode",
+          "enable_sound"
+        ],
+        "matrix": {
+          "std": {
+            "false": 12
+          },
+          "pro": {
+            "false": 20,
+            "true": 40
+          }
+        }
+      }
+    },
+    "kling-v2.6/image_to_video": {
+      "unit_price_cents": 40,
+      "billing_config": {
+        "keys": [
+          "mode",
+          "enable_sound"
+        ],
+        "matrix": {
+          "std": {
+            "false": 12
+          },
+          "pro": {
+            "false": 20,
+            "true": 40
+          }
+        }
+      }
+    },
     "kling-v3-turbo-text-to-video/text_to_video": {
       "unit_price_cents": 18,
       "billing_config": {
@@ -814,6 +887,21 @@
     },
     "flux-kontext-max/text_to_image": {
       "unit_price_cents": 10
+    },
+    "flux-dev/text_to_image": {
+      "unit_price_cents": 7
+    },
+    "flux-dev/remix_image": {
+      "unit_price_cents": 7
+    },
+    "flux-pro/text_to_image": {
+      "unit_price_cents": 10
+    },
+    "flux-pro/remix_image": {
+      "unit_price_cents": 10
+    },
+    "flux-2-klein/text_to_image": {
+      "unit_price_cents": 3
     },
     "flux-2-pro-text-to-image/text_to_image": {
       "unit_price_cents": 5,
@@ -858,12 +946,12 @@
     "qwen-2-text-to-image/text_to_image": {
       "unit_price_cents": 6
     },
-    "qwen-2-remix-image/remix_image": {
-      "unit_price_cents": 4
-    },
     "qwen-2-edit-image/edit_image": {
       "unit_price_cents": 6
     },
+    "qwen-image-text-to-image/text_to_image": {},
+    "qwen-image-remix-image/remix_image": {},
+    "qwen-image-edit-image/edit_image": {},
     "z-image/text_to_image": {
       "unit_price_cents": 1
     },
@@ -1065,7 +1153,6 @@
     "gemini-3.5-flash/stream_generate_content": {},
     "gemini-3-flash-preview/chat_completion": {},
     "gemini-3-flash-preview/stream_generate_content": {},
-    "gemini-3-pro-preview/chat_completion": {},
     "claude-fable-5/message": {},
     "claude-opus-4-8/message": {},
     "claude-opus-4-7/message": {},
@@ -1087,6 +1174,7 @@
     "glm-5/chat_completion": {},
     "glm-5-turbo/chat_completion": {},
     "glm-5.1/chat_completion": {},
+    "kimi-k2.7-code/chat_completion": {},
     "kimi-k2.5/chat_completion": {},
     "kimi-k2.6/chat_completion": {},
     "MiniMax-M2/chat_completion": {},
@@ -1096,6 +1184,9 @@
     "MiniMax-M2.7/chat_completion": {},
     "MiniMax-M2.7-highspeed/chat_completion": {},
     "MiniMax-M3/chat_completion": {},
+    "grok-4.20-0309-non-reasoning/chat_completion": {},
+    "grok-4.20-0309-non-reasoning/response": {},
+    "grok-4.20-0309-non-reasoning/message": {},
     "grok-4.5/chat_completion": {},
     "grok-4.5/response": {},
     "grok-4.3/response": {},
@@ -1311,13 +1402,28 @@
     "happyhorse-text-to-video/text_to_video_query": {
       "unit_price_cents": 0
     },
+    "happyhorse-1.0-i2v/image_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "happyhorse-1.0-r2v/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "happyhorse-1.0-t2v/text_to_video_query": {
+      "unit_price_cents": 0
+    },
     "qwen-2-edit-image/edit_image_query": {
       "unit_price_cents": 0
     },
-    "qwen-2-remix-image/remix_image_query": {
+    "qwen-2-text-to-image/text_to_image_query": {
       "unit_price_cents": 0
     },
-    "qwen-2-text-to-image/text_to_image_query": {
+    "qwen-image-edit-image/edit_image_query": {
+      "unit_price_cents": 0
+    },
+    "qwen-image-remix-image/remix_image_query": {
+      "unit_price_cents": 0
+    },
+    "qwen-image-text-to-image/text_to_image_query": {
       "unit_price_cents": 0
     },
     "wan-2.2-a14b-image-to-video-turbo/image_to_video_query": {
@@ -1375,6 +1481,21 @@
       "unit_price_cents": 0
     },
     "z-image/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "flux-2-klein/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "flux-dev/remix_image_query": {
+      "unit_price_cents": 0
+    },
+    "flux-dev/text_to_image_query": {
+      "unit_price_cents": 0
+    },
+    "flux-pro/remix_image_query": {
+      "unit_price_cents": 0
+    },
+    "flux-pro/text_to_image_query": {
       "unit_price_cents": 0
     },
     "flux-2-flex-remix-image/remix_image_query": {
@@ -1530,6 +1651,9 @@
     "veo-3.1-fast/text_to_video_query": {
       "unit_price_cents": 0
     },
+    "veo-3.1-lite/text_to_video_query": {
+      "unit_price_cents": 0
+    },
     "ideogram-v3-character/text_to_image_query": {
       "unit_price_cents": 0
     },
@@ -1585,6 +1709,12 @@
       "unit_price_cents": 0
     },
     "kling-v2.5-turbo-text-to-video-pro/text_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "kling-v2.6/image_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "kling-v2.6/text_to_video_query": {
       "unit_price_cents": 0
     },
     "kling-v3-turbo-image-to-video/image_to_video_query": {
@@ -1819,6 +1949,9 @@
       "unit_price_cents": 0
     },
     "midjourney-image-to-video/image_to_video_query": {
+      "unit_price_cents": 0
+    },
+    "midjourney-image-to-video/extend_video_query": {
       "unit_price_cents": 0
     }
   }
