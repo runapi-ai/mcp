@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { readContract } from "../../src/lib/data.js";
-import { RunApiClientError } from "../../src/lib/errors.js";
+import { PollTimeoutError, RunApiClientError } from "../../src/lib/errors.js";
 import { friendlyError } from "@runapi.ai/mcp-core/web";
 import {
   checkBalanceHandler as checkBalanceWith,
@@ -131,8 +131,30 @@ describe("authenticated tool handlers", () => {
     expect(progressOptions?.progress).toBeLessThanOrEqual(progressOptions?.total ?? 0);
     expect(result).toMatchObject({
       task_id: "task_123",
-      status: "completed"
+      status: "completed",
+      completed: true
     });
+  });
+
+  it("caps compatible timeout inputs at the 300 second Completion Wait deadline", async () => {
+    let timeoutMs: number | undefined;
+    await createTaskHandler({
+      service: "flux-kontext",
+      action: "text_to_image",
+      model: "flux-kontext-pro",
+      params: {prompt: "test"},
+      idempotency_key: "compatible-long-timeout",
+      wait: true,
+      timeout_ms: 600_000
+    }, {
+      createTask: vi.fn(async () => ({id: "task_123", status: "queued"})),
+      pollTask: vi.fn(async (_service, _taskId, _action, options) => {
+        timeoutMs = options.timeoutMs;
+        return {id: "task_123", status: "completed"};
+      })
+    });
+
+    expect(timeoutMs).toBe(300_000);
   });
 
   it("preserves the task reference when polling fails after creation", async () => {
@@ -158,6 +180,32 @@ describe("authenticated tool handlers", () => {
       hint: expect.stringContaining("get_task")
     });
     expect(result).not.toHaveProperty("error");
+  });
+
+  it("returns a successful Task Reference Fallback at the Completion Wait deadline", async () => {
+    const latest = {id: "task_123", status: "processing", progress: 80};
+    const result = await createTaskHandler({
+      service: "flux-kontext",
+      action: "text_to_image",
+      model: "flux-kontext-pro",
+      params: {prompt: "test"},
+      wait: true
+    }, {
+      createTask: vi.fn(async () => ({id: "task_123", status: "queued"})),
+      pollTask: vi.fn(async (_service, _taskId, _action, options) => {
+        await options.onProgress?.(latest);
+        throw new PollTimeoutError("deadline reached");
+      })
+    });
+
+    expect(result).toEqual({
+      task_id: "task_123",
+      status: "processing",
+      task: latest,
+      completed: false,
+      wait_deadline_reached: true,
+      next_action: "get_task"
+    });
   });
 
   it("returns synchronous operation results without task or polling wrappers", async () => {
@@ -297,9 +345,9 @@ describe("authenticated tool handlers", () => {
     });
   });
 
-  it("uses modality-sensitive default timeouts", () => {
+  it("uses the 300 second Completion Wait deadline for every asynchronous action", () => {
     expect(defaultTimeout("text_to_video")).toBe(300_000);
-    expect(defaultTimeout("text_to_image")).toBe(120_000);
+    expect(defaultTimeout("text_to_image")).toBe(300_000);
     expect(defaultTimeout("text_to_music")).toBe(300_000);
     expect(defaultTimeout("text_to_speech")).toBe(300_000);
   });
