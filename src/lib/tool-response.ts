@@ -1,1 +1,1 @@
-export { jsonText } from "@runapi.ai/mcp-core";
+export { jsonText } from "@runapi.ai/mcp-core/web";

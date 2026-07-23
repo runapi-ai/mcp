@@ -29,7 +29,14 @@
     "flux-kontext-max",
     "flux-kontext-pro",
     "flux-pro",
+    "fuzz-0.8",
+    "fuzz-1.0",
+    "fuzz-1.0-pro",
+    "fuzz-1.1",
+    "fuzz-1.1-pro",
     "fuzz-2.0",
+    "fuzz-2.0-pro",
+    "fuzz-2.0-raw",
     "gemini-2.5-flash",
     "gemini-2.5-pro",
     "gemini-2.5-pro-tts",
@@ -48,6 +55,7 @@
     "glm-5",
     "glm-5-turbo",
     "glm-5.1",
+    "glm-5.2",
     "gpt-4o-image",
     "gpt-5.2",
     "gpt-5.2-pro",
@@ -101,6 +109,7 @@
     "kimi-k2.5",
     "kimi-k2.6",
     "kimi-k2.7-code",
+    "kimi-k3",
     "kling-3.0",
     "kling-ai-avatar-pro",
     "kling-ai-avatar-standard",
@@ -113,6 +122,7 @@
     "kling-v2.5-turbo-image-to-video-pro",
     "kling-v2.5-turbo-text-to-video-pro",
     "kling-v2.6",
+    "kling-v3-omni",
     "kling-v3-turbo-image-to-video",
     "kling-v3-turbo-text-to-video",
     "luma-modify-video",
@@ -3471,6 +3481,65 @@
         }
       }
     },
+    "kling/extend-video": {
+      "model": "Kling",
+      "endpoint": "extend_video",
+      "task_type": "asynchronous",
+      "models": [
+        "kling-v2.5-turbo-image-to-video-pro",
+        "kling-v2.5-turbo-text-to-video-pro"
+      ],
+      "fields_by_model": {
+        "kling-v2.5-turbo-image-to-video-pro": {
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed Kling v2.5 Turbo source task ID."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Extension quality mode."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description for the continuation."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "kling-v2.5-turbo-text-to-video-pro": {
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed Kling v2.5 Turbo source task ID."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Extension quality mode."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description for the continuation."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
     "kling/image-to-video": {
       "model": "Kling",
       "endpoint": "image_to_video",
@@ -3481,6 +3550,7 @@
         "kling-v2.1-standard",
         "kling-v2.5-turbo-image-to-video-pro",
         "kling-v2.6",
+        "kling-v3-omni",
         "kling-v3-turbo-image-to-video"
       ],
       "rules": [
@@ -3490,7 +3560,6 @@
           },
           "forbidden": [
             "output_resolution",
-            "mode",
             "enable_sound"
           ]
         },
@@ -3500,7 +3569,6 @@
           },
           "forbidden": [
             "output_resolution",
-            "mode",
             "enable_sound"
           ]
         },
@@ -3510,7 +3578,6 @@
           },
           "forbidden": [
             "output_resolution",
-            "mode",
             "enable_sound"
           ]
         },
@@ -3520,7 +3587,6 @@
           },
           "forbidden": [
             "output_resolution",
-            "mode",
             "enable_sound"
           ]
         },
@@ -3536,10 +3602,18 @@
         },
         {
           "when": {
+            "model": "kling-v3-omni"
+          },
+          "forbidden": [
+            "negative_prompt",
+            "cfg_scale"
+          ]
+        },
+        {
+          "when": {
             "model": "kling-v3-turbo-image-to-video"
           },
           "forbidden": [
-            "mode",
             "enable_sound",
             "aspect_ratio",
             "negative_prompt",
@@ -3569,12 +3643,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
-          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3586,9 +3654,6 @@
           "aspect_ratio": {
             "type": "string",
             "description": "Output aspect ratio."
-          },
-          "output_resolution": {
-            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -3623,12 +3688,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
-          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3640,9 +3699,6 @@
           "aspect_ratio": {
             "type": "string",
             "description": "Output aspect ratio."
-          },
-          "output_resolution": {
-            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -3677,12 +3733,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
-          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3694,9 +3744,6 @@
           "aspect_ratio": {
             "type": "string",
             "description": "Output aspect ratio."
-          },
-          "output_resolution": {
-            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -3731,12 +3778,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
-          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3748,9 +3789,6 @@
           "aspect_ratio": {
             "type": "string",
             "description": "Output aspect ratio."
-          },
-          "output_resolution": {
-            "type": "string"
           },
           "negative_prompt": {
             "type": "string",
@@ -3821,18 +3859,82 @@
             "default": "16:9",
             "description": "Output aspect ratio."
           },
-          "output_resolution": {
-            "type": "string"
-          },
-          "negative_prompt": {
-            "type": "string"
-          },
-          "cfg_scale": {
-            "type": "number"
-          },
           "last_frame_image_url": {
             "type": "string",
             "description": "Final frame image URL; requires pro mode and 5 seconds."
+          }
+        },
+        "kling-v3-omni": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "First frame image URL."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized sound generation."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p",
+              "4k"
+            ],
+            "default": "720p",
+            "description": "Output resolution."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "description": "Final frame image URL; requires a 5-second duration."
           }
         },
         "kling-v3-turbo-image-to-video": {
@@ -3858,12 +3960,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
-          },
           "duration_seconds": {
             "type": "integer",
             "enum": [
@@ -3884,9 +3980,6 @@
             "default": 5,
             "description": "Duration in seconds."
           },
-          "aspect_ratio": {
-            "type": "string"
-          },
           "output_resolution": {
             "type": "string",
             "enum": [
@@ -3895,15 +3988,6 @@
             ],
             "default": "720p",
             "description": "Output resolution."
-          },
-          "negative_prompt": {
-            "type": "string"
-          },
-          "cfg_scale": {
-            "type": "number"
-          },
-          "last_frame_image_url": {
-            "type": "string"
           }
         }
       }
@@ -3976,25 +4060,10 @@
         "kling-v2.1-master-text-to-video",
         "kling-v2.5-turbo-text-to-video-pro",
         "kling-v2.6",
+        "kling-v3-omni",
         "kling-v3-turbo-text-to-video"
       ],
       "rules": [
-        {
-          "when": {
-            "model": "kling-3.0"
-          },
-          "forbidden": [
-            "mode"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.1-master-text-to-video"
-          },
-          "forbidden": [
-            "mode"
-          ]
-        },
         {
           "when": {
             "model": "kling-v2.5-turbo-text-to-video-pro"
@@ -4020,10 +4089,23 @@
         },
         {
           "when": {
+            "model": "kling-v3-omni"
+          },
+          "forbidden": [
+            "negative_prompt",
+            "cfg_scale",
+            "multi_shots",
+            "multi_prompt",
+            "first_frame_image_url",
+            "last_frame_image_url",
+            "kling_elements"
+          ]
+        },
+        {
+          "when": {
             "model": "kling-v3-turbo-text-to-video"
           },
           "forbidden": [
-            "mode",
             "enable_sound",
             "negative_prompt",
             "cfg_scale",
@@ -4049,9 +4131,6 @@
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
-          },
-          "mode": {
-            "type": "string"
           },
           "enable_sound": {
             "type": "boolean",
@@ -4137,9 +4216,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
           "enable_sound": {
             "type": "boolean",
             "description": "Enable sound generation."
@@ -4161,9 +4237,6 @@
             ],
             "description": "Output aspect ratio."
           },
-          "output_resolution": {
-            "type": "string"
-          },
           "negative_prompt": {
             "type": "string",
             "description": "Negative prompt."
@@ -4171,21 +4244,6 @@
           "cfg_scale": {
             "type": "number",
             "description": "Guidance scale (0-1)."
-          },
-          "multi_shots": {
-            "type": "boolean"
-          },
-          "multi_prompt": {
-            "type": "array"
-          },
-          "first_frame_image_url": {
-            "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "kling_elements": {
-            "type": "array"
           }
         },
         "kling-v2.5-turbo-text-to-video-pro": {
@@ -4202,9 +4260,6 @@
             "type": "string",
             "description": "Webhook URL for async notifications."
           },
-          "mode": {
-            "type": "string"
-          },
           "enable_sound": {
             "type": "boolean",
             "description": "Enable sound generation."
@@ -4226,9 +4281,6 @@
             ],
             "description": "Output aspect ratio."
           },
-          "output_resolution": {
-            "type": "string"
-          },
           "negative_prompt": {
             "type": "string",
             "description": "Negative prompt."
@@ -4236,21 +4288,6 @@
           "cfg_scale": {
             "type": "number",
             "description": "Guidance scale (0-1)."
-          },
-          "multi_shots": {
-            "type": "boolean"
-          },
-          "multi_prompt": {
-            "type": "array"
-          },
-          "first_frame_image_url": {
-            "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "kling_elements": {
-            "type": "array"
           }
         },
         "kling-v2.6": {
@@ -4303,30 +4340,70 @@
             ],
             "default": "16:9",
             "description": "Output aspect ratio."
+          }
+        },
+        "kling-v3-omni": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized sound generation."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
-            "type": "string"
-          },
-          "negative_prompt": {
-            "type": "string"
-          },
-          "cfg_scale": {
-            "type": "number"
-          },
-          "multi_shots": {
-            "type": "boolean"
-          },
-          "multi_prompt": {
-            "type": "array"
-          },
-          "first_frame_image_url": {
-            "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "kling_elements": {
-            "type": "array"
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p",
+              "4k"
+            ],
+            "default": "720p",
+            "description": "Output resolution."
           }
         },
         "kling-v3-turbo-text-to-video": {
@@ -4346,12 +4423,6 @@
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
-          },
-          "mode": {
-            "type": "string"
-          },
-          "enable_sound": {
-            "type": "boolean"
           },
           "duration_seconds": {
             "type": "integer",
@@ -4391,27 +4462,6 @@
             ],
             "default": "720p",
             "description": "Output resolution."
-          },
-          "negative_prompt": {
-            "type": "string"
-          },
-          "cfg_scale": {
-            "type": "number"
-          },
-          "multi_shots": {
-            "type": "boolean"
-          },
-          "multi_prompt": {
-            "type": "array"
-          },
-          "first_frame_image_url": {
-            "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "kling_elements": {
-            "type": "array"
           }
         }
       }
@@ -5045,7 +5095,14 @@
       "endpoint": "text_to_music",
       "task_type": "asynchronous",
       "models": [
-        "fuzz-2.0"
+        "fuzz-0.8",
+        "fuzz-1.0",
+        "fuzz-1.0-pro",
+        "fuzz-1.1",
+        "fuzz-1.1-pro",
+        "fuzz-2.0",
+        "fuzz-2.0-pro",
+        "fuzz-2.0-raw"
       ],
       "rules": [
         {
@@ -5066,7 +5123,259 @@
         }
       ],
       "fields_by_model": {
+        "fuzz-0.8": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-1.0": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-1.0-pro": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-1.1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-1.1-pro": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
         "fuzz-2.0": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-2.0-pro": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 200,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Music style and production brief."
+          },
+          "lyrics": {
+            "type": "string",
+            "description": "Exact lyrics to sing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Music title."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "fuzz-2.0-raw": {
           "model": {
             "type": "string",
             "required": true,
@@ -8946,9 +9255,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         },
         "suno-v4.5": {
@@ -9030,9 +9336,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         },
         "suno-v4.5-all": {
@@ -9114,9 +9417,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         },
         "suno-v4.5-plus": {
@@ -9198,9 +9498,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         },
         "suno-v5": {
@@ -9282,9 +9579,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         },
         "suno-v5.5": {
@@ -9366,9 +9660,6 @@
           "continue_at": {
             "type": "number",
             "description": "Timestamp in seconds to continue from."
-          },
-          "endpoint": {
-            "type": "string"
           }
         }
       }

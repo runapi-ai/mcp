@@ -1,7 +1,13 @@
-import { findAction, findModelForAction } from "../lib/contract.js";
-import { friendlyError } from "../lib/errors.js";
-import { validateInputRules } from "../lib/input-rules.js";
-import { taskIdFromResponse, taskStatus, type RunApiClient } from "../lib/runapi-client.js";
+import {
+  findAction,
+  findModelForAction,
+  taskIdFromResponse,
+  taskStatus,
+  validateInputRules,
+  type Contract,
+  type ContractAction
+} from "@runapi.ai/mcp-core/web";
+import type { BusinessToolClient } from "../business-tools.js";
 import { validateParams } from "../lib/schema.js";
 import type { RunApiTaskResponse } from "../types.js";
 
@@ -12,11 +18,16 @@ export type ProgressSender = (message: {
   message: string;
 }) => Promise<void> | void;
 
-export async function checkBalanceHandler(client: Pick<RunApiClient, "balance">) {
+export type ErrorFormatter = (error: unknown) => string;
+
+export async function checkBalanceHandler(
+  client: Pick<BusinessToolClient, "balance">,
+  formatError: ErrorFormatter
+) {
   try {
     return await client.balance();
   } catch (error) {
-    return { error: friendlyError(error) };
+    return { error: formatError(error) };
   }
 }
 
@@ -26,17 +37,27 @@ export async function createTaskHandler(
     action: string;
     model?: string;
     params?: Record<string, unknown>;
+    idempotency_key?: string;
     wait?: boolean;
     timeout_ms?: number;
     poll_interval_ms?: number;
   },
-  client: Pick<RunApiClient, "createTask" | "pollTask">,
+  client: Pick<BusinessToolClient, "createTask" | "pollTask">,
+  contract: Contract,
+  formatError: ErrorFormatter,
   sendProgress?: ProgressSender,
   progressToken?: string | number
 ) {
   try {
-    const info = findModelForAction(input.service, input.action, input.model);
-    const action = findAction(input.service, input.action) as ({ task_type?: string } | undefined);
+    if (!input.idempotency_key?.trim()) {
+      return {
+        error: "idempotency_key is required before RunAPI can create a task.",
+        hint: "Generate one opaque key per logical task and reuse it only when retrying that same task input."
+      };
+    }
+
+    const info = findModelForAction(input.service, input.action, input.model, contract);
+    const action = findAction(input.service, input.action, contract) as ((ContractAction & { task_type?: string }) | undefined);
     if (!info) {
       return {
         error: "Unsupported RunAPI service/action/model combination.",
@@ -48,7 +69,7 @@ export async function createTaskHandler(
       ...(input.params || {}),
       ...(input.model ? { model: input.model } : {})
     });
-    const ruleError = validateInputRules(info, body);
+    const ruleError = validateInputRules(action?.rules ?? [], body);
     if (ruleError) {
       return {
         error: `Invalid RunAPI parameters: ${ruleError}`,
@@ -56,7 +77,7 @@ export async function createTaskHandler(
       };
     }
 
-    const created = await client.createTask(input.service, input.action, body);
+    const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
     if (action?.task_type === "synchronous") {
       return { result: created };
     }
@@ -71,35 +92,46 @@ export async function createTaskHandler(
       };
     }
 
-    const timeout = input.timeout_ms ?? defaultTimeout(input.action);
-    const startedAt = Date.now();
-    const completed = await client.pollTask(input.service, taskId, input.action, {
-      timeoutMs: timeout,
-      intervalMs: input.poll_interval_ms ?? 5_000,
-      onProgress: async (task: RunApiTaskResponse) => {
-        const elapsed = Date.now() - startedAt;
-        await sendProgress?.({
-          progressToken: progressToken || taskId,
-          progress: Math.min(elapsed, timeout),
-          total: timeout,
-          message: `RunAPI task ${taskId}: ${taskStatus(task)}`
-        });
-      }
-    });
+    try {
+      const timeout = input.timeout_ms ?? defaultTimeout(input.action);
+      const startedAt = Date.now();
+      const completed = await client.pollTask(input.service, taskId, input.action, {
+        timeoutMs: timeout,
+        intervalMs: input.poll_interval_ms ?? 5_000,
+        onProgress: async (task: RunApiTaskResponse) => {
+          const elapsed = Date.now() - startedAt;
+          await sendProgress?.({
+            progressToken: progressToken || taskId,
+            progress: Math.min(elapsed, timeout),
+            total: timeout,
+            message: `RunAPI task ${taskId}: ${taskStatus(task)}`
+          });
+        }
+      });
 
-    return {
-      task_id: taskId,
-      status: taskStatus(completed),
-      result: completed
-    };
+      return {
+        task_id: taskId,
+        status: taskStatus(completed),
+        result: completed
+      };
+    } catch (error) {
+      return {
+        created,
+        task_id: taskId,
+        status: taskStatus(created),
+        warning: formatError(error),
+        hint: "The task was created and may still be processing. Call get_task with this task_id to continue."
+      };
+    }
   } catch (error) {
-    return { error: friendlyError(error) };
+    return { error: formatError(error) };
   }
 }
 
 export async function getTaskHandler(
   input: { service: string; action?: string; task_id: string },
-  client: Pick<RunApiClient, "getTask">
+  client: Pick<BusinessToolClient, "getTask">,
+  formatError: ErrorFormatter
 ) {
   try {
     const task = await client.getTask(input.service, input.task_id, input.action);
@@ -109,7 +141,7 @@ export async function getTaskHandler(
       task
     };
   } catch (error) {
-    return { error: friendlyError(error) };
+    return { error: formatError(error) };
   }
 }
 

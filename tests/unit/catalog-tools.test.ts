@@ -1,5 +1,34 @@
 import { describe, expect, it, vi } from "vitest";
-import { checkPricingHandler, getModelInfoHandler, listActionsHandler, listModelsHandler, searchPromptsHandler } from "../../src/tools/catalog-handlers.js";
+import { readContract, readPricing } from "../../src/lib/data.js";
+import {
+  checkPricingHandler as checkPricingWith,
+  getModelInfoHandler as getModelInfoWith,
+  listActionsHandler as listActionsWith,
+  listModelsHandler as listModelsWith,
+  searchPromptsHandler
+} from "../../src/tools/catalog-handlers.js";
+
+const contract = readContract();
+const pricing = readPricing();
+
+function listModelsHandler(
+  input: Parameters<typeof listModelsWith>[0],
+  client: Parameters<typeof listModelsWith>[1]
+) {
+  return listModelsWith(input, client, contract);
+}
+
+function getModelInfoHandler(input: Parameters<typeof getModelInfoWith>[0]) {
+  return getModelInfoWith(input, contract, pricing);
+}
+
+function listActionsHandler() {
+  return listActionsWith(contract);
+}
+
+function checkPricingHandler(input: Parameters<typeof checkPricingWith>[0]) {
+  return checkPricingWith(input, contract, pricing);
+}
 
 describe("catalog tool handlers", () => {
   it("lists models with contract data and runtime models when available", async () => {
