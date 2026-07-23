@@ -1,6 +1,35 @@
 import { describe, expect, it, vi } from "vitest";
+import { readContract } from "../../src/lib/data.js";
 import { RunApiClientError } from "../../src/lib/errors.js";
-import { checkBalanceHandler, createTaskHandler, defaultTimeout, getTaskHandler } from "../../src/tools/authenticated-handlers.js";
+import { friendlyError } from "@runapi.ai/mcp-core/web";
+import {
+  checkBalanceHandler as checkBalanceWith,
+  createTaskHandler as createTaskWith,
+  defaultTimeout,
+  getTaskHandler as getTaskWith
+} from "../../src/tools/authenticated-handlers.js";
+
+const contract = readContract();
+
+function checkBalanceHandler(client: Parameters<typeof checkBalanceWith>[0]) {
+  return checkBalanceWith(client, friendlyError);
+}
+
+function createTaskHandler(
+  input: Parameters<typeof createTaskWith>[0],
+  client: Parameters<typeof createTaskWith>[1],
+  sendProgress?: Parameters<typeof createTaskWith>[4],
+  progressToken?: Parameters<typeof createTaskWith>[5]
+) {
+  return createTaskWith(input, client, contract, friendlyError, sendProgress, progressToken);
+}
+
+function getTaskHandler(
+  input: Parameters<typeof getTaskWith>[0],
+  client: Parameters<typeof getTaskWith>[1]
+) {
+  return getTaskWith(input, client, friendlyError);
+}
 
 describe("authenticated tool handlers", () => {
   it("checks balance and maps auth errors", async () => {

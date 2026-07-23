@@ -1,9 +1,19 @@
 {
   "name": "@runapi.ai/mcp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "RunAPI MCP server for model discovery, pricing lookup, media task creation, and balance checks.",
   "type": "module",
   "main": "dist/src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/src/index.js"
+    },
+    "./business-tools": {
+      "types": "./dist/src/business-tools.d.ts",
+      "import": "./dist/src/business-tools.js"
+    },
+    "./*": "./*"
+  },
   "bin": {
     "runapi-mcp": "dist/bin/runapi-mcp.js"
   },
@@ -20,8 +30,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && npm run check:web-safe",
+    "check:web-safe": "tsx scripts/check-web-safe-build.ts",
     "dev": "tsx src/index.ts",
+    "pretest": "npm run build",
     "prepack": "npm run sync:data -- --if-rails-root && npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -55,11 +67,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@runapi.ai/mcp-core": "0.1.8",
+    "@runapi.ai/mcp-core": "0.2.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
+    "esbuild": "^0.28.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"

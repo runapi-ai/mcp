@@ -1,5 +1,24 @@
 # Changelog
 
+## [v0.4.0](https://github.com/runapi-ai/mcp/releases/tag/v0.4.0) - 2026-07-23
+
+### Added
+- Add the exact `kimi-k3` identity and its current RunAPI endpoints to the aggregate model contract.
+- Add Kimi K3 pricing lookup coverage with the current RunAPI pricing page as the source.
+- Add the current HappyHorse 1.0, Veo 3.1 Lite, Grok 4.20, and Midjourney video extension capabilities to the aggregate model contract.
+- Add the exact `glm-5.2` identity and its current RunAPI endpoints to the aggregate model contract.
+- Add GLM-5.2 token pricing metadata derived from the canonical catalog.
+- Add seven Producer FUZZ versions to aggregate model discovery, request validation, and pricing lookup.
+- Expose the eight Business Tools through an injectable browser-compatible package entry while preserving the Local stdio server and Login tool.
+- Expose an injectable browser-compatible server containing list_models, get_model_info, list_actions, check_pricing, and search_prompts without Local Login or task tools.
+
+### Changed
+- Refresh embedded pricing data for the reviewed shared image and video endpoints.
+
+### Fixed
+- Refresh aggregate pricing metadata for currently published media endpoints.
+
+
 ## [v0.3.0](https://github.com/runapi-ai/mcp/releases/tag/v0.3.0) - 2026-07-22
 
 ### Added
