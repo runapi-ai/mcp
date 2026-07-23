@@ -831,6 +831,14 @@
         }
       }
     },
+    "kling-v2.6/motion_control": {
+      "billing_config": {
+        "duration_source": {
+          "kind": "response_body",
+          "path": "videos[0].url"
+        }
+      }
+    },
     "kling-ai-avatar-pro/ai_avatar": {
       "unit_price_cents": 16
     },
@@ -1764,6 +1772,9 @@
       "unit_price_cents": 0
     },
     "kling-3.0/motion_control_query": {
+      "unit_price_cents": 0
+    },
+    "kling-v2.6/motion_control_query": {
       "unit_price_cents": 0
     },
     "kling-3.0/text_to_video_query": {
