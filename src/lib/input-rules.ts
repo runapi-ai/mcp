@@ -1,15 +1,18 @@
 import type { InputRule, ModelInfo } from "../types.js";
-import { validateInputRules as coreValidateInputRules } from "@runapi.ai/mcp-core";
-import { findAction } from "./contract.js";
+import {
+  inputRulesForModel as coreInputRulesForModel,
+  validateInputRules as coreValidateInputRules
+} from "@runapi.ai/mcp-core/web";
+import type { Contract } from "../types.js";
+import { contract } from "./contract.js";
 
 export type { InputRule } from "@runapi.ai/mcp-core";
 
-export function inputRulesForModel(info: Pick<ModelInfo, "service" | "action">): InputRule[] {
-  return (findAction(info.service, info.action)?.rules ?? []).map((rule) => ({
-    ...rule,
-    required: rule.required ?? [],
-    forbidden: rule.forbidden ?? []
-  }));
+export function inputRulesForModel(
+  info: Pick<ModelInfo, "service" | "action">,
+  source: Contract = contract
+): InputRule[] {
+  return coreInputRulesForModel(info, source);
 }
 
 export function validateInputRules(info: ModelInfo, params: Record<string, unknown>): string | undefined {

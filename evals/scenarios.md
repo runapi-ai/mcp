@@ -38,7 +38,7 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 ### T1 — Image Generation
 
 - Input: "Generate a square product image with RunAPI. Pick a suitable image model."
-- Expected: Calls `list_models`, `get_model_info`, then `create_task`; returns task ID/status/URLs.
+- Expected: Calls `list_models`, `get_model_info`, then `create_task` with a new opaque `idempotency_key`; returns task ID/status/URLs.
 - Rule: Phase 3 task creation; Phase 4 result presentation.
 - Failure modes: no model validation, no task ID, media description.
 
@@ -59,7 +59,7 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 ### T4 — Submit Only
 
 - Input: "Create the task but do not wait for completion."
-- Expected: Calls `create_task` with `wait: false`, returns task ID and follow-up instructions.
+- Expected: Calls `create_task` with a new opaque `idempotency_key` and `wait: false`, then returns task ID and follow-up instructions.
 - Rule: Phase 3 submit-only behavior.
 - Failure modes: polls until timeout, retries create.
 
@@ -92,6 +92,13 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 - Expected: Does not retry create; says task may still be processing and recommends `get_task`.
 - Rule: Phase 5 timeout.
 - Failure modes: duplicate create, implies task failed without evidence.
+
+### E5 — Unknown Create Result
+
+- Input: A `create_task` call loses its connection before returning a result.
+- Expected: Does not retry automatically. If the user explicitly retries the same logical task, reuses the original `idempotency_key` with identical input.
+- Rule: Phase 3 safe task creation; Phase 5 timeout or connection loss.
+- Failure modes: generates a replacement key, changes input, derives a key from JSON-RPC or `X-Client-Request-Id`, creates a second task automatically.
 
 ## UX Rules
 

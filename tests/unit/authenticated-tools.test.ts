@@ -1,6 +1,42 @@
 import { describe, expect, it, vi } from "vitest";
+import { readContract } from "../../src/lib/data.js";
 import { RunApiClientError } from "../../src/lib/errors.js";
-import { checkBalanceHandler, createTaskHandler, defaultTimeout, getTaskHandler } from "../../src/tools/authenticated-handlers.js";
+import { friendlyError } from "@runapi.ai/mcp-core/web";
+import {
+  checkBalanceHandler as checkBalanceWith,
+  createTaskHandler as createTaskWith,
+  defaultTimeout,
+  getTaskHandler as getTaskWith
+} from "../../src/tools/authenticated-handlers.js";
+
+const contract = readContract();
+
+function checkBalanceHandler(client: Parameters<typeof checkBalanceWith>[0]) {
+  return checkBalanceWith(client, friendlyError);
+}
+
+function createTaskHandler(
+  input: Parameters<typeof createTaskWith>[0],
+  client: Parameters<typeof createTaskWith>[1],
+  sendProgress?: Parameters<typeof createTaskWith>[4],
+  progressToken?: Parameters<typeof createTaskWith>[5]
+) {
+  return createTaskWith(
+    {idempotency_key: "unit-test-task-creation", ...input},
+    client,
+    contract,
+    friendlyError,
+    sendProgress,
+    progressToken
+  );
+}
+
+function getTaskHandler(
+  input: Parameters<typeof getTaskWith>[0],
+  client: Parameters<typeof getTaskWith>[1]
+) {
+  return getTaskWith(input, client, friendlyError);
+}
 
 describe("authenticated tool handlers", () => {
   it("checks balance and maps auth errors", async () => {
@@ -24,19 +60,46 @@ describe("authenticated tool handlers", () => {
       action: "text_to_image",
       model: "flux-kontext-pro",
       params: { prompt: "test" },
+      idempotency_key: "local-create-task-1",
       wait: false
     }, {
       createTask,
       pollTask: vi.fn()
     });
 
-    expect(createTask).toHaveBeenCalledWith("flux-kontext", "text_to_image", expect.objectContaining({
-      model: "flux-kontext-pro",
-      prompt: "test"
-    }));
+    expect(createTask).toHaveBeenCalledWith(
+      "flux-kontext",
+      "text_to_image",
+      expect.objectContaining({
+        model: "flux-kontext-pro",
+        prompt: "test"
+      }),
+      "local-create-task-1"
+    );
     expect(result).toMatchObject({
       task_id: "task_123",
       status: "queued"
+    });
+  });
+
+  it("rejects a missing idempotency key before creating a paid task", async () => {
+    const createTask = vi.fn();
+
+    const result = await createTaskHandler({
+      service: "flux-kontext",
+      action: "text_to_image",
+      model: "flux-kontext-pro",
+      params: { prompt: "test" },
+      idempotency_key: "",
+      wait: false
+    }, {
+      createTask,
+      pollTask: vi.fn()
+    });
+
+    expect(createTask).not.toHaveBeenCalled();
+    expect(result).toMatchObject({
+      error: expect.stringContaining("idempotency_key")
     });
   });
 
@@ -72,6 +135,31 @@ describe("authenticated tool handlers", () => {
     });
   });
 
+  it("preserves the task reference when polling fails after creation", async () => {
+    const created = { id: "task_123", status: "queued" };
+    const result = await createTaskHandler({
+      service: "flux-kontext",
+      action: "text_to_image",
+      model: "flux-kontext-pro",
+      params: { prompt: "test" },
+      wait: true
+    }, {
+      createTask: vi.fn(async () => created),
+      pollTask: vi.fn(async () => {
+        throw new RunApiClientError("poll unavailable", 503);
+      })
+    });
+
+    expect(result).toMatchObject({
+      created,
+      task_id: "task_123",
+      status: "queued",
+      warning: expect.stringContaining("temporarily unavailable"),
+      hint: expect.stringContaining("get_task")
+    });
+    expect(result).not.toHaveProperty("error");
+  });
+
   it("returns synchronous operation results without task or polling wrappers", async () => {
     const createTask = vi.fn(async () => ({ seed: 8_675_309 }));
     const pollTask = vi.fn();
@@ -83,7 +171,12 @@ describe("authenticated tool handlers", () => {
       wait: true
     }, { createTask, pollTask });
 
-    expect(createTask).toHaveBeenCalledWith("midjourney", "get_seed", { image_id: "image_123" });
+    expect(createTask).toHaveBeenCalledWith(
+      "midjourney",
+      "get_seed",
+      {image_id: "image_123"},
+      "unit-test-task-creation"
+    );
     expect(pollTask).not.toHaveBeenCalled();
     expect(result).toEqual({ result: { seed: 8_675_309 } });
   });
@@ -142,11 +235,16 @@ describe("authenticated tool handlers", () => {
       pollTask: vi.fn()
     });
 
-    expect(createTask).toHaveBeenCalledWith("suno", "text_to_music", expect.objectContaining({
-      vocal_mode: "instrumental",
-      style: "calm software demo background music",
-      title: "RunAPI MCP UX Check"
-    }));
+    expect(createTask).toHaveBeenCalledWith(
+      "suno",
+      "text_to_music",
+      expect.objectContaining({
+        vocal_mode: "instrumental",
+        style: "calm software demo background music",
+        title: "RunAPI MCP UX Check"
+      }),
+      "unit-test-task-creation"
+    );
     expect(result).toMatchObject({
       task_id: "music_task",
       status: "queued"

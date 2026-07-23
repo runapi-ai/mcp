@@ -80,7 +80,7 @@ npx @runapi.ai/mcp init roo
 | `check_pricing` | 否 | 查询 `service` + `action` + `model` 组合的价格快照。 |
 | `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。 |
 | `login` | 否 | 打开浏览器登录，并把 RunAPI 凭据保存到共享本地配置。 |
-| `create_task` | 是 | 创建媒体任务，并可选择轮询到完成。 |
+| `create_task` | 是 | 使用调用方生成的必填 `idempotency_key` 创建媒体任务，并可选择轮询到完成。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
 | `check_balance` | 是 | 查询账户余额和消费指标。 |
 
@@ -139,7 +139,7 @@ RunAPI 有哪些图片模型？
 1. 调用 `list_models` 选择兼容的图片模型。
 2. 带上选定的 service/action/model 调用 `get_model_info` 验证参数和条件输入规则。
 3. 如果请求昂贵、耗时或批量，先确认。
-4. 调用 `create_task`。
+4. 为这个逻辑任务生成一个 opaque `idempotency_key`，再调用 `create_task`。
 5. 返回 task ID、status、output URLs 和可用的 cost 字段。
 
 ### 只提交不等待
@@ -150,9 +150,19 @@ RunAPI 有哪些图片模型？
 
 预期行为：
 
-1. 调用 `create_task`，传入 `wait: false`。
+1. 生成一个 opaque `idempotency_key`，再调用 `create_task` 并传入 `wait: false`。
 2. 返回 task ID。
 3. 之后可以用 `get_task` 查询状态。
+
+### 安全重放任务创建
+
+`create_task` 要求 1 到 512 个字符的 opaque `idempotency_key`。每个逻辑任务生成一个新 key，并把它与该任务的 `service`、`action`、`model` 和 `params` 一起保留。
+
+如果连接中断或超时导致创建结果未知，不要自动创建另一个任务。只有在确实需要重试时，才对相同输入复用原 key；对不同输入复用同一个 key 会返回 conflict。不要从 JSON-RPC request ID 或 `X-Client-Request-Id` 推导这个 key。
+
+如果 task 创建成功，但可选轮询超时或连接中断，响应仍会返回已创建的 `task_id`、当前状态和 warning。继续使用 `get_task` 查询，不要创建替代 task。
+
+工具参数结构见 [`examples/create-task.arguments.json`](examples/create-task.arguments.json)。
 
 ### 查询余额
 
