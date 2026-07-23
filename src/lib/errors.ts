@@ -1,1 +1,1 @@
-export { errorFromResponse, friendlyError, PollTimeoutError, RunApiClientError } from "@runapi.ai/mcp-core";
+export { errorFromResponse, friendlyError, PollTimeoutError, RunApiClientError } from "@runapi.ai/mcp-core/web";

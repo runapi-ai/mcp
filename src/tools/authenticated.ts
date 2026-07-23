@@ -1,16 +1,16 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { RunApiClient } from "../lib/runapi-client.js";
+import type { BusinessToolDependencies } from "../business-tools.js";
 import { jsonText } from "../lib/tool-response.js";
 import { checkBalanceHandler, createTaskHandler, getTaskHandler } from "./authenticated-handlers.js";
 
-export function registerAuthenticatedTools(server: McpServer, client = new RunApiClient()) {
+export function registerAuthenticatedTools(server: McpServer, dependencies: BusinessToolDependencies) {
   server.tool(
     "check_balance",
     "Return the authenticated RunAPI account balance and spending metrics.",
     {},
     async () => {
-      return jsonText(await checkBalanceHandler(client));
+      return jsonText(await checkBalanceHandler(dependencies.client, dependencies.errorFormatter));
     }
   );
 
@@ -30,7 +30,9 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
       const progressToken = extra._meta?.progressToken;
       const result = await createTaskHandler(
         { service, action, model, params, wait, timeout_ms, poll_interval_ms },
-        client,
+        dependencies.client,
+        dependencies.contract,
+        dependencies.errorFormatter,
         async (progress) => {
           await extra.sendNotification?.({
             method: "notifications/progress",
@@ -52,7 +54,11 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
       task_id: z.string()
     },
     async ({ service, action, task_id }) => {
-      return jsonText(await getTaskHandler({ service, action, task_id }, client));
+      return jsonText(await getTaskHandler(
+        { service, action, task_id },
+        dependencies.client,
+        dependencies.errorFormatter
+      ));
     }
   );
 }
