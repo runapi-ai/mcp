@@ -107,6 +107,7 @@ describe("Business Tools composition", () => {
     ]);
     const createTask = tools.tools.find((tool) => tool.name === "create_task");
     expect(createTask?.inputSchema.required).toContain("idempotency_key");
+    expect(createTask?.inputSchema.properties?.timeout_ms).not.toHaveProperty("maximum");
   });
 
   it("forwards the caller's opaque idempotency key to the injected task client", async () => {

@@ -3997,7 +3997,18 @@
       "endpoint": "motion_control",
       "task_type": "asynchronous",
       "models": [
-        "kling-3.0"
+        "kling-3.0",
+        "kling-v2.6"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "kling-v2.6"
+          },
+          "forbidden": [
+            "background_source"
+          ]
+        }
       ],
       "fields_by_model": {
         "kling-3.0": {
@@ -4043,6 +4054,51 @@
               "image"
             ],
             "description": "Background source."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "kling-v2.6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "Subject image URL."
+          },
+          "reference_video_url": {
+            "type": "string",
+            "required": true,
+            "description": "Reference motion video URL (3-10 seconds with image orientation; 3-30 seconds with video orientation)."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "length": true,
+            "description": "Optional motion guidance prompt."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "720p",
+              "1080p"
+            ],
+            "required": true,
+            "description": "Output resolution."
+          },
+          "character_orientation": {
+            "type": "string",
+            "enum": [
+              "video",
+              "image"
+            ],
+            "required": true,
+            "description": "Whether the reference follows the video's or image's orientation."
           },
           "callback_url": {
             "type": "string",

@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.6.0](https://github.com/runapi-ai/mcp/releases/tag/v0.6.0) - 2026-07-23
+
+### Added
+- Stream asynchronous create_task waits over request-scoped SSE with heartbeats, optional client-token progress, and the terminal result in the same response.
+- Return a non-error Task Reference Fallback with continuation fields when the 300-second Completion Wait deadline is reached.
+
+### Fixed
+- Keep synchronous and submit-only task calls on JSON responses, and never invent a progress token for clients that did not provide one.
+
+
 ## [v0.5.0](https://github.com/runapi-ai/mcp/releases/tag/v0.5.0) - 2026-07-23
 
 ### Breaking

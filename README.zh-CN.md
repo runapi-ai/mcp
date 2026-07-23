@@ -80,7 +80,7 @@ npx @runapi.ai/mcp init roo
 | `check_pricing` | 否 | 查询 `service` + `action` + `model` 组合的价格快照。 |
 | `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。 |
 | `login` | 否 | 打开浏览器登录，并把 RunAPI 凭据保存到共享本地配置。 |
-| `create_task` | 是 | 使用调用方生成的必填 `idempotency_key` 创建媒体任务，并可选择轮询到完成。 |
+| `create_task` | 是 | 使用调用方生成的必填 `idempotency_key` 创建媒体任务；默认等待完成，也可用 `wait: false` 立即返回。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
 | `check_balance` | 是 | 查询账户余额和消费指标。 |
 
@@ -142,6 +142,12 @@ RunAPI 有哪些图片模型？
 4. 为这个逻辑任务生成一个 opaque `idempotency_key`，再调用 `create_task`。
 5. 返回 task ID、status、output URLs 和可用的 cost 字段。
 
+### 等待任务完成
+
+Hosted MCP 对异步 `create_task(wait: true)` 使用 request-scoped SSE，最长等待 300 秒。它约每 5 秒轮询一次、约每 15 秒发送一次 SSE heartbeat；只有 MCP 客户端提供 `progressToken` 时才发送标准 `notifications/progress`。terminal JSON-RPC response 会在同一 stream 中返回，随后关闭 stream。
+
+terminal tool result 的 `structuredContent` 与 text content 语义一致，包含 `task_id`、最终 `status`、`completed: true` 和 RunAPI `result`。参数示例见 [`examples/create-task-and-wait.arguments.json`](examples/create-task-and-wait.arguments.json)。
+
 ### 只提交不等待
 
 ```text
@@ -160,9 +166,11 @@ RunAPI 有哪些图片模型？
 
 如果连接中断或超时导致创建结果未知，不要自动创建另一个任务。只有在确实需要重试时，才对相同输入复用原 key；对不同输入复用同一个 key 会返回 conflict。不要从 JSON-RPC request ID 或 `X-Client-Request-Id` 推导这个 key。
 
-如果 task 创建成功，但可选轮询超时或连接中断，响应仍会返回已创建的 `task_id`、当前状态和 warning。继续使用 `get_task` 查询，不要创建替代 task。
+Completion Wait 达到 deadline 时，task 创建仍然成功。这个非错误结果会在 structured 与 text content 中一致返回 `task_id`、最新 `status`、`completed: false`、`wait_deadline_reached: true` 和 `next_action: "get_task"`。继续使用 `get_task` 查询，不要创建替代 task。
 
-工具参数结构见 [`examples/create-task.arguments.json`](examples/create-task.arguments.json)。
+如果 task 创建后 polling 失败或连接中断，task 仍可能继续处理。继续使用 `get_task` 查询，不要创建替代 task。
+
+只提交不等待的参数结构见 [`examples/create-task.arguments.json`](examples/create-task.arguments.json)。
 
 ### 查询余额
 

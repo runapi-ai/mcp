@@ -11,7 +11,11 @@ import { friendlyError } from "@runapi.ai/mcp-core/web";
 import { registerAuthenticatedTools } from "./tools/authenticated.js";
 import { registerCatalogTools } from "./tools/catalog.js";
 
-export { errorFromResponse, PollTimeoutError, taskStatus } from "@runapi.ai/mcp-core/web";
+export { errorFromResponse, findAction, PollTimeoutError, taskStatus } from "@runapi.ai/mcp-core/web";
+export {
+  COMPLETION_WAIT_DEADLINE_MS,
+  COMPLETION_WAIT_POLL_INTERVAL_MS
+} from "./tools/authenticated-handlers.js";
 
 export type BusinessToolClient = {
   listModels(): Promise<unknown>;

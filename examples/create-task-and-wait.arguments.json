@@ -1,0 +1,10 @@
+{
+  "service": "flux-kontext",
+  "action": "text_to_image",
+  "model": "flux-kontext-pro",
+  "params": {
+    "prompt": "A studio product photo on a neutral background"
+  },
+  "idempotency_key": "opaque-logical-task-1",
+  "wait": true
+}

@@ -8,7 +8,7 @@ Available tools:
 - check_pricing: inspect pricing snapshot for service + action + model. Free, no API key required.
 - search_prompts: search reusable RunAPI prompt examples by modality, category, tags, text query, model, or featured status. Free, no API key required.
 - check_balance: check account balance and spending. Requires API key.
-- create_task: create a media task with a required caller-generated opaque idempotency_key, then optionally poll for completion. Requires API key.
+- create_task: create a media task with a required caller-generated opaque idempotency_key; wait for completion by default or return immediately with wait=false. Requires API key.
 - get_task: fetch current status and latest payload for an existing task. Requires API key.
 - login: open a browser PKCE login flow and save RunAPI credentials to ~/.config/runapi/config.json, the shared config used by runapi login. No API key required; call only when authentication is needed.
 
@@ -53,6 +53,7 @@ Phase 3: Task creation
 - Reuse an idempotency_key only to retry the same logical task with identical input. Never reuse it with different input.
 - Never derive idempotency_key from the JSON-RPC request ID or X-Client-Request-Id.
 - Confirm before expensive, long-running, or batch media requests.
+- Use wait=true by default when the user wants the completed result. Hosted MCP keeps that request open for up to 300 seconds and returns the terminal result in the same response stream.
 - For ordinary image requests, wait for completion unless the user wants submit-only behavior.
 - For long-running audio/video/batch work, consider wait=false when the host timeout is likely to interrupt the response, then tell the user to call get_task later.
 - Never retry create_task automatically when its result is unknown because the original task may still be processing. If the user explicitly retries, use the same idempotency_key and identical input.
@@ -60,6 +61,7 @@ Phase 3: Task creation
 Phase 4: Result presentation
 - Show task ID, final status, output URLs, and cost fields when available.
 - If task output has multiple URLs, list them all.
+- If wait_deadline_reached is true, explain that the task is still running and use get_task next. Do not describe the deadline as task failure.
 - If task is still processing, show the task ID and how to check it later.
 - Do not describe generated media content as if you inspected it.
 
@@ -69,5 +71,6 @@ Phase 5: Error recovery
 - Rate limit: wait briefly before one retry only if the user confirms.
 - Service unavailable: use list_models to suggest another compatible RunAPI model.
 - Invalid params: call get_model_info, show valid fields, constraints, and input_rules, and ask for the corrected input.
-- Timeout or connection loss: do not recreate the task automatically; tell the user to check status with get_task. If no task ID was returned and the user explicitly retries, reuse the original idempotency_key and identical input.
+- Completion Wait deadline: treat the Task Reference Fallback as success and continue with get_task. Never recreate the task.
+- Connection loss: do not recreate the task automatically; tell the user to check status with get_task. If no task ID was returned and the user explicitly retries, reuse the original idempotency_key and identical input.
 `.trim();

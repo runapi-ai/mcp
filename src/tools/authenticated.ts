@@ -2,7 +2,12 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { BusinessToolDependencies } from "../business-tools.js";
 import { jsonText } from "../lib/tool-response.js";
-import { checkBalanceHandler, createTaskHandler, getTaskHandler } from "./authenticated-handlers.js";
+import {
+  checkBalanceHandler,
+  COMPLETION_WAIT_DEADLINE_MS,
+  createTaskHandler,
+  getTaskHandler
+} from "./authenticated-handlers.js";
 
 export function registerAuthenticatedTools(server: McpServer, dependencies: BusinessToolDependencies) {
   server.tool(
@@ -28,7 +33,8 @@ export function registerAuthenticatedTools(server: McpServer, dependencies: Busi
         .refine((value) => value.trim().length > 0, "idempotency_key cannot be blank")
         .describe("Opaque caller-generated key for safely replaying one logical task creation."),
       wait: z.boolean().default(true).describe("For asynchronous endpoints, poll until the task reaches a terminal status."),
-      timeout_ms: z.number().int().positive().optional().describe("Polling timeout for asynchronous endpoints."),
+      timeout_ms: z.number().int().positive().optional()
+        .describe(`Requested Completion Wait deadline for asynchronous endpoints; values above ${COMPLETION_WAIT_DEADLINE_MS} milliseconds are capped.`),
       poll_interval_ms: z.number().int().positive().optional().describe("Polling interval for asynchronous endpoints.")
     },
     async ({ service, action, model, params, idempotency_key, wait, timeout_ms, poll_interval_ms }, extra) => {
@@ -46,7 +52,10 @@ export function registerAuthenticatedTools(server: McpServer, dependencies: Busi
         },
         progressToken
       );
-      const response = jsonText(result);
+      const response = {
+        ...jsonText(result),
+        structuredContent: result
+      };
       return "error" in result ? { ...response, isError: true } : response;
     }
   );

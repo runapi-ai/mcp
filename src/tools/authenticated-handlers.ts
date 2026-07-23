@@ -1,6 +1,7 @@
 import {
   findAction,
   findModelForAction,
+  PollTimeoutError,
   taskIdFromResponse,
   taskStatus,
   validateInputRules,
@@ -10,6 +11,9 @@ import {
 import type { BusinessToolClient } from "../business-tools.js";
 import { validateParams } from "../lib/schema.js";
 import type { RunApiTaskResponse } from "../types.js";
+
+export const COMPLETION_WAIT_DEADLINE_MS = 300_000;
+export const COMPLETION_WAIT_POLL_INTERVAL_MS = 5_000;
 
 export type ProgressSender = (message: {
   progressToken: string | number;
@@ -92,16 +96,23 @@ export async function createTaskHandler(
       };
     }
 
+    let latestTask: RunApiTaskResponse = created;
     try {
-      const timeout = input.timeout_ms ?? defaultTimeout(input.action);
+      const timeout = Math.min(
+        input.timeout_ms ?? defaultTimeout(input.action),
+        COMPLETION_WAIT_DEADLINE_MS
+      );
       const startedAt = Date.now();
       const completed = await client.pollTask(input.service, taskId, input.action, {
         timeoutMs: timeout,
-        intervalMs: input.poll_interval_ms ?? 5_000,
+        intervalMs: input.poll_interval_ms ?? COMPLETION_WAIT_POLL_INTERVAL_MS,
         onProgress: async (task: RunApiTaskResponse) => {
+          latestTask = task;
+          if (progressToken === undefined) return;
+
           const elapsed = Date.now() - startedAt;
           await sendProgress?.({
-            progressToken: progressToken || taskId,
+            progressToken,
             progress: Math.min(elapsed, timeout),
             total: timeout,
             message: `RunAPI task ${taskId}: ${taskStatus(task)}`
@@ -112,9 +123,21 @@ export async function createTaskHandler(
       return {
         task_id: taskId,
         status: taskStatus(completed),
+        completed: true,
         result: completed
       };
     } catch (error) {
+      if (error instanceof PollTimeoutError) {
+        return {
+          task_id: taskId,
+          status: taskStatus(latestTask),
+          task: latestTask,
+          completed: false,
+          wait_deadline_reached: true,
+          next_action: "get_task"
+        };
+      }
+
       return {
         created,
         task_id: taskId,
@@ -145,15 +168,6 @@ export async function getTaskHandler(
   }
 }
 
-export function defaultTimeout(action: string): number {
-  if (action.includes("video")) {
-    return 300_000;
-  }
-  if (["music", "audio", "speech", "sound", "voice"].some((term) => action.includes(term))) {
-    return 300_000;
-  }
-  if (action.includes("image")) {
-    return 120_000;
-  }
-  return 30_000;
+export function defaultTimeout(_action: string): number {
+  return COMPLETION_WAIT_DEADLINE_MS;
 }

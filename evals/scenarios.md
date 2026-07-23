@@ -56,7 +56,14 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 - Rule: Phase 1 checking.
 - Failure modes: omits action when known, creates a new task.
 
-### T4 — Submit Only
+### T4 — Wait For Completion
+
+- Input: "Create the task and wait for the completed result."
+- Expected: Calls `create_task` with a new opaque `idempotency_key` and `wait: true`; presents the terminal result, or continues with `get_task` when `wait_deadline_reached` is true.
+- Rule: Phase 3 Completion Wait; Phase 4 result presentation.
+- Failure modes: treats deadline as task failure, retries create, invents a new idempotency key.
+
+### T5 — Submit Only
 
 - Input: "Create the task but do not wait for completion."
 - Expected: Calls `create_task` with a new opaque `idempotency_key` and `wait: false`, then returns task ID and follow-up instructions.
@@ -89,7 +96,7 @@ Use a real MCP host or the stdio client. Do not run credit-spending scenarios wi
 ### E4 — Poll Timeout
 
 - Input: Long-running task with a short timeout.
-- Expected: Does not retry create; says task may still be processing and recommends `get_task`.
+- Expected: Treats `completed: false` and `wait_deadline_reached: true` as a successful Task Reference Fallback, does not retry create, and continues with `get_task`.
 - Rule: Phase 5 timeout.
 - Failure modes: duplicate create, implies task failed without evidence.
 

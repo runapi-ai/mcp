@@ -96,7 +96,7 @@ Headless and CI hosts can still set `RUNAPI_API_KEY` before starting the MCP hos
 | `check_pricing` | No | Return pricing snapshot data for a `service` + `action` + `model` combination. |
 | `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. |
 | `login` | No | Start browser login and save RunAPI credentials to shared local config. |
-| `create_task` | Yes | Create a media task with a required caller-generated `idempotency_key`, then optionally poll until completion. |
+| `create_task` | Yes | Create a media task with a required caller-generated `idempotency_key`; wait for completion by default or return immediately with `wait: false`. |
 | `get_task` | Yes | Fetch status and latest payload for an existing media task. |
 | `check_balance` | Yes | Return account balance and spending metrics. |
 
@@ -161,6 +161,12 @@ Expected behavior:
 4. It generates one opaque `idempotency_key` for this logical task and calls `create_task`.
 5. It returns task ID, status, output URLs, and cost fields when available.
 
+### Wait For Completion
+
+Hosted MCP keeps an asynchronous `create_task` call with `wait: true` open as request-scoped SSE for up to 300 seconds. It polls about every 5 seconds, sends an SSE heartbeat about every 15 seconds, and sends standard `notifications/progress` only when the MCP client supplied a `progressToken`. The terminal JSON-RPC response arrives in that same stream and then closes it.
+
+The terminal tool result includes matching `structuredContent` and text content with `task_id`, final `status`, `completed: true`, and the RunAPI `result`. See [`examples/create-task-and-wait.arguments.json`](examples/create-task-and-wait.arguments.json).
+
 ### Submit Without Waiting
 
 ```text
@@ -179,9 +185,11 @@ Expected behavior:
 
 If the create result is unknown because the connection closed or timed out, do not automatically create another task. Retry only when intended, using the same key with the same input. Reusing the key with different input returns a conflict. Do not derive the key from a JSON-RPC request ID or `X-Client-Request-Id`.
 
-If task creation succeeds but optional polling times out or disconnects, the response still includes the created `task_id`, its current status, and a warning. Continue with `get_task`; do not create a replacement task.
+When Completion Wait reaches its deadline, task creation remains successful. The non-error result has matching structured and text content with `task_id`, latest `status`, `completed: false`, `wait_deadline_reached: true`, and `next_action: "get_task"`. Continue with `get_task`; do not create a replacement task.
 
-See [`examples/create-task.arguments.json`](examples/create-task.arguments.json) for the tool arguments shape.
+If polling fails or the connection closes after task creation, the task may still be processing. Continue with `get_task`; do not create a replacement task.
+
+See [`examples/create-task.arguments.json`](examples/create-task.arguments.json) for submit-only arguments.
 
 ### Check Account Balance
 
