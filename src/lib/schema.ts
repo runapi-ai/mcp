@@ -1,1 +1,1 @@
-export { validateParams, zodShapeForFields } from "@runapi.ai/mcp-core";
+export { validateParams, zodShapeForFields } from "@runapi.ai/mcp-core/web";

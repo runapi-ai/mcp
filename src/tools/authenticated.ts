@@ -1,36 +1,43 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { RunApiClient } from "../lib/runapi-client.js";
+import type { BusinessToolDependencies } from "../business-tools.js";
 import { jsonText } from "../lib/tool-response.js";
 import { checkBalanceHandler, createTaskHandler, getTaskHandler } from "./authenticated-handlers.js";
 
-export function registerAuthenticatedTools(server: McpServer, client = new RunApiClient()) {
+export function registerAuthenticatedTools(server: McpServer, dependencies: BusinessToolDependencies) {
   server.tool(
     "check_balance",
     "Return the authenticated RunAPI account balance and spending metrics.",
     {},
     async () => {
-      return jsonText(await checkBalanceHandler(client));
+      return jsonText(await checkBalanceHandler(dependencies.client, dependencies.errorFormatter));
     }
   );
 
   server.tool(
     "create_task",
-    "Run a RunAPI operation. Asynchronous operations can optionally poll until completion.",
+    "Run a RunAPI operation with a caller-generated idempotency key. Asynchronous operations can optionally poll until completion.",
     {
       service: z.string().describe("RunAPI service slug returned by list_models"),
       action: z.string().describe("RunAPI endpoint name, for example text_to_image"),
       model: z.string().optional().describe("RunAPI model slug"),
       params: z.record(z.unknown()).default({}).describe("Endpoint parameters validated against data/contract.json where constrained."),
+      idempotency_key: z.string()
+        .min(1)
+        .max(512)
+        .refine((value) => value.trim().length > 0, "idempotency_key cannot be blank")
+        .describe("Opaque caller-generated key for safely replaying one logical task creation."),
       wait: z.boolean().default(true).describe("For asynchronous endpoints, poll until the task reaches a terminal status."),
       timeout_ms: z.number().int().positive().optional().describe("Polling timeout for asynchronous endpoints."),
       poll_interval_ms: z.number().int().positive().optional().describe("Polling interval for asynchronous endpoints.")
     },
-    async ({ service, action, model, params, wait, timeout_ms, poll_interval_ms }, extra) => {
+    async ({ service, action, model, params, idempotency_key, wait, timeout_ms, poll_interval_ms }, extra) => {
       const progressToken = extra._meta?.progressToken;
       const result = await createTaskHandler(
-        { service, action, model, params, wait, timeout_ms, poll_interval_ms },
-        client,
+        { service, action, model, params, idempotency_key, wait, timeout_ms, poll_interval_ms },
+        dependencies.client,
+        dependencies.contract,
+        dependencies.errorFormatter,
         async (progress) => {
           await extra.sendNotification?.({
             method: "notifications/progress",
@@ -39,7 +46,8 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
         },
         progressToken
       );
-      return jsonText(result);
+      const response = jsonText(result);
+      return "error" in result ? { ...response, isError: true } : response;
     }
   );
 
@@ -52,7 +60,11 @@ export function registerAuthenticatedTools(server: McpServer, client = new RunAp
       task_id: z.string()
     },
     async ({ service, action, task_id }) => {
-      return jsonText(await getTaskHandler({ service, action, task_id }, client));
+      return jsonText(await getTaskHandler(
+        { service, action, task_id },
+        dependencies.client,
+        dependencies.errorFormatter
+      ));
     }
   );
 }

@@ -1,1 +1,1 @@
-export { contractKey, humanize, modalityForAction, publicModelUrl, routeAction } from "@runapi.ai/mcp-core";
+export { contractKey, humanize, modalityForAction, publicModelUrl, routeAction } from "@runapi.ai/mcp-core/web";

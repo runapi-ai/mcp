@@ -1,8 +1,17 @@
-import { fieldSummary, findModel, findModelForAction, findModels, listActionGroups, listContractModels } from "../lib/contract.js";
-import { inputRulesForModel } from "../lib/input-rules.js";
-import { priceForModel } from "../lib/pricing.js";
+import {
+  fieldSummary,
+  findModel,
+  findModelForAction,
+  findModels,
+  inputRulesForModel,
+  listActionGroups,
+  listContractModels,
+  priceForModel,
+  type Contract,
+  type PricingConfig
+} from "@runapi.ai/mcp-core/web";
 import { modalityForAction } from "../lib/text.js";
-import type { RunApiClient } from "../lib/runapi-client.js";
+import type { BusinessToolClient } from "../business-tools.js";
 import type { ModelInfo, RunApiPrompt, SearchPromptsParams } from "../types.js";
 
 export type ListModelsInput = {
@@ -17,8 +26,12 @@ export type GetModelInfoInput = {
   action?: string;
 };
 
-export async function listModelsHandler(input: ListModelsInput, client: Pick<RunApiClient, "listModels">) {
-  let models = listContractModels();
+export async function listModelsHandler(
+  input: ListModelsInput,
+  client: Pick<BusinessToolClient, "listModels">,
+  contract: Contract
+) {
+  let models = listContractModels(contract);
   if (input.modality && input.modality !== "llm") {
     models = models.filter((model) => modalityForAction(model.action) === input.modality);
   }
@@ -51,11 +64,15 @@ export async function listModelsHandler(input: ListModelsInput, client: Pick<Run
   };
 }
 
-export function getModelInfoHandler(input: string | GetModelInfoInput) {
+export function getModelInfoHandler(
+  input: string | GetModelInfoInput,
+  contract: Contract,
+  pricing: PricingConfig
+) {
   const request = typeof input === "string" ? { model: input } : input;
   const info = request.service && request.action
-    ? findModelForAction(request.service, request.action, request.model)
-    : findModel(request.model);
+    ? findModelForAction(request.service, request.action, request.model, contract)
+    : findModel(request.model, contract);
 
   if (!info) {
     if (request.service || request.action) {
@@ -71,11 +88,11 @@ export function getModelInfoHandler(input: string | GetModelInfoInput) {
     };
   }
 
-  const matches = findModels(request.model);
+  const matches = findModels(request.model, contract);
   const ambiguous = !request.service && !request.action && matches.length > 1;
 
   return {
-    ...modelInfoResponse(info),
+    ...modelInfoResponse(info, contract, pricing),
     ...(ambiguous ? {
       ambiguous: true,
       hint: "This model supports multiple service/action pairs. Call get_model_info with service and action to inspect the exact input constraints before create_task.",
@@ -88,14 +105,14 @@ export function getModelInfoHandler(input: string | GetModelInfoInput) {
   };
 }
 
-export function listActionsHandler() {
+export function listActionsHandler(contract: Contract) {
   return {
-    groups: listActionGroups()
+    groups: listActionGroups(contract)
   };
 }
 
-function modelInfoResponse(info: ModelInfo) {
-  const inputRules = inputRulesForModel(info);
+function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: PricingConfig) {
+  const inputRules = inputRulesForModel(info, contract);
 
   return {
     model: info.model,
@@ -105,12 +122,16 @@ function modelInfoResponse(info: ModelInfo) {
     model_line: info.model_line,
     fields: fieldSummary(info.fields),
     ...(inputRules.length > 0 ? { input_rules: inputRules } : {}),
-    price: priceForModel(info)
+    price: priceForModel(info, pricing)
   };
 }
 
-export function checkPricingHandler(input: { service: string; action: string; model?: string }) {
-  const info = findModelForAction(input.service, input.action, input.model);
+export function checkPricingHandler(
+  input: { service: string; action: string; model?: string },
+  contract: Contract,
+  pricing: PricingConfig
+) {
+  const info = findModelForAction(input.service, input.action, input.model, contract);
   if (!info) {
     return {
       supported: false,
@@ -124,13 +145,13 @@ export function checkPricingHandler(input: { service: string; action: string; mo
     model: info.model,
     service: info.service,
     action: info.action,
-    price: priceForModel(info)
+    price: priceForModel(info, pricing)
   };
 }
 
 export async function searchPromptsHandler(
   input: SearchPromptsParams,
-  client: Pick<RunApiClient, "searchPrompts">
+  client: Pick<BusinessToolClient, "searchPrompts">
 ) {
   try {
     const response = await client.searchPrompts(input);

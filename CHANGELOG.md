@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.5.0](https://github.com/runapi-ai/mcp/releases/tag/v0.5.0) - 2026-07-23
+
+### Breaking
+- Require a caller-generated idempotency_key on every create_task call and preserve it as the RunAPI Idempotency-Key header.
+  Migration: Generate one opaque key per logical task and reuse it only with identical input when retrying an unknown create result.
+
+### Added
+- Let Hosted MCP sessions check balance, create tasks without waiting, and query task status through request-scoped credentials.
+
+### Fixed
+- Preserve the created task ID and current status when optional polling times out or disconnects so callers can continue with get_task without recreating the task.
+
+
 ## [v0.3.0](https://github.com/runapi-ai/mcp/releases/tag/v0.3.0) - 2026-07-22
 
 ### Added

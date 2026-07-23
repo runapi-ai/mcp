@@ -96,7 +96,7 @@ Headless and CI hosts can still set `RUNAPI_API_KEY` before starting the MCP hos
 | `check_pricing` | No | Return pricing snapshot data for a `service` + `action` + `model` combination. |
 | `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. |
 | `login` | No | Start browser login and save RunAPI credentials to shared local config. |
-| `create_task` | Yes | Create a media task and optionally poll until completion. |
+| `create_task` | Yes | Create a media task with a required caller-generated `idempotency_key`, then optionally poll until completion. |
 | `get_task` | Yes | Fetch status and latest payload for an existing media task. |
 | `check_balance` | Yes | Return account balance and spending metrics. |
 
@@ -158,7 +158,7 @@ Expected behavior:
 1. The assistant calls `list_models` to choose a compatible image model.
 2. It calls `get_model_info` with the selected service/action/model to validate parameters and any conditional input rules.
 3. It asks for confirmation if the request is expensive, long-running, or a batch.
-4. It calls `create_task`.
+4. It generates one opaque `idempotency_key` for this logical task and calls `create_task`.
 5. It returns task ID, status, output URLs, and cost fields when available.
 
 ### Submit Without Waiting
@@ -169,9 +169,19 @@ Create the task but do not wait for completion.
 
 Expected behavior:
 
-1. The assistant calls `create_task` with `wait: false`.
+1. The assistant generates one opaque `idempotency_key` and calls `create_task` with `wait: false`.
 2. It returns the task ID.
 3. You can later ask for status with `get_task`.
+
+### Replay A Task Creation Safely
+
+`create_task` requires an opaque `idempotency_key` from 1 to 512 characters. Generate one new key for each logical task and retain it with the exact `service`, `action`, `model`, and `params` used for that task.
+
+If the create result is unknown because the connection closed or timed out, do not automatically create another task. Retry only when intended, using the same key with the same input. Reusing the key with different input returns a conflict. Do not derive the key from a JSON-RPC request ID or `X-Client-Request-Id`.
+
+If task creation succeeds but optional polling times out or disconnects, the response still includes the created `task_id`, its current status, and a warning. Continue with `get_task`; do not create a replacement task.
+
+See [`examples/create-task.arguments.json`](examples/create-task.arguments.json) for the tool arguments shape.
 
 ### Check Account Balance
 
