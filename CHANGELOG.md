@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.7.1](https://github.com/runapi-ai/mcp/releases/tag/v0.7.1) - 2026-07-28
+
+### Changed
+- Serve the canonical authentication guide at auth.md.
+
+### Fixed
+- Invoke Cloudflare fetch without adapter receivers across credential verification, business requests, and error reporting so requests are no longer converted into service availability errors before reaching RunAPI.
+- Record redacted credential verification failure stages so service availability errors can be diagnosed without exposing credentials or response payloads.
+
+
 ## [v0.7.0](https://github.com/runapi-ai/mcp/releases/tag/v0.7.0) - 2026-07-28
 
 ### Breaking
