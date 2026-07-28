@@ -15,6 +15,7 @@
     "claude-opus-4-6",
     "claude-opus-4-7",
     "claude-opus-4-8",
+    "claude-opus-5",
     "claude-sonnet-4-5-20250929",
     "claude-sonnet-4-6",
     "claude-sonnet-5",
@@ -23,6 +24,8 @@
     "flux-2-flex-remix-image",
     "flux-2-flex-text-to-image",
     "flux-2-klein",
+    "flux-2-max-remix-image",
+    "flux-2-max-text-to-image",
     "flux-2-pro-remix-image",
     "flux-2-pro-text-to-image",
     "flux-dev",
@@ -114,6 +117,7 @@
     "kling-ai-avatar-pro",
     "kling-ai-avatar-standard",
     "kling-ai-avatar-v1-pro",
+    "kling-o1",
     "kling-v1-avatar-standard",
     "kling-v2.1-master-image-to-video",
     "kling-v2.1-master-text-to-video",
@@ -507,22 +511,56 @@
       "task_type": "asynchronous",
       "models": [
         "flux-2-flex-remix-image",
+        "flux-2-max-remix-image",
         "flux-2-pro-remix-image"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "flux-2-flex-remix-image"
+          },
+          "forbidden": [
+            "output_count"
+          ]
+        },
+        {
+          "when": {
+            "model": "flux-2-max-remix-image"
+          },
+          "forbidden": [
+            "enable_safety_checker"
+          ]
+        },
+        {
+          "when": {
+            "model": "flux-2-pro-remix-image"
+          },
+          "forbidden": [
+            "output_count"
+          ]
+        }
       ],
       "fields_by_model": {
         "flux-2-flex-remix-image": {
           "model": {
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
           },
           "prompt": {
             "type": "string",
-            "required": true
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image editing instruction."
           },
           "source_image_urls": {
             "type": "array",
             "required": true,
             "max_items": 8,
-            "min_items": 1
+            "min_items": 1,
+            "description": "Public source image URLs."
           },
           "aspect_ratio": {
             "type": "string",
@@ -535,35 +573,102 @@
               "3:2",
               "2:3",
               "auto"
-            ]
+            ],
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "1k",
               "2k"
-            ]
+            ],
+            "description": "Output resolution."
           },
           "enable_safety_checker": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable the safety checker."
           },
           "callback_url": {
-            "type": "string"
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "flux-2-max-remix-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image editing instruction."
+          },
+          "source_image_urls": {
+            "type": "array",
+            "required": true,
+            "max_items": 1,
+            "min_items": 1,
+            "description": "Exactly one public HTTP(S) source image URL."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "required": true,
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k"
+            ],
+            "default": "1k",
+            "description": "Output resolution."
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1,
+            "description": "Number of images to generate."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         },
         "flux-2-pro-remix-image": {
           "model": {
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
           },
           "prompt": {
             "type": "string",
-            "required": true
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image editing instruction."
           },
           "source_image_urls": {
             "type": "array",
             "required": true,
             "max_items": 8,
-            "min_items": 1
+            "min_items": 1,
+            "description": "Public source image URLs."
           },
           "aspect_ratio": {
             "type": "string",
@@ -576,20 +681,24 @@
               "3:2",
               "2:3",
               "auto"
-            ]
+            ],
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "1k",
               "2k"
-            ]
+            ],
+            "description": "Output resolution."
           },
           "enable_safety_checker": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable the safety checker."
           },
           "callback_url": {
-            "type": "string"
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -600,16 +709,49 @@
       "task_type": "asynchronous",
       "models": [
         "flux-2-flex-text-to-image",
+        "flux-2-max-text-to-image",
         "flux-2-pro-text-to-image"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "flux-2-flex-text-to-image"
+          },
+          "forbidden": [
+            "output_count"
+          ]
+        },
+        {
+          "when": {
+            "model": "flux-2-max-text-to-image"
+          },
+          "forbidden": [
+            "enable_safety_checker"
+          ]
+        },
+        {
+          "when": {
+            "model": "flux-2-pro-text-to-image"
+          },
+          "forbidden": [
+            "output_count"
+          ]
+        }
       ],
       "fields_by_model": {
         "flux-2-flex-text-to-image": {
           "model": {
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
           },
           "prompt": {
             "type": "string",
-            "required": true
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image description."
           },
           "aspect_ratio": {
             "type": "string",
@@ -621,29 +763,88 @@
               "9:16",
               "3:2",
               "2:3"
-            ]
+            ],
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "1k",
               "2k"
-            ]
+            ],
+            "description": "Output resolution."
           },
           "enable_safety_checker": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable the safety checker."
           },
           "callback_url": {
-            "type": "string"
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "flux-2-max-text-to-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image description."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3"
+            ],
+            "required": true,
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k"
+            ],
+            "default": "1k",
+            "description": "Output resolution."
+          },
+          "output_count": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "default": 1,
+            "description": "Number of images to generate."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         },
         "flux-2-pro-text-to-image": {
           "model": {
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
           },
           "prompt": {
             "type": "string",
-            "required": true
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Image description."
           },
           "aspect_ratio": {
             "type": "string",
@@ -655,20 +856,24 @@
               "9:16",
               "3:2",
               "2:3"
-            ]
+            ],
+            "description": "Output aspect ratio."
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "1k",
               "2k"
-            ]
+            ],
+            "description": "Output resolution."
           },
           "enable_safety_checker": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable the safety checker."
           },
           "callback_url": {
-            "type": "string"
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -3545,6 +3750,7 @@
       "endpoint": "image_to_video",
       "task_type": "asynchronous",
       "models": [
+        "kling-o1",
         "kling-v2.1-master-image-to-video",
         "kling-v2.1-pro",
         "kling-v2.1-standard",
@@ -3556,11 +3762,25 @@
       "rules": [
         {
           "when": {
+            "model": "kling-o1"
+          },
+          "forbidden": [
+            "output_resolution",
+            "negative_prompt",
+            "cfg_scale"
+          ]
+        },
+        {
+          "when": {
             "model": "kling-v2.1-master-image-to-video"
           },
           "forbidden": [
             "output_resolution",
-            "enable_sound"
+            "enable_sound",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3569,7 +3789,11 @@
           },
           "forbidden": [
             "output_resolution",
-            "enable_sound"
+            "enable_sound",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3578,7 +3802,11 @@
           },
           "forbidden": [
             "output_resolution",
-            "enable_sound"
+            "enable_sound",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3587,7 +3815,11 @@
           },
           "forbidden": [
             "output_resolution",
-            "enable_sound"
+            "enable_sound",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3597,7 +3829,11 @@
           "forbidden": [
             "output_resolution",
             "negative_prompt",
-            "cfg_scale"
+            "cfg_scale",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3606,7 +3842,11 @@
           },
           "forbidden": [
             "negative_prompt",
-            "cfg_scale"
+            "cfg_scale",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -3618,11 +3858,102 @@
             "aspect_ratio",
             "negative_prompt",
             "cfg_scale",
-            "last_frame_image_url"
+            "last_frame_image_url",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         }
       ],
       "fields_by_model": {
+        "kling-o1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description; reference media with matching numbered markers."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "Public HTTP(S) JPG, JPEG, or PNG first-frame image URL."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Generation mode."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Sound generation must remain disabled."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "description": "Public HTTP(S) JPG, JPEG, or PNG final-frame image URL; cannot be combined with reference_image_urls or reference_video_url."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 7,
+            "min_items": 1,
+            "description": "Ordered public HTTP(S) JPG, JPEG, or PNG reference image URLs; cannot be combined with last_frame_image_url."
+          },
+          "reference_video_url": {
+            "type": "string",
+            "description": "Public HTTP(S) MP4 or MOV reference video URL; cannot be combined with last_frame_image_url."
+          },
+          "reference_video_type": {
+            "type": "string",
+            "enum": [
+              "base",
+              "feature"
+            ],
+            "default": "base",
+            "description": "Use the video as a base edit or feature reference."
+          },
+          "preserve_reference_video_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Preserve the reference video's original audio."
+          }
+        },
         "kling-v2.1-master-image-to-video": {
           "model": {
             "type": "string",
@@ -4113,6 +4444,7 @@
       "task_type": "asynchronous",
       "models": [
         "kling-3.0",
+        "kling-o1",
         "kling-v2.1-master-text-to-video",
         "kling-v2.5-turbo-text-to-video-pro",
         "kling-v2.6",
@@ -4122,15 +4454,18 @@
       "rules": [
         {
           "when": {
-            "model": "kling-v2.5-turbo-text-to-video-pro"
+            "model": "kling-3.0"
           },
           "forbidden": [
-            "mode"
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
           "when": {
-            "model": "kling-v2.6"
+            "model": "kling-o1"
           },
           "forbidden": [
             "output_resolution",
@@ -4145,6 +4480,49 @@
         },
         {
           "when": {
+            "model": "kling-v2.1-master-text-to-video"
+          },
+          "forbidden": [
+            "mode",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.5-turbo-text-to-video-pro"
+          },
+          "forbidden": [
+            "mode",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v2.6"
+          },
+          "forbidden": [
+            "output_resolution",
+            "negative_prompt",
+            "cfg_scale",
+            "multi_shots",
+            "multi_prompt",
+            "first_frame_image_url",
+            "last_frame_image_url",
+            "kling_elements",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
+          ]
+        },
+        {
+          "when": {
             "model": "kling-v3-omni"
           },
           "forbidden": [
@@ -4154,7 +4532,11 @@
             "multi_prompt",
             "first_frame_image_url",
             "last_frame_image_url",
-            "kling_elements"
+            "kling_elements",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         },
         {
@@ -4169,7 +4551,11 @@
             "multi_prompt",
             "first_frame_image_url",
             "last_frame_image_url",
-            "kling_elements"
+            "kling_elements",
+            "reference_image_urls",
+            "reference_video_url",
+            "reference_video_type",
+            "preserve_reference_video_audio"
           ]
         }
       ],
@@ -4256,6 +4642,84 @@
           "kling_elements": {
             "type": "array",
             "description": "Element references with image, video, or audio materials."
+          }
+        },
+        "kling-o1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 2500,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description; reference media with matching numbered markers."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "std",
+              "pro"
+            ],
+            "default": "std",
+            "description": "Generation mode."
+          },
+          "enable_sound": {
+            "type": "boolean",
+            "default": false,
+            "description": "Sound generation must remain disabled."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5
+            ],
+            "default": 5,
+            "description": "Duration in seconds."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 7,
+            "min_items": 1,
+            "description": "Ordered public HTTP(S) JPG, JPEG, or PNG reference image URLs."
+          },
+          "reference_video_url": {
+            "type": "string",
+            "description": "Public HTTP(S) MP4 or MOV reference video URL."
+          },
+          "reference_video_type": {
+            "type": "string",
+            "enum": [
+              "base",
+              "feature"
+            ],
+            "default": "base",
+            "description": "Use the video as a base edit or feature reference."
+          },
+          "preserve_reference_video_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Preserve the reference video's original audio."
           }
         },
         "kling-v2.1-master-text-to-video": {
@@ -5926,6 +6390,95 @@
         "seedance-v1-lite",
         "seedance-v1-pro",
         "seedance-v1-pro-fast"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "seedance-1.5-pro"
+          },
+          "forbidden": [
+            "first_frame_image_url",
+            "last_frame_image_url",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls",
+            "web_search"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-2-mini"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "lock_camera",
+            "seed",
+            "enable_safety_checker"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-2.0"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "lock_camera",
+            "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-2.0-fast"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "lock_camera",
+            "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-v1-lite"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls",
+            "web_search",
+            "generate_audio"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-v1-pro"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "last_frame_image_url",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls",
+            "web_search",
+            "generate_audio"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-v1-pro-fast"
+          },
+          "forbidden": [
+            "aspect_ratio",
+            "source_image_urls",
+            "lock_camera",
+            "last_frame_image_url",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls",
+            "web_search",
+            "generate_audio"
+          ]
+        }
       ],
       "fields_by_model": {
         "seedance-1.5-pro": {

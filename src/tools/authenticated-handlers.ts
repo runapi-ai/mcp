@@ -9,11 +9,19 @@ import {
   type ContractAction
 } from "@runapi.ai/mcp-core/web";
 import type { BusinessToolClient } from "../business-tools.js";
+import { validateModelSpecificParams } from "../lib/model-specific-validation.js";
 import { validateParams } from "../lib/schema.js";
 import type { RunApiTaskResponse } from "../types.js";
 
 export const COMPLETION_WAIT_DEADLINE_MS = 300_000;
 export const COMPLETION_WAIT_POLL_INTERVAL_MS = 5_000;
+
+export class CompletionWaitUnavailableError extends Error {
+  constructor() {
+    super("Completion Wait capacity is unavailable");
+    this.name = "CompletionWaitUnavailableError";
+  }
+}
 
 export type ProgressSender = (message: {
   progressToken: string | number;
@@ -80,6 +88,13 @@ export async function createTaskHandler(
         hint: "Call get_model_info with service and action to inspect input_rules before create_task."
       };
     }
+    const modelError = validateModelSpecificParams(input.service, input.action, body);
+    if (modelError) {
+      return {
+        error: `Invalid RunAPI parameters: ${modelError}`,
+        hint: "Adjust the model-specific parameters before creating the task."
+      };
+    }
 
     const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
     if (action?.task_type === "synchronous") {
@@ -127,6 +142,17 @@ export async function createTaskHandler(
         result: completed
       };
     } catch (error) {
+      if (error instanceof CompletionWaitUnavailableError) {
+        return {
+          task_id: taskId,
+          status: taskStatus(created),
+          task: created,
+          completed: false,
+          wait_degraded: "concurrency_limit",
+          next_action: "get_task"
+        };
+      }
+
       if (error instanceof PollTimeoutError) {
         return {
           task_id: taskId,

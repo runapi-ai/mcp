@@ -6,12 +6,12 @@
     "url": "https://github.com/runapi-ai/mcp",
     "source": "github"
   },
-  "version": "0.6.0",
+  "version": "0.7.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@runapi.ai/mcp",
-      "version": "0.6.0",
+      "version": "0.7.0",
       "transport": {
         "type": "stdio"
       },
@@ -24,6 +24,12 @@
           "name": "RUNAPI_API_KEY"
         }
       ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.runapi.ai/mcp"
     }
   ]
 }

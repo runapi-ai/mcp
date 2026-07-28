@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import { createServer, type Server } from "node:http";
+import type { AddressInfo } from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -9,16 +11,19 @@ describe("stdio MCP server", () => {
   let client: Client | undefined;
   let transport: StdioClientTransport | undefined;
   let tempHome: string | undefined;
+  let api: Server | undefined;
 
   afterEach(async () => {
     await client?.close();
     await transport?.close();
+    await new Promise<void>((resolve, reject) => api?.close((error) => error ? reject(error) : resolve()) ?? resolve());
     if (tempHome) {
       fs.rmSync(tempHome, { recursive: true, force: true });
     }
     client = undefined;
     transport = undefined;
     tempHome = undefined;
+    api = undefined;
   });
 
   it("lists and calls tools through the real stdio transport", async () => {
@@ -30,6 +35,10 @@ describe("stdio MCP server", () => {
     expect(tsxPath).toBeDefined();
     tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "runapi-mcp-home-"));
 
+    api = createRuntimeApi();
+    await new Promise<void>((resolve) => api!.listen(0, "127.0.0.1", resolve));
+    const apiUrl = `http://127.0.0.1:${(api.address() as AddressInfo).port}`;
+
     client = new Client({ name: "runapi-mcp-test", version: "0.1.0" });
     transport = new StdioClientTransport({
       command: tsxPath!,
@@ -38,7 +47,9 @@ describe("stdio MCP server", () => {
       stderr: "pipe",
       env: {
         HOME: tempHome,
-        PATH: process.env.PATH || ""
+        PATH: process.env.PATH || "",
+        RUNAPI_API_KEY: "stdio-test-key",
+        RUNAPI_BASE_URL: apiUrl
       }
     });
 
@@ -69,13 +80,62 @@ describe("stdio MCP server", () => {
       source: expect.stringContaining("embedded catalog")
     });
 
-    const balance = await client.callTool({
-      name: "check_balance",
-      arguments: {}
+    const pricing = await client.callTool({
+      name: "check_pricing",
+      arguments: {service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro"}
     });
-    expect(JSON.parse(textContent(balance)).error).toContain("login tool");
+    expect(JSON.parse(textContent(pricing))).toMatchObject({
+      supported: true,
+      price: {price_schedule: {unit_price_cents: 37}}
+    });
+
+    const unavailablePricing = await client.callTool({
+      name: "get_model_info",
+      arguments: {model: "flux-kontext-pro"}
+    });
+    expect(JSON.parse(textContent(unavailablePricing))).toMatchObject({
+      price: {error: expect.stringContaining("https://runapi.ai/pricing")}
+    });
+
+    const task = await client.callTool({
+      name: "get_task",
+      arguments: {service: "flux-kontext", action: "text_to_image", task_id: "550e8400-e29b-41d4-a716-446655440000"}
+    });
+    expect(JSON.parse(textContent(task))).toMatchObject({
+      task: {billing: {reservation: {amount_cents: 37}, settlement: {charged_amount_cents: 37, amount_micro_cents: 37_000_000}, refund: null}}
+    });
   });
 });
+
+function createRuntimeApi(): Server {
+  let priceScheduleRequests = 0;
+  return createServer((request, response) => {
+    response.setHeader("content-type", "application/json");
+    if (request.url === "/v1/models") {
+      response.end(JSON.stringify({data: []}));
+    } else if (request.url?.startsWith("/api/v1/price_schedules")) {
+      priceScheduleRequests += 1;
+      if (priceScheduleRequests > 1) {
+        response.statusCode = 503;
+        response.end(JSON.stringify({message: "runtime pricing unavailable"}));
+        return;
+      }
+      response.end(JSON.stringify({
+        as_of: "2026-07-23T00:00:00.000000Z",
+        price_schedules: [{service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 37}]
+      }));
+    } else if (request.url?.includes("550e8400-e29b-41d4-a716-446655440000")) {
+      response.end(JSON.stringify({
+        id: "550e8400-e29b-41d4-a716-446655440000",
+        status: "completed",
+        billing: {reservation: {amount_cents: 37}, settlement: {charged_amount_cents: 37, amount_micro_cents: 37_000_000}, refund: null}
+      }));
+    } else {
+      response.statusCode = 404;
+      response.end(JSON.stringify({message: "not found"}));
+    }
+  });
+}
 
 function textContent(result: Awaited<ReturnType<Client["callTool"]>>): string {
   const content = result.content?.[0];

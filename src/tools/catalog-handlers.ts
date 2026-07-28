@@ -6,9 +6,10 @@ import {
   inputRulesForModel,
   listActionGroups,
   listContractModels,
-  priceForModel,
+  lookupRuntimePrice,
+  runtimePricingErrorMessage,
   type Contract,
-  type PricingConfig
+  type RuntimePricingClient
 } from "@runapi.ai/mcp-core/web";
 import { modalityForAction } from "../lib/text.js";
 import type { BusinessToolClient } from "../business-tools.js";
@@ -64,10 +65,10 @@ export async function listModelsHandler(
   };
 }
 
-export function getModelInfoHandler(
+export async function getModelInfoHandler(
   input: string | GetModelInfoInput,
   contract: Contract,
-  pricing: PricingConfig
+  client: Pick<RuntimePricingClient, "listPriceSchedules">
 ) {
   const request = typeof input === "string" ? { model: input } : input;
   const info = request.service && request.action
@@ -91,6 +92,7 @@ export function getModelInfoHandler(
   const matches = findModels(request.model, contract);
   const ambiguous = !request.service && !request.action && matches.length > 1;
 
+  const pricing = await runtimePricingFor(info, client);
   return {
     ...modelInfoResponse(info, contract, pricing),
     ...(ambiguous ? {
@@ -111,7 +113,7 @@ export function listActionsHandler(contract: Contract) {
   };
 }
 
-function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: PricingConfig) {
+function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: unknown) {
   const inputRules = inputRulesForModel(info, contract);
 
   return {
@@ -122,14 +124,14 @@ function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: Pricing
     model_line: info.model_line,
     fields: fieldSummary(info.fields),
     ...(inputRules.length > 0 ? { input_rules: inputRules } : {}),
-    price: priceForModel(info, pricing)
+    price: pricing
   };
 }
 
-export function checkPricingHandler(
+export async function checkPricingHandler(
   input: { service: string; action: string; model?: string },
   contract: Contract,
-  pricing: PricingConfig
+  client: Pick<RuntimePricingClient, "listPriceSchedules">
 ) {
   const info = findModelForAction(input.service, input.action, input.model, contract);
   if (!info) {
@@ -140,13 +142,29 @@ export function checkPricingHandler(
     };
   }
 
+  const pricing = await runtimePricingFor(info, client);
   return {
     supported: true,
     model: info.model,
     service: info.service,
     action: info.action,
-    price: priceForModel(info, pricing)
+    price: pricing
   };
+}
+
+async function runtimePricingFor(info: ModelInfo, client: Pick<RuntimePricingClient, "listPriceSchedules">) {
+  try {
+    return await lookupRuntimePrice(client, {
+      service: info.service,
+      action: info.action,
+      model: info.model
+    });
+  } catch (error) {
+    return {
+      error: runtimePricingErrorMessage(error),
+      pricing_url: "https://runapi.ai/pricing"
+    };
+  }
 }
 
 export async function searchPromptsHandler(

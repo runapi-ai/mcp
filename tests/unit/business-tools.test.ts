@@ -7,7 +7,7 @@ import {
   createDiscoveryServer,
   type BusinessToolClient
 } from "@runapi.ai/mcp/business-tools";
-import type { Contract, PricingConfig } from "../../src/types.js";
+import type { Contract } from "../../src/types.js";
 
 const contract: Contract = {
   catalog_models: ["hosted-only-model"],
@@ -24,14 +24,13 @@ const contract: Contract = {
     }
   }
 };
-const pricing: PricingConfig = {
-  endpoints: {
-    "hosted-only-model/text_to_image": { unit_price_cents: 314 }
-  }
-};
 
 const client: BusinessToolClient = {
   listModels: async () => ({ data: [] }),
+  listPriceSchedules: async () => ({
+    as_of: "2026-07-23T00:00:00.000000Z",
+    price_schedules: [{service: "hosted-fixture", action: "text_to_image", model: "hosted-only-model", unit_price_cents: 314}]
+  }),
   searchPrompts: async () => ({
     prompts: [],
     pagination: { page: 1, per_page: 20, total: 0, pages: 0 }
@@ -55,7 +54,6 @@ describe("Business Tools composition", () => {
       name: "runapi-hosted-discovery-test",
       version: "0.0.0",
       contract,
-      pricing,
       client
     });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -82,7 +80,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client
     });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -116,7 +113,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client: {...client, createTask}
     });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -152,7 +148,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client: {
         ...client,
         createTask: async () => {
@@ -188,7 +183,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client: {
         ...client,
         pollTask: async () => {
@@ -223,12 +217,11 @@ describe("Business Tools composition", () => {
     });
   });
 
-  it("serves model information and pricing from injected static data", async () => {
+  it("serves model information and pricing from the injected runtime client", async () => {
     const server = createBusinessServer({
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client
     });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -257,14 +250,14 @@ describe("Business Tools composition", () => {
       service: "hosted-fixture",
       action: "text_to_image",
       price: {
-        pricing: { unit_price_cents: 314 }
+        price_schedule: { unit_price_cents: 314 }
       }
     });
     expect(parseText(checkedPrice)).toMatchObject({
       supported: true,
       model: "hosted-only-model",
       price: {
-        pricing: { unit_price_cents: 314 }
+        price_schedule: { unit_price_cents: 314 }
       }
     });
   });
@@ -275,7 +268,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client: { ...client, balance }
     });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -297,7 +289,6 @@ describe("Business Tools composition", () => {
       name: "runapi-business-tools-test",
       version: "0.0.0",
       contract,
-      pricing,
       client: {
         ...client,
         balance: async () => {

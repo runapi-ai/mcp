@@ -61,7 +61,7 @@ jobs:
           import fs from "node:fs";
           const report = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/npm-pack.json", "utf8"));
           const files = report[0].files.map((entry) => entry.path);
-          const required = ["package.json","README.md","README.zh-CN.md","CHANGELOG.md","LICENSE","data/contract.json","data/pricing.json","glama.json"];
+          const required = ["package.json","README.md","README.zh-CN.md","CHANGELOG.md","LICENSE","data/contract.json","glama.json"];
           const requiredPrefixes = ["dist/","dist/bin/"];
           const missing = required.filter((path) => !files.includes(path));
           const missingPrefixes = requiredPrefixes.filter((prefix) => !files.some((path) => path.startsWith(prefix)));

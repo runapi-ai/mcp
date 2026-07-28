@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import type { Contract, PricingConfig } from "../types.js";
+import type { Contract } from "../types.js";
 
 function repoRoot(): string {
   const current = path.dirname(fileURLToPath(import.meta.url));
@@ -20,8 +20,4 @@ function repoRoot(): string {
 
 export function readContract(): Contract {
   return JSON.parse(readFileSync(path.join(repoRoot(), "data", "contract.json"), "utf8")) as Contract;
-}
-
-export function readPricing(): PricingConfig {
-  return JSON.parse(readFileSync(path.join(repoRoot(), "data", "pricing.json"), "utf8")) as PricingConfig;
 }

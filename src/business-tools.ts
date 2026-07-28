@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type {
   Contract,
   PollingOptions,
-  PricingConfig,
+  RuntimePricingClient,
   RunApiPromptsResponse,
   RunApiTaskResponse,
   SearchPromptsParams
@@ -12,12 +12,13 @@ import { registerAuthenticatedTools } from "./tools/authenticated.js";
 import { registerCatalogTools } from "./tools/catalog.js";
 
 export { errorFromResponse, findAction, PollTimeoutError, taskStatus } from "@runapi.ai/mcp-core/web";
+export { CompletionWaitUnavailableError } from "./tools/authenticated-handlers.js";
 export {
   COMPLETION_WAIT_DEADLINE_MS,
   COMPLETION_WAIT_POLL_INTERVAL_MS
 } from "./tools/authenticated-handlers.js";
 
-export type BusinessToolClient = {
+export type BusinessToolClient = Pick<RuntimePricingClient, "listPriceSchedules"> & {
   listModels(): Promise<unknown>;
   searchPrompts(params?: SearchPromptsParams): Promise<RunApiPromptsResponse>;
   balance(): Promise<unknown>;
@@ -31,14 +32,13 @@ export type BusinessToolClient = {
   pollTask(service: string, taskId: string, action?: string, options?: PollingOptions): Promise<RunApiTaskResponse>;
 };
 
-export type DiscoveryToolClient = Pick<BusinessToolClient, "listModels" | "searchPrompts">;
+export type DiscoveryToolClient = Pick<BusinessToolClient, "listModels" | "searchPrompts" | "listPriceSchedules">;
 
 export type DiscoveryServerOptions = {
   name: string;
   version: string;
   instructions?: string;
   contract: Contract;
-  pricing: PricingConfig;
   client: DiscoveryToolClient;
   errorFormatter?: (error: unknown) => string;
 };
@@ -49,7 +49,6 @@ export type BusinessServerOptions = Omit<DiscoveryServerOptions, "client"> & {
 
 export type DiscoveryToolDependencies = {
   contract: Contract;
-  pricing: PricingConfig;
   client: DiscoveryToolClient;
   errorFormatter: (error: unknown) => string;
 };
@@ -75,7 +74,6 @@ export function createDiscoveryServer(options: DiscoveryServerOptions): McpServe
 
   const dependencies: DiscoveryToolDependencies = {
     contract: options.contract,
-    pricing: options.pricing,
     client: options.client,
     errorFormatter: options.errorFormatter ?? hostedError
   };
@@ -89,7 +87,6 @@ export function createBusinessServer(options: BusinessServerOptions): McpServer 
   const server = createDiscoveryServer(options);
   const dependencies: BusinessToolDependencies = {
     contract: options.contract,
-    pricing: options.pricing,
     client: options.client,
     errorFormatter: options.errorFormatter ?? hostedError
   };

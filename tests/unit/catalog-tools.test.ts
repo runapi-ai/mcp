@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { readContract, readPricing } from "../../src/lib/data.js";
+import { readContract } from "../../src/lib/data.js";
 import {
   checkPricingHandler as checkPricingWith,
   getModelInfoHandler as getModelInfoWith,
@@ -9,7 +9,6 @@ import {
 } from "../../src/tools/catalog-handlers.js";
 
 const contract = readContract();
-const pricing = readPricing();
 
 function listModelsHandler(
   input: Parameters<typeof listModelsWith>[0],
@@ -18,16 +17,20 @@ function listModelsHandler(
   return listModelsWith(input, client, contract);
 }
 
-function getModelInfoHandler(input: Parameters<typeof getModelInfoWith>[0]) {
-  return getModelInfoWith(input, contract, pricing);
+function pricingClient(priceSchedules = [{service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 31}]) {
+  return {listPriceSchedules: vi.fn(async () => ({as_of: "2026-07-23T00:00:00.000000Z", price_schedules: priceSchedules}))};
+}
+
+function getModelInfoHandler(input: Parameters<typeof getModelInfoWith>[0], client = pricingClient()) {
+  return getModelInfoWith(input, contract, client);
 }
 
 function listActionsHandler() {
   return listActionsWith(contract);
 }
 
-function checkPricingHandler(input: Parameters<typeof checkPricingWith>[0]) {
-  return checkPricingWith(input, contract, pricing);
+function checkPricingHandler(input: Parameters<typeof checkPricingWith>[0], client = pricingClient()) {
+  return checkPricingWith(input, contract, client);
 }
 
 describe("catalog tool handlers", () => {
@@ -72,19 +75,21 @@ describe("catalog tool handlers", () => {
     expect(result.models.every((model) => model.service === "suno")).toBe(true);
   });
 
-  it("gets model info with pricing", () => {
-    const result = getModelInfoHandler("flux-kontext-pro");
+  it("gets model info with runtime pricing", async () => {
+    const result = await getModelInfoHandler("flux-kontext-pro");
 
     expect(result).toMatchObject({
       model: "flux-kontext-pro",
       service: "flux-kontext",
       action: "text_to_image"
     });
-    expect("price" in result).toBe(true);
+    expect(result).toMatchObject({price: {price_schedule: {unit_price_cents: 31}}});
   });
 
-  it("marks multi-endpoint model info as ambiguous without service and action", () => {
-    const result = getModelInfoHandler("suno-v4");
+  it("marks multi-endpoint model info as ambiguous without service and action", async () => {
+    const result = await getModelInfoHandler("suno-v4", pricingClient([
+      {service: "suno", action: "text_to_music", model: "suno-v4", unit_price_cents: 12}
+    ]));
 
     expect(result).toMatchObject({
       model: "suno-v4",
@@ -104,12 +109,12 @@ describe("catalog tool handlers", () => {
     );
   });
 
-  it("disambiguates model info with service and action", () => {
-    const result = getModelInfoHandler({
+  it("disambiguates model info with service and action", async () => {
+    const result = await getModelInfoHandler({
       service: "suno",
       action: "text_to_music",
       model: "suno-v4"
-    });
+    }, pricingClient([{service: "suno", action: "text_to_music", model: "suno-v4", unit_price_cents: 12}]));
 
     expect(result).toMatchObject({
       model: "suno-v4",
@@ -136,12 +141,12 @@ describe("catalog tool handlers", () => {
     );
   });
 
-  it("exposes generated contract input rules for Kling V3 Turbo", () => {
-    const result = getModelInfoHandler({
+  it("exposes generated contract input rules for Kling V3 Turbo", async () => {
+    const result = await getModelInfoHandler({
       service: "kling",
       action: "image_to_video",
       model: "kling-v3-turbo-image-to-video"
-    });
+    }, pricingClient([{service: "kling", action: "image_to_video", model: "kling-v3-turbo-image-to-video", unit_price_cents: 12}]));
 
     expect(result).toMatchObject({
       model: "kling-v3-turbo-image-to-video",
@@ -158,16 +163,16 @@ describe("catalog tool handlers", () => {
     );
   });
 
-  it("returns a helpful response for unknown model info", () => {
-    const result = getModelInfoHandler("missing-model");
+  it("returns a helpful response for unknown model info", async () => {
+    const result = await getModelInfoHandler("missing-model");
 
     expect(result).toMatchObject({
       error: "Unknown RunAPI model: missing-model"
     });
   });
 
-  it("returns a helpful response for unsupported model action combinations", () => {
-    const result = getModelInfoHandler({
+  it("returns a helpful response for unsupported model action combinations", async () => {
+    const result = await getModelInfoHandler({
       service: "suno",
       action: "text_to_video",
       model: "suno-v4"
@@ -185,21 +190,28 @@ describe("catalog tool handlers", () => {
     expect(result.groups.find((group) => group.modality === "video")?.actions).toContain("text_to_video");
   });
 
-  it("checks pricing for supported and unsupported combinations", () => {
-    expect(checkPricingHandler({
+  it("checks current pricing and reports unavailable lookup without a stale fallback", async () => {
+    await expect(checkPricingHandler({
       service: "flux-kontext",
       action: "text_to_image",
       model: "flux-kontext-pro"
-    })).toMatchObject({
+    })).resolves.toMatchObject({
       supported: true,
       model: "flux-kontext-pro"
     });
 
-    expect(checkPricingHandler({
+    await expect(checkPricingHandler({
       service: "missing",
       action: "text_to_image"
-    })).toMatchObject({
+    })).resolves.toMatchObject({
       supported: false
+    });
+
+    await expect(checkPricingHandler({service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro"}, {
+      listPriceSchedules: vi.fn(async () => { throw new Error("offline"); })
+    })).resolves.toMatchObject({
+      supported: true,
+      price: {error: expect.stringContaining("https://runapi.ai/pricing")}
     });
   });
 

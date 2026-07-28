@@ -22,9 +22,23 @@ RunAPI MCP Server 让 Claude Code、Cursor、VS Code、Windsurf、Roo 等 MCP Ho
 
 ---
 
+## Hosted MCP
+
+远程 MCP Client 可以直接连接：
+
+```text
+https://mcp.runapi.ai/mcp
+```
+
+无需安装 Node.js。Client 支持远程 MCP 授权时使用 OAuth，也可以把 RunAPI API Key 配置为 bearer credential。Cursor、Claude Desktop、VS Code 和 Windsurf 的配置见 [Hosted MCP 设置页面](https://runapi.ai/mcp)。
+
+Hosted MCP 提供下文列出的 8 个 Business Tools。Local Login 只保留在 Local MCP package 中。
+
+---
+
 ## 快速开始
 
-Claude Code、Cursor、Windsurf 和 VS Code 推荐使用 Claude Code 的 MCP 命令安装：
+通过 stdio 使用 Local MCP 时，推荐使用 Claude Code 的 MCP 命令安装：
 
 ```bash
 claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
@@ -302,9 +316,8 @@ Server 按以下顺序读取配置：
 包内包含构建时数据：
 
 - `data/contract.json`：目录、action、model slug 和输入约束
-- `data/pricing.json`：`check_pricing` 使用的价格快照
 
-发布前刷新数据：
+发布前刷新 contract 数据：
 
 ```bash
 npm run sync:data
