@@ -2,7 +2,7 @@ import { registerLoginTool } from "@runapi.ai/mcp-core";
 import { friendlyError } from "@runapi.ai/mcp-core/web";
 import { createBusinessServer } from "./business-tools.js";
 import { PACKAGE_NAME, PACKAGE_VERSION, USER_AGENT } from "./constants.js";
-import { readContract, readPricing } from "./lib/data.js";
+import { readContract } from "./lib/data.js";
 import { RunApiClient } from "./lib/runapi-client.js";
 import { SERVER_INSTRUCTIONS } from "./server-instructions.js";
 
@@ -12,7 +12,6 @@ export function createServer() {
     version: PACKAGE_VERSION,
     instructions: SERVER_INSTRUCTIONS,
     contract: readContract(),
-    pricing: readPricing(),
     client: new RunApiClient(),
     errorFormatter: friendlyError
   });

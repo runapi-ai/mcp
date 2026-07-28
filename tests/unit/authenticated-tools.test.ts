@@ -54,7 +54,8 @@ describe("authenticated tool handlers", () => {
   });
 
   it("creates a task without polling", async () => {
-    const createTask = vi.fn(async () => ({ id: "task_123", status: "queued" }));
+    const created = { id: "task_123", status: "queued", billing: {reservation: {amount_cents: 5}, settlement: null, refund: null} };
+    const createTask = vi.fn(async () => created);
     const result = await createTaskHandler({
       service: "flux-kontext",
       action: "text_to_image",
@@ -78,7 +79,8 @@ describe("authenticated tool handlers", () => {
     );
     expect(result).toMatchObject({
       task_id: "task_123",
-      status: "queued"
+      status: "queued",
+      created
     });
   });
 
@@ -322,6 +324,62 @@ describe("authenticated tool handlers", () => {
     });
   });
 
+  it.each([
+    "file:///etc/passwd.jpg",
+    "http://localhost/reference.jpg",
+    "http://127.0.0.1/reference.jpg",
+    "http://169.254.169.254/reference.jpg",
+    "http://[::ffff:127.0.0.1]/reference.jpg",
+    "http://2130706433/reference.jpg",
+    "http://127.1/reference.jpg",
+    "http://0177.0.0.1/reference.jpg",
+    "http://0x7f000001/reference.jpg"
+  ])("rejects non-public Kling O1 reference %s before creating tasks", async (referenceUrl) => {
+    const createTask = vi.fn();
+    const result = await createTaskHandler({
+      service: "kling",
+      action: "text_to_video",
+      model: "kling-o1",
+      params: {
+        prompt: "Use <<<image_1>>>",
+        reference_image_urls: [referenceUrl]
+      },
+      wait: false
+    }, {
+      createTask,
+      pollTask: vi.fn()
+    });
+
+    expect(createTask).not.toHaveBeenCalled();
+    expect(result).toMatchObject({
+      error: "Invalid RunAPI parameters: reference_image_urls[0] must be a public HTTP or HTTPS URL"
+    });
+  });
+
+  it("rejects Kling O1 tail frames combined with reference media before creating tasks", async () => {
+    const createTask = vi.fn();
+    const result = await createTaskHandler({
+      service: "kling",
+      action: "image_to_video",
+      model: "kling-o1",
+      params: {
+        prompt: "Move toward <<<image_1>>>",
+        first_frame_image_url: "https://cdn.runapi.ai/public/samples/image.jpg",
+        last_frame_image_url: "https://cdn.runapi.ai/public/samples/last-frame.jpg",
+        reference_image_urls: ["https://cdn.runapi.ai/public/samples/portrait.jpg"]
+      },
+      wait: false
+    }, {
+      createTask,
+      pollTask: vi.fn()
+    });
+
+    expect(createTask).not.toHaveBeenCalled();
+    expect(result).toMatchObject({
+      error: "Invalid RunAPI parameters: last_frame_image_url cannot be combined with reference_image_urls or reference_video_url"
+    });
+  });
+
   it("gets task status and maps service errors", async () => {
     await expect(getTaskHandler({
       service: "suno",
@@ -343,6 +401,16 @@ describe("authenticated tool handlers", () => {
     })).resolves.toMatchObject({
       error: expect.stringContaining("temporarily unavailable")
     });
+  });
+
+  it("passes API Task Billing Facts through without attaching a price schedule", async () => {
+    const task = {id: "task_123", status: "completed", billing: {reservation: {amount_cents: 5}, settlement: {charged_amount_cents: 5, amount_micro_cents: 5_000_000}, refund: null}};
+    const result = await getTaskHandler({service: "suno", action: "text_to_music", task_id: "task_123"}, {
+      getTask: vi.fn(async () => task)
+    });
+
+    expect(result).toEqual({task_id: "task_123", status: "completed", task});
+    expect(JSON.stringify(result)).not.toContain("price_schedule");
   });
 
   it("uses the 300 second Completion Wait deadline for every asynchronous action", () => {

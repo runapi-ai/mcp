@@ -28,7 +28,7 @@
 ## What Is This?
 
 RunAPI MCP Server connects MCP-compatible coding tools to RunAPI.
-It lets an assistant browse the RunAPI catalog, inspect model inputs, check current pricing snapshots, create media tasks, poll task status, and check account balance.
+It lets an assistant browse the RunAPI catalog, inspect model inputs, check current runtime pricing, create media tasks, poll task status, and check account balance.
 
 The discovery tools work without an API key because they use the embedded build-time catalog.
 Authenticated operations use the `login` tool, `runapi login`, `RUNAPI_API_KEY`, or shared RunAPI config.
@@ -38,9 +38,23 @@ It does not run a local generation backend and only needs RunAPI sign-in for aut
 
 ---
 
+## Hosted MCP
+
+Remote MCP clients can connect directly to:
+
+```text
+https://mcp.runapi.ai/mcp
+```
+
+No Node.js installation is required. Use OAuth when the client supports remote MCP authorization, or configure a RunAPI API key as the bearer credential. See the [Hosted MCP setup page](https://runapi.ai/mcp) for Cursor, Claude Desktop, VS Code, and Windsurf configurations.
+
+Hosted MCP exposes the eight Business Tools documented below. Local Login remains available only in the Local MCP package.
+
+---
+
 ## Quick Start
 
-For Claude Code, Cursor, Windsurf, and VS Code, install RunAPI with Claude Code's MCP command:
+For Local MCP over stdio, install RunAPI with Claude Code's MCP command:
 
 ```bash
 claude mcp add runapi -s user -- npx -y @runapi.ai/mcp
@@ -91,9 +105,9 @@ Headless and CI hosts can still set `RUNAPI_API_KEY` before starting the MCP hos
 | Tool | Auth | Purpose |
 |---|---|---|
 | `list_models` | No | List RunAPI models from the embedded catalog. Supports `modality`, `service`, and `action` filters. |
-| `get_model_info` | No | Return service, action, modality, input constraints, and pricing snapshot for a model slug. Use `service` + `action` when a model appears in multiple endpoints. |
+| `get_model_info` | No | Return service, action, modality, input constraints, and current runtime pricing for a model slug. Use `service` + `action` when a model appears in multiple endpoints. |
 | `list_actions` | No | Group endpoint action names by modality. |
-| `check_pricing` | No | Return pricing snapshot data for a `service` + `action` + `model` combination. |
+| `check_pricing` | No | Return current runtime pricing for a `service` + `action` + `model` combination. |
 | `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. |
 | `login` | No | Start browser login and save RunAPI credentials to shared local config. |
 | `create_task` | Yes | Create a media task with a required caller-generated `idempotency_key`; wait for completion by default or return immediately with `wait: false`. |
@@ -144,7 +158,7 @@ Expected behavior:
 
 1. The assistant calls `get_model_info`.
 2. If the response is ambiguous, it chooses the relevant service/action from the returned matches and calls `get_model_info` again with `service` and `action`.
-3. It shows required fields, enum constraints, range constraints, conditional input rules, supported action, and pricing snapshot if present.
+3. It shows required fields, enum constraints, range constraints, conditional input rules, supported action, and current runtime pricing if available.
 4. It tells you to choose another slug with `list_models` if the slug is not found.
 
 ### Create A Media Task
@@ -230,7 +244,7 @@ Useful flows:
 
 1. Call `list_models` to find a candidate model.
 2. Call `check_pricing` with `service`, `action`, and `model`.
-3. Show the returned pricing snapshot or link to [runapi.ai/pricing](https://runapi.ai/pricing).
+3. Show the returned current price or link to [runapi.ai/pricing](https://runapi.ai/pricing).
 
 Free catalog tools do not create tasks and do not consume account balance.
 
@@ -341,10 +355,9 @@ Do not commit real API keys.
 
 ## Data Sync
 
-This package ships build-time data files:
+This package ships build-time contract data:
 
 - `data/contract.json`: catalog, actions, model slugs, and input constraints
-- `data/pricing.json`: pricing snapshot used by `check_pricing`
 
 Refresh data from the RunAPI source tree before a release:
 
@@ -352,7 +365,7 @@ Refresh data from the RunAPI source tree before a release:
 npm run sync:data
 ```
 
-Build-time data means a pricing or catalog update requires a new package release.
+Contract updates require a new package release. Pricing is queried from the RunAPI runtime API and does not use a package snapshot.
 
 ---
 

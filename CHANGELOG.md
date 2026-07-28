@@ -1,5 +1,23 @@
 # Changelog
 
+## [v0.7.0](https://github.com/runapi-ai/mcp/releases/tag/v0.7.0) - 2026-07-28
+
+### Breaking
+- Return current runtime Price Schedule data from get_model_info and check_pricing instead of the package pricing snapshot.
+  Migration: Read the returned price_schedule object and handle an explicit runtime pricing lookup error with its canonical pricing link.
+
+### Added
+- Include Kling O1 text-to-video and image-to-video contracts, pricing metadata, and reference-media validation.
+- Return a task reference fallback when Completion Wait concurrency is unavailable.
+- Add Hosted MCP connection guidance and audited release safeguards for remote clients.
+
+### Changed
+- Include Flux 2 Max models and request constraints in aggregate MCP discovery and validation data.
+
+### Fixed
+- Preserve RunAPI Task Billing Facts in create_task and get_task responses without representing a general Price Schedule as a task charge.
+
+
 ## [v0.6.0](https://github.com/runapi-ai/mcp/releases/tag/v0.6.0) - 2026-07-23
 
 ### Added
