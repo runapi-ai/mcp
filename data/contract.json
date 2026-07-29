@@ -156,7 +156,6 @@
     "seedance-2-mini",
     "seedance-2.0",
     "seedance-2.0-fast",
-    "seedance-v1-lite",
     "seedance-v1-pro",
     "seedance-v1-pro-fast",
     "seedream-4.5-edit",
@@ -6580,7 +6579,6 @@
         "seedance-2-mini",
         "seedance-2.0",
         "seedance-2.0-fast",
-        "seedance-v1-lite",
         "seedance-v1-pro",
         "seedance-v1-pro-fast"
       ],
@@ -6627,19 +6625,6 @@
             "source_image_urls",
             "lock_camera",
             "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-v1-lite"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls",
-            "web_search",
-            "generate_audio"
           ]
         },
         {
@@ -6911,59 +6896,6 @@
           },
           "web_search": {
             "type": "boolean"
-          }
-        },
-        "seedance-v1-lite": {
-          "prompt": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "callback_url": {
-            "type": "string"
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "1:1",
-              "4:3",
-              "3:4",
-              "16:9",
-              "9:16",
-              "9:21"
-            ]
-          },
-          "output_resolution": {
-            "type": "string",
-            "enum": [
-              "480p",
-              "720p",
-              "1080p"
-            ]
-          },
-          "duration_seconds": {
-            "type": "integer",
-            "enum": [
-              5,
-              10
-            ],
-            "required": true
-          },
-          "enable_safety_checker": {
-            "type": "boolean"
-          },
-          "lock_camera": {
-            "type": "boolean"
-          },
-          "first_frame_image_url": {
-            "type": "string"
-          },
-          "last_frame_image_url": {
-            "type": "string"
-          },
-          "seed": {
-            "type": "integer"
           }
         },
         "seedance-v1-pro": {
