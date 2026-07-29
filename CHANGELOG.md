@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.7.2](https://github.com/runapi-ai/mcp/releases/tag/v0.7.2) - 2026-07-29
+
+### Added
+- Publish Hosted MCP OAuth discovery and OAuth-first setup for Claude Desktop, Cursor, VS Code, and Windsurf.
+
+### Removed
+- Remove seedance-v1-lite from aggregate MCP contract data.
+  Migration: Use seedance-v1-pro or another supported Seedance model.
+
+### Fixed
+- Point the aggregate MCP product documentation link to the canonical Rails Developer Docs guide entry.
+- Use kill-switch containment and forward-fix recovery across Durable Object migrations.
+
+
 ## [v0.7.1](https://github.com/runapi-ai/mcp/releases/tag/v0.7.1) - 2026-07-28
 
 ### Changed
