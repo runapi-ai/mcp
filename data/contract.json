@@ -47,6 +47,7 @@
     "gemini-3.1-flash-tts",
     "gemini-3.1-pro-preview",
     "gemini-3.5-flash",
+    "gemini-3.6-flash",
     "gemini-omni-audio",
     "gemini-omni-character",
     "gemini-omni-flash-preview",
@@ -133,6 +134,8 @@
     "midjourney-edit-image",
     "midjourney-image-to-video",
     "midjourney-v8.1",
+    "mimo-v2.5",
+    "mimo-v2.5-pro",
     "nano-banana",
     "nano-banana-2",
     "nano-banana-2-lite",
@@ -141,6 +144,7 @@
     "omnihuman-1.5",
     "omnihuman-1.5-human-identification",
     "omnihuman-1.5-subject-detection",
+    "pixverse-v6",
     "qwen-2-edit-image",
     "qwen-2-text-to-image",
     "qwen-image-edit-image",
@@ -1500,7 +1504,6 @@
                     "Staccato"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker pace."
                 },
                 "style": {
@@ -1513,7 +1516,6 @@
                     "Deadpan"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker delivery style."
                 },
                 "accent": {
@@ -1528,7 +1530,6 @@
                     "Australian"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker accent."
                 },
                 "speaker_id": {
@@ -1646,7 +1647,6 @@
                     "Staccato"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker pace."
                 },
                 "style": {
@@ -1659,7 +1659,6 @@
                     "Deadpan"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker delivery style."
                 },
                 "accent": {
@@ -1674,7 +1673,6 @@
                     "Australian"
                   ],
                   "type": "string",
-                  "required": true,
                   "description": "Speaker accent."
                 },
                 "speaker_id": {
@@ -5802,6 +5800,378 @@
         }
       }
     },
+    "pixverse/edit-video": {
+      "model": "PixVerse",
+      "endpoint": "edit_video",
+      "task_type": "asynchronous",
+      "models": [
+        "pixverse-v6"
+      ],
+      "fields_by_model": {
+        "pixverse-v6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "540p",
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "required": true,
+            "description": "Output resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 5,
+            "required": true,
+            "description": "Duration in seconds."
+          },
+          "enable_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized audio generation."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 7,
+            "min_items": 1,
+            "description": "Ordered public reference image URLs."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "default": "16:9",
+            "required": true,
+            "description": "Output aspect ratio."
+          }
+        }
+      }
+    },
+    "pixverse/extend-video": {
+      "model": "PixVerse",
+      "endpoint": "extend_video",
+      "task_type": "asynchronous",
+      "models": [
+        "pixverse-v6"
+      ],
+      "fields_by_model": {
+        "pixverse-v6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video continuation description."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "540p",
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "required": true,
+            "description": "Output resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 5,
+            "required": true,
+            "description": "Duration in seconds."
+          },
+          "enable_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized audio generation."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed PixVerse video task ID to extend."
+          }
+        }
+      }
+    },
+    "pixverse/image-to-video": {
+      "model": "PixVerse",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "pixverse-v6"
+      ],
+      "fields_by_model": {
+        "pixverse-v6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "540p",
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "required": true,
+            "description": "Output resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 5,
+            "required": true,
+            "description": "Duration in seconds."
+          },
+          "enable_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized audio generation."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "First frame image URL."
+          },
+          "enable_multi_clip": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable multi-clip generation."
+          }
+        }
+      }
+    },
+    "pixverse/text-to-video": {
+      "model": "PixVerse",
+      "endpoint": "text_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "pixverse-v6"
+      ],
+      "fields_by_model": {
+        "pixverse-v6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "540p",
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "required": true,
+            "description": "Output resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 5,
+            "required": true,
+            "description": "Duration in seconds."
+          },
+          "enable_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized audio generation."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16",
+              "2:3",
+              "3:2",
+              "21:9"
+            ],
+            "default": "16:9",
+            "required": true,
+            "description": "Output aspect ratio."
+          },
+          "enable_multi_clip": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable multi-clip generation."
+          }
+        }
+      }
+    },
+    "pixverse/transition-video": {
+      "model": "PixVerse",
+      "endpoint": "transition_video",
+      "task_type": "asynchronous",
+      "models": [
+        "pixverse-v6"
+      ],
+      "fields_by_model": {
+        "pixverse-v6": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video description."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "540p",
+              "720p",
+              "1080p"
+            ],
+            "default": "720p",
+            "required": true,
+            "description": "Output resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 15,
+            "min": 1,
+            "default": 5,
+            "required": true,
+            "description": "Duration in seconds."
+          },
+          "enable_audio": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable synchronized audio generation."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "First frame image URL."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "Last frame image URL."
+          }
+        }
+      }
+    },
     "producer/text-to-music": {
       "model": "Producer",
       "endpoint": "text_to_music",
@@ -6745,7 +7115,8 @@
           "duration_seconds": {
             "type": "integer",
             "max": 15,
-            "min": 4
+            "min": 4,
+            "default": 5
           },
           "generate_audio": {
             "type": "boolean"
@@ -6806,7 +7177,8 @@
           "duration_seconds": {
             "type": "integer",
             "max": 15,
-            "min": 4
+            "min": 4,
+            "default": 5
           },
           "generate_audio": {
             "type": "boolean"
@@ -6868,7 +7240,8 @@
           "duration_seconds": {
             "type": "integer",
             "max": 15,
-            "min": 4
+            "min": 4,
+            "default": 5
           },
           "generate_audio": {
             "type": "boolean"
@@ -12076,7 +12449,8 @@
           "duration_seconds": {
             "type": "integer",
             "max": 10,
-            "min": 2
+            "min": 2,
+            "default": 5
           },
           "output_resolution": {
             "type": "string",

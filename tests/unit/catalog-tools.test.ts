@@ -17,7 +17,7 @@ function listModelsHandler(
   return listModelsWith(input, client, contract);
 }
 
-function pricingClient(priceSchedules = [{service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 31}]) {
+function pricingClient(priceSchedules = [{service: "flux_kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 31}]) {
   return {listPriceSchedules: vi.fn(async () => ({as_of: "2026-07-23T00:00:00.000000Z", price_schedules: priceSchedules}))};
 }
 

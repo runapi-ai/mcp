@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.7.3](https://github.com/runapi-ai/mcp/releases/tag/v0.7.3) - 2026-08-04
+
+### Changed
+- Resolve MCP prices from the RunAPI Price Schedule API instead of embedded package data.
+
+### Fixed
+- Cancel the Hosted MCP pricing subrequest when its deadline expires or its parent request disconnects.
+
+
 ## [v0.7.2](https://github.com/runapi-ai/mcp/releases/tag/v0.7.2) - 2026-07-29
 
 ### Added

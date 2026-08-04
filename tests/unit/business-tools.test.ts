@@ -29,7 +29,7 @@ const client: BusinessToolClient = {
   listModels: async () => ({ data: [] }),
   listPriceSchedules: async () => ({
     as_of: "2026-07-23T00:00:00.000000Z",
-    price_schedules: [{service: "hosted-fixture", action: "text_to_image", model: "hosted-only-model", unit_price_cents: 314}]
+    price_schedules: [{service: "hosted_fixture", action: "text_to_image", model: "hosted-only-model", unit_price_cents: 314}]
   }),
   searchPrompts: async () => ({
     prompts: [],
