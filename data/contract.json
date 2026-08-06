@@ -5995,6 +5995,10 @@
           },
           "enable_audio": {
             "type": "boolean",
+            "enum": [
+              true,
+              false
+            ],
             "default": false,
             "description": "Enable synchronized audio generation."
           },
@@ -6065,6 +6069,10 @@
           },
           "enable_audio": {
             "type": "boolean",
+            "enum": [
+              true,
+              false
+            ],
             "default": false,
             "description": "Enable synchronized audio generation."
           },
@@ -8036,6 +8044,160 @@
             "type": "string",
             "required": true,
             "description": "Style or genre tags."
+          }
+        }
+      }
+    },
+    "suno/add-samples": {
+      "model": "Suno",
+      "endpoint": "add_samples",
+      "task_type": "asynchronous",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5-plus": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -10040,6 +10202,125 @@
         }
       }
     },
+    "suno/remaster-audio": {
+      "model": "Suno",
+      "endpoint": "remaster_audio",
+      "task_type": "asynchronous",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5-plus": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
     "suno/replace-section": {
       "model": "Suno",
       "endpoint": "replace_section",
@@ -10252,6 +10533,125 @@
               "Didgeridoo"
             ],
             "description": "Target stem for advanced separation. Required when type is split_stem_advanced."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
+    "suno/stitch-audio": {
+      "model": "Suno",
+      "endpoint": "stitch_audio",
+      "task_type": "asynchronous",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5-plus": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "Completed source task ID."
+          },
+          "audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio ID within the source task."
           },
           "callback_url": {
             "type": "string",
