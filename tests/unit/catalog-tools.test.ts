@@ -135,7 +135,7 @@ describe("catalog tool handlers", () => {
         expect.objectContaining({
           when: { vocal_mode: "instrumental" },
           required: ["style", "title"],
-          forbidden: ["prompt", "lyrics"]
+          forbidden: ["prompt", "lyrics", "vocal_gender"]
         })
       ])
     );

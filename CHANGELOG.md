@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.0](https://github.com/runapi-ai/mcp/releases/tag/v0.8.0) - 2026-08-07
+
+### Added
+- Add MiniMax H3 input rules to the aggregate MCP contract.
+
+
 ## [v0.7.4](https://github.com/runapi-ai/mcp/releases/tag/v0.7.4) - 2026-08-06
 
 ### Added

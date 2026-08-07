@@ -76,6 +76,7 @@
     "gpt-5.6-terra",
     "gpt-image-1.5",
     "gpt-image-2",
+    "gpt-transcribe",
     "grok-4.20-0309-non-reasoning",
     "grok-4.3",
     "grok-4.5",
@@ -136,6 +137,7 @@
     "midjourney-v8.1",
     "mimo-v2.5",
     "mimo-v2.5-pro",
+    "minimax-h3",
     "nano-banana",
     "nano-banana-2",
     "nano-banana-2-lite",
@@ -147,6 +149,10 @@
     "pixverse-v6",
     "qwen-2-edit-image",
     "qwen-2-text-to-image",
+    "qwen-3-edit-image",
+    "qwen-3-pro-edit-image",
+    "qwen-3-pro-text-to-image",
+    "qwen-3-text-to-image",
     "qwen-image-edit-image",
     "qwen-image-remix-image",
     "qwen-image-text-to-image",
@@ -156,6 +162,7 @@
     "runway-aleph",
     "s1",
     "s2-pro",
+    "s2.1-pro",
     "seedance-1.5-pro",
     "seedance-2-mini",
     "seedance-2.0",
@@ -210,6 +217,7 @@
     "wan-2.7-image-to-video",
     "wan-2.7-r2v",
     "wan-2.7-text-to-video",
+    "whisper-1",
     "z-image"
   ],
   "actions": {
@@ -451,7 +459,42 @@
       "task_type": "synchronous",
       "models": [
         "s1",
-        "s2-pro"
+        "s2-pro",
+        "s2.1-pro"
+      ],
+      "rules": [
+        {
+          "when": {
+            "output_format": "wav"
+          },
+          "forbidden": [
+            "bitrate_kbps"
+          ]
+        },
+        {
+          "enum": {
+            "sample_rate_hz": [
+              32000,
+              44100
+            ]
+          },
+          "when": {
+            "output_format": "mp3"
+          }
+        },
+        {
+          "enum": {
+            "sample_rate_hz": [
+              32000,
+              44100
+            ]
+          },
+          "when": {
+            "output_format": {
+              "present": false
+            }
+          }
+        }
       ],
       "fields_by_model": {
         "s1": {
@@ -463,6 +506,37 @@
           "text": {
             "type": "string",
             "required": true
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "mp3",
+              "wav"
+            ],
+            "default": "mp3",
+            "description": "Output audio format."
+          },
+          "sample_rate_hz": {
+            "type": "integer",
+            "enum": [
+              8000,
+              16000,
+              24000,
+              32000,
+              44100
+            ],
+            "default": 44100,
+            "description": "Output sample rate. MP3 supports 32000 and 44100 Hz; WAV supports every listed value."
+          },
+          "bitrate_kbps": {
+            "type": "integer",
+            "enum": [
+              64,
+              128,
+              192
+            ],
+            "default": 128,
+            "description": "MP3 bitrate. Not accepted for WAV output."
           },
           "references": {
             "type": "array",
@@ -493,6 +567,98 @@
           "text": {
             "type": "string",
             "required": true
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "mp3",
+              "wav"
+            ],
+            "default": "mp3",
+            "description": "Output audio format."
+          },
+          "sample_rate_hz": {
+            "type": "integer",
+            "enum": [
+              8000,
+              16000,
+              24000,
+              32000,
+              44100
+            ],
+            "default": 44100,
+            "description": "Output sample rate. MP3 supports 32000 and 44100 Hz; WAV supports every listed value."
+          },
+          "bitrate_kbps": {
+            "type": "integer",
+            "enum": [
+              64,
+              128,
+              192
+            ],
+            "default": 128,
+            "description": "MP3 bitrate. Not accepted for WAV output."
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Exact transcript of the reference audio."
+                },
+                "audio": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Base64-encoded raw audio bytes."
+                }
+              }
+            },
+            "description": "Inline reference audio samples for this request."
+          }
+        },
+        "s2.1-pro": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "text": {
+            "type": "string",
+            "required": true
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "mp3",
+              "wav"
+            ],
+            "default": "mp3",
+            "description": "Output audio format."
+          },
+          "sample_rate_hz": {
+            "type": "integer",
+            "enum": [
+              8000,
+              16000,
+              24000,
+              32000,
+              44100
+            ],
+            "default": 44100,
+            "description": "Output sample rate. MP3 supports 32000 and 44100 Hz; WAV supports every listed value."
+          },
+          "bitrate_kbps": {
+            "type": "integer",
+            "enum": [
+              64,
+              128,
+              192
+            ],
+            "default": 128,
+            "description": "MP3 bitrate. Not accepted for WAV output."
           },
           "references": {
             "type": "array",
@@ -2105,7 +2271,6 @@
           "forbidden": [
             "source_task_id",
             "index",
-            "reference_image_urls",
             "motion_style",
             "enable_safety_checker"
           ]
@@ -2272,7 +2437,8 @@
           },
           "reference_image_urls": {
             "type": "array",
-            "description": "Not accepted by this model."
+            "max_items": 6,
+            "description": "Additional public reference image URLs; source plus references may total seven images."
           },
           "source_task_id": {
             "type": "string",
@@ -2304,7 +2470,8 @@
             "type": "string",
             "enum": [
               "480p",
-              "720p"
+              "720p",
+              "1080p"
             ],
             "default": "480p",
             "description": "Output resolution."
@@ -2408,7 +2575,6 @@
             "model": "grok-imagine-video-1.5-preview"
           },
           "forbidden": [
-            "reference_image_urls",
             "motion_style",
             "enable_safety_checker"
           ]
@@ -2553,7 +2719,8 @@
           },
           "reference_image_urls": {
             "type": "array",
-            "description": "Not accepted by this model."
+            "max_items": 7,
+            "description": "Public reference image URLs; 1080p accepts at most one image."
           },
           "aspect_ratio": {
             "type": "string",
@@ -2583,7 +2750,8 @@
             "type": "string",
             "enum": [
               "480p",
-              "720p"
+              "720p",
+              "1080p"
             ],
             "default": "480p",
             "description": "Output resolution."
@@ -5367,6 +5535,214 @@
         }
       }
     },
+    "minimax-h3/image-to-video": {
+      "model": "MiniMax H3",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "minimax-h3"
+      ],
+      "rules": [
+        {
+          "required_any": [
+            "first_frame_image_url",
+            "last_frame_image_url"
+          ]
+        }
+      ],
+      "fields_by_model": {
+        "minimax-h3": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 7000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public HTTP(S) first-frame image URL; JPG, JPEG, PNG, WEBP, HEIC, or HEIF, up to 30 MB, 256-5760 pixels per side, with aspect ratio 0.4-2.5."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public HTTP(S) final-frame image URL; JPG, JPEG, PNG, WEBP, HEIC, or HEIF, up to 30 MB, 256-5760 pixels per side, with aspect ratio 0.4-2.5."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 6,
+            "description": "Generated video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "768p",
+              "2k"
+            ],
+            "default": "2k",
+            "description": "Generated video resolution."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
+    "minimax-h3/text-to-video": {
+      "model": "MiniMax H3",
+      "endpoint": "text_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "minimax-h3"
+      ],
+      "rules": [
+        {
+          "when": {
+            "reference_audio_urls": {
+              "present": true
+            }
+          },
+          "required_any": [
+            "reference_image_urls",
+            "reference_video_urls"
+          ]
+        },
+        {
+          "enum": {
+            "aspect_ratio": [
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ]
+          },
+          "when": {
+            "reference_image_urls": {
+              "present": false
+            },
+            "reference_video_urls": {
+              "present": false
+            }
+          },
+          "required": [
+            "aspect_ratio"
+          ]
+        }
+      ],
+      "fields_by_model": {
+        "minimax-h3": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 7000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 6,
+            "description": "Generated video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "768p",
+              "2k"
+            ],
+            "default": "2k",
+            "description": "Generated video resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "adaptive",
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ],
+            "description": "Generated video aspect ratio; adaptive is available only with reference media."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https?://"
+            },
+            "max_items": 9,
+            "description": "Public HTTP(S) reference image URLs; JPG, JPEG, PNG, WEBP, HEIC, or HEIF, up to 30 MB each, 256-5760 pixels per side, with aspect ratio 0.4-2.5."
+          },
+          "reference_video_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https?://"
+            },
+            "max_items": 3,
+            "description": "Public HTTP(S) MP4 or MOV reference video URLs; each clip must be 2-15 seconds and combined video duration must not exceed 15 seconds."
+          },
+          "reference_audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https?://"
+            },
+            "max_items": 3,
+            "description": "Public HTTP(S) WAV or MP3 reference audio URLs; requires reference images or videos, each clip must be 2-15 seconds, and combined audio duration must not exceed 15 seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
     "nano-banana/edit-image": {
       "model": "Nano Banana",
       "endpoint": "edit_image",
@@ -5763,6 +6139,126 @@
         }
       }
     },
+    "openai-transcription/speech-to-text": {
+      "model": "OpenAI Transcription",
+      "endpoint": "speech_to_text",
+      "task_type": "synchronous",
+      "models": [
+        "gpt-transcribe",
+        "whisper-1"
+      ],
+      "fields_by_model": {
+        "gpt-transcribe": {
+          "file": {
+            "type": "string",
+            "required": true,
+            "description": "Audio file upload, up to 25 MB."
+          },
+          "model": {
+            "type": "string",
+            "enum": [
+              "gpt-transcribe"
+            ],
+            "description": "Transcription model."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional text that guides transcription style and vocabulary."
+          },
+          "language": {
+            "type": "string",
+            "description": "Audio language as an ISO-639-1 code."
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Candidate audio languages as ISO-639-1 codes."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Terms that should receive additional recognition guidance."
+          },
+          "temperature": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Sampling temperature from 0 to 1."
+          },
+          "response_format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "text"
+            ],
+            "description": "Response body format."
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Whether to request a streamed response when supported."
+          }
+        },
+        "whisper-1": {
+          "file": {
+            "type": "string",
+            "required": true,
+            "description": "Audio file upload, up to 25 MB."
+          },
+          "model": {
+            "type": "string",
+            "enum": [
+              "whisper-1"
+            ],
+            "description": "Transcription model."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional text that guides transcription style and vocabulary."
+          },
+          "language": {
+            "type": "string",
+            "description": "Audio language as an ISO-639-1 code."
+          },
+          "temperature": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Sampling temperature from 0 to 1."
+          },
+          "response_format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "text",
+              "srt",
+              "verbose_json",
+              "vtt"
+            ],
+            "description": "Response body format."
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Whether to request a streamed response when supported."
+          },
+          "timestamp_granularities": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "word",
+                "segment"
+              ],
+              "type": "string"
+            },
+            "max_items": 2,
+            "description": "Timestamp detail included with verbose JSON responses."
+          }
+        }
+      }
+    },
     "openai-tts/text-to-speech": {
       "model": "OpenAI TTS",
       "endpoint": "text_to_speech",
@@ -5844,6 +6340,10 @@
           },
           "enable_audio": {
             "type": "boolean",
+            "enum": [
+              true,
+              false
+            ],
             "default": false,
             "description": "Enable synchronized audio generation."
           },
@@ -5930,6 +6430,10 @@
           },
           "enable_audio": {
             "type": "boolean",
+            "enum": [
+              true,
+              false
+            ],
             "default": false,
             "description": "Enable synchronized audio generation."
           },
@@ -6154,6 +6658,10 @@
           },
           "enable_audio": {
             "type": "boolean",
+            "enum": [
+              true,
+              false
+            ],
             "default": false,
             "description": "Enable synchronized audio generation."
           },
@@ -6596,6 +7104,352 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "qwen-3/edit-image": {
+      "model": "Qwen 3",
+      "endpoint": "edit_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-3-edit-image",
+        "qwen-3-pro-edit-image"
+      ],
+      "fields_by_model": {
+        "qwen-3-edit-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 800,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image editing prompt."
+          },
+          "source_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 3,
+            "min_items": 1,
+            "description": "Public source image URLs; one to three images."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "negative_prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 0,
+            "length": true,
+            "description": "Content to avoid in the generated image."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "default": 1,
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        },
+        "qwen-3-pro-edit-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 800,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image editing prompt."
+          },
+          "source_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 3,
+            "min_items": 1,
+            "description": "Public source image URLs; one to three images."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "negative_prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 0,
+            "length": true,
+            "description": "Content to avoid in the generated image."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "default": 1,
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        }
+      }
+    },
+    "qwen-3/text-to-image": {
+      "model": "Qwen 3",
+      "endpoint": "text_to_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-3-pro-text-to-image",
+        "qwen-3-text-to-image"
+      ],
+      "fields_by_model": {
+        "qwen-3-pro-text-to-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 800,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image generation prompt."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "negative_prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 0,
+            "length": true,
+            "description": "Content to avoid in the generated image."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "default": 1,
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        },
+        "qwen-3-text-to-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 800,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image generation prompt."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "3:2",
+              "2:3",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9"
+            ],
+            "default": "16:9",
+            "description": "Output aspect ratio."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "negative_prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 0,
+            "length": true,
+            "description": "Content to avoid in the generated image."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "default": 1,
+            "description": "Integer seed for reproducible results."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
           }
         }
       }
@@ -10683,7 +11537,10 @@
           "forbidden": [
             "lyrics",
             "style",
-            "title"
+            "title",
+            "negative_tags",
+            "vocal_gender",
+            "duration_seconds"
           ]
         },
         {
@@ -10709,7 +11566,48 @@
           ],
           "forbidden": [
             "prompt",
-            "lyrics"
+            "lyrics",
+            "vocal_gender"
+          ]
+        },
+        {
+          "when": {
+            "model": "suno-v4"
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "model": "suno-v4.5"
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "model": "suno-v4.5-all"
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "model": "suno-v4.5-plus"
+          },
+          "forbidden": [
+            "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "model": "suno-v5"
+          },
+          "forbidden": [
+            "duration_seconds"
           ]
         }
       ],
@@ -10788,7 +11686,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -10869,7 +11769,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -10950,7 +11852,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -11031,7 +11935,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -11112,7 +12018,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -11193,7 +12101,9 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "description": "Duration in seconds."
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
           },
           "continue_at": {
             "type": "number",
@@ -11891,6 +12801,16 @@
         "wan-2.6-flash-edit-video",
         "wan-2.7-edit-video"
       ],
+      "rules": [
+        {
+          "when": {
+            "model": "wan-2.7-edit-video"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        }
+      ],
       "fields_by_model": {
         "wan-2.6-edit-video": {
           "model": {
@@ -11948,7 +12868,8 @@
             "type": "boolean"
           },
           "multi_shots": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Controls whether the generated video uses multiple shots with transitions instead of one continuous shot."
           }
         },
         "wan-2.6-flash-edit-video": {
@@ -12087,6 +13008,22 @@
       "rules": [
         {
           "when": {
+            "model": "wan-2.2-a14b-image-to-video-turbo"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.5-image-to-video"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        },
+        {
+          "when": {
             "model": "wan-2.6-flash-image-to-video"
           },
           "forbidden": [
@@ -12099,6 +13036,14 @@
           },
           "forbidden": [
             "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.7-image-to-video"
+          },
+          "forbidden": [
+            "multi_shots"
           ]
         }
       ],
@@ -12364,7 +13309,8 @@
             "type": "boolean"
           },
           "multi_shots": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Controls whether the generated video uses multiple shots with transitions instead of one continuous shot."
           },
           "driving_audio_url": {
             "type": "string"
@@ -12650,10 +13596,42 @@
       "rules": [
         {
           "when": {
+            "model": "wan-2.2-a14b-text-to-video-turbo"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.5-text-to-video"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        },
+        {
+          "when": {
             "model": "wan-2.6-text-to-video"
           },
           "forbidden": [
             "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.7-r2v"
+          },
+          "forbidden": [
+            "multi_shots"
+          ]
+        },
+        {
+          "when": {
+            "model": "wan-2.7-text-to-video"
+          },
+          "forbidden": [
+            "multi_shots"
           ]
         }
       ],
@@ -12717,6 +13695,9 @@
           },
           "background_audio_url": {
             "type": "string"
+          },
+          "multi_shots": {
+            "type": "boolean"
           }
         },
         "wan-2.5-text-to-video": {
@@ -12777,6 +13758,9 @@
           },
           "background_audio_url": {
             "type": "string"
+          },
+          "multi_shots": {
+            "type": "boolean"
           }
         },
         "wan-2.6-text-to-video": {
@@ -12834,6 +13818,10 @@
           },
           "background_audio_url": {
             "type": "string"
+          },
+          "multi_shots": {
+            "type": "boolean",
+            "description": "Controls whether the generated video uses multiple shots with transitions instead of one continuous shot."
           }
         },
         "wan-2.7-r2v": {
@@ -12904,6 +13892,9 @@
           },
           "background_audio_url": {
             "type": "string"
+          },
+          "multi_shots": {
+            "type": "boolean"
           }
         },
         "wan-2.7-text-to-video": {
@@ -12964,6 +13955,9 @@
           },
           "background_audio_url": {
             "type": "string"
+          },
+          "multi_shots": {
+            "type": "boolean"
           }
         }
       }
