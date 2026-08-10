@@ -6073,7 +6073,7 @@
           },
           "prompt": {
             "type": "string",
-            "max": 1000,
+            "max": 300,
             "length": true
           },
           "callback_url": {
@@ -8341,7 +8341,8 @@
             "type": "string",
             "enum": [
               "basic",
-              "high"
+              "high",
+              "ultra"
             ],
             "required": true
           },
@@ -8604,7 +8605,8 @@
             "type": "string",
             "enum": [
               "basic",
-              "high"
+              "high",
+              "ultra"
             ],
             "required": true
           },
@@ -11033,6 +11035,125 @@
             "type": "string",
             "required": true,
             "description": "Audio ID within the source task."
+          }
+        }
+      }
+    },
+    "suno/inspire-music": {
+      "model": "Suno",
+      "endpoint": "inspire_music",
+      "task_type": "asynchronous",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "fields_by_model": {
+        "suno-v4": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 4,
+            "min_items": 1,
+            "description": "One to four audio URLs that guide the new music."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 4,
+            "min_items": 1,
+            "description": "One to four audio URLs that guide the new music."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5-plus": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 4,
+            "min_items": 1,
+            "description": "One to four audio URLs that guide the new music."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 4,
+            "min_items": 1,
+            "description": "One to four audio URLs that guide the new music."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 4,
+            "min_items": 1,
+            "description": "One to four audio URLs that guide the new music."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }

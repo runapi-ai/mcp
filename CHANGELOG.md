@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.9.0](https://github.com/runapi-ai/mcp/releases/tag/v0.9.0) - 2026-08-10
+
+### Breaking
+- Reject OmniHuman audio-to-video prompts over 300 characters before sending the request.
+  Migration: Upgrade the MCP server and shorten OmniHuman audio-to-video prompts to 300 characters or fewer.
+
+### Added
+- Add contract metadata for Suno music inspiration requests.
+
+
 ## [v0.8.0](https://github.com/runapi-ai/mcp/releases/tag/v0.8.0) - 2026-08-07
 
 ### Added
