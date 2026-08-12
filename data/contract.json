@@ -62,7 +62,6 @@
     "glm-5.2",
     "gpt-4o-image",
     "gpt-5.2",
-    "gpt-5.2-pro",
     "gpt-5.3-codex",
     "gpt-5.3-codex-spark",
     "gpt-5.4",
@@ -167,6 +166,7 @@
     "seedance-2-mini",
     "seedance-2.0",
     "seedance-2.0-fast",
+    "seedance-2.5",
     "seedance-v1-pro",
     "seedance-v1-pro-fast",
     "seedream-4.5-edit",
@@ -174,6 +174,7 @@
     "seedream-5-lite-edit",
     "seedream-5-lite-text-to-image",
     "seedream-5-pro-edit",
+    "seedream-5-pro-layer-decomposition",
     "seedream-5-pro-text-to-image",
     "seedream-v4-edit",
     "seedream-v4-text-to-image",
@@ -2791,6 +2792,16 @@
         "hailuo-02-image-to-video-standard",
         "hailuo-2.3-image-to-video-pro",
         "hailuo-2.3-image-to-video-standard"
+      ],
+      "rules": [
+        {
+          "when": {
+            "model": "hailuo-02-image-to-video-pro"
+          },
+          "forbidden": [
+            "enable_safety_checker"
+          ]
+        }
       ],
       "fields_by_model": {
         "hailuo-02-image-to-video-pro": {
@@ -7755,6 +7766,28 @@
       "models": [
         "runway"
       ],
+      "rules": [
+        {
+          "when": {
+            "first_frame_image_url": {
+              "present": false
+            }
+          },
+          "required": [
+            "aspect_ratio"
+          ]
+        },
+        {
+          "when": {
+            "first_frame_image_url": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "aspect_ratio"
+          ]
+        }
+      ],
       "fields_by_model": {
         "runway": {
           "model": {
@@ -7811,10 +7844,40 @@
         "seedance-2-mini",
         "seedance-2.0",
         "seedance-2.0-fast",
+        "seedance-2.5",
         "seedance-v1-pro",
         "seedance-v1-pro-fast"
       ],
       "rules": [
+        {
+          "when": {
+            "model": "seedance-2.5",
+            "first_frame_image_url": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-2.5",
+            "last_frame_image_url": {
+              "present": true
+            }
+          },
+          "required": [
+            "first_frame_image_url"
+          ],
+          "forbidden": [
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls"
+          ]
+        },
         {
           "when": {
             "model": "seedance-1.5-pro"
@@ -7825,7 +7888,9 @@
             "reference_image_urls",
             "reference_video_urls",
             "reference_audio_urls",
-            "web_search"
+            "web_search",
+            "return_last_frame",
+            "output_format"
           ]
         },
         {
@@ -7836,7 +7901,9 @@
             "source_image_urls",
             "lock_camera",
             "seed",
-            "enable_safety_checker"
+            "enable_safety_checker",
+            "return_last_frame",
+            "output_format"
           ]
         },
         {
@@ -7846,12 +7913,26 @@
           "forbidden": [
             "source_image_urls",
             "lock_camera",
-            "seed"
+            "seed",
+            "return_last_frame",
+            "output_format"
           ]
         },
         {
           "when": {
             "model": "seedance-2.0-fast"
+          },
+          "forbidden": [
+            "source_image_urls",
+            "lock_camera",
+            "seed",
+            "return_last_frame",
+            "output_format"
+          ]
+        },
+        {
+          "when": {
+            "model": "seedance-2.5"
           },
           "forbidden": [
             "source_image_urls",
@@ -7870,7 +7951,9 @@
             "reference_video_urls",
             "reference_audio_urls",
             "web_search",
-            "generate_audio"
+            "generate_audio",
+            "return_last_frame",
+            "output_format"
           ]
         },
         {
@@ -7886,7 +7969,9 @@
             "reference_video_urls",
             "reference_audio_urls",
             "web_search",
-            "generate_audio"
+            "generate_audio",
+            "return_last_frame",
+            "output_format"
           ]
         }
       ],
@@ -8133,6 +8218,142 @@
             "type": "boolean"
           }
         },
+        "seedance-2.5": {
+          "prompt": {
+            "type": "string",
+            "max": 30000,
+            "min": 3,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "21:9",
+              "auto"
+            ],
+            "default": "auto",
+            "description": "Output aspect ratio; auto lets RunAPI select it."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "720p",
+            "description": "Output video resolution."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              -1,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "default": 5,
+            "description": "Video duration in seconds; -1 selects duration automatically."
+          },
+          "generate_audio": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to generate synchronized audio."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "return_last_frame": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to return the generated video's last frame."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "mp4",
+              "mov"
+            ],
+            "default": "mp4",
+            "description": "Output video container format."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "description": "Public first-frame image URL for frame-guided generation."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "description": "Public last-frame image URL; requires first_frame_image_url."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 30,
+            "description": "Public reference image URLs; up to 30 images."
+          },
+          "reference_video_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 10,
+            "description": "Public reference video URLs; up to 10 videos."
+          },
+          "reference_audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 10,
+            "description": "Public reference audio URLs; up to 10 audio files."
+          },
+          "web_search": {
+            "type": "boolean",
+            "description": "Whether to enrich the prompt with web search."
+          }
+        },
         "seedance-v1-pro": {
           "prompt": {
             "type": "string"
@@ -8219,6 +8440,55 @@
             "type": "integer",
             "max": 2147483647,
             "min": -1
+          }
+        }
+      }
+    },
+    "seedream/decompose-layers": {
+      "model": "Seedream",
+      "endpoint": "decompose_layers",
+      "task_type": "asynchronous",
+      "models": [
+        "seedream-5-pro-layer-decomposition"
+      ],
+      "fields_by_model": {
+        "seedream-5-pro-layer-decomposition": {
+          "model": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "required": true,
+            "description": "Exactly one public PNG, JPEG, WebP, BMP, TIFF, or GIF image URL; HEIC and HEIF are unsupported. Maximum 30 MB, 262,144-36,000,000 total pixels, and aspect ratio 1:16-16:1."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Optional instructions describing which elements to separate."
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "1K",
+              "1.5K",
+              "2K"
+            ],
+            "default": "auto"
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpeg"
+            ],
+            "default": "jpeg",
+            "description": "Base image format. Separated layers are PNG."
+          },
+          "callback_url": {
+            "type": "string"
           }
         }
       }
@@ -12928,7 +13198,8 @@
             "model": "wan-2.7-edit-video"
           },
           "forbidden": [
-            "multi_shots"
+            "multi_shots",
+            "enable_safety_checker"
           ]
         }
       ],

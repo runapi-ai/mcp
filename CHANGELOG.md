@@ -1,5 +1,23 @@
 # Changelog
 
+## [v0.9.1](https://github.com/runapi-ai/mcp/releases/tag/v0.9.1) - 2026-08-12
+
+### Added
+- Add the Seedream layer decomposition contract to aggregate MCP discovery and execution.
+- Expose Seedance 2.5 fields and validation through the aggregate MCP server.
+
+### Changed
+- Publish the complete MCP landing page content and structured metadata in its Markdown representation.
+
+### Removed
+- Stop advertising the retired gpt-5.2-pro model.
+  Migration: Use a currently advertised GPT model instead; gpt-5.2 remains available through Chat Completions but no longer supports Responses.
+
+### Fixed
+- Expose the Runway text-only and first-frame aspect_ratio rules from the shared Input Contract.
+- Reject enable_safety_checker for Hailuo 02 Pro image-to-video and Wan 2.7 video edit requests.
+
+
 ## [v0.9.0](https://github.com/runapi-ai/mcp/releases/tag/v0.9.0) - 2026-08-10
 
 ### Breaking
