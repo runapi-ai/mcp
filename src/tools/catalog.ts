@@ -9,12 +9,12 @@ export function registerCatalogTools(server: McpServer, dependencies: DiscoveryT
     "list_models",
     "List RunAPI models from the embedded catalog. Optional filters: modality, service, or action.",
     {
-      modality: z.enum(["image", "video", "audio", "utility", "llm"]).optional(),
+      modality: z.enum(["image", "video", "audio", "utility"]).optional(),
       service: z.string().optional(),
       action: z.string().optional()
     },
     async ({ modality, service, action }) => {
-      return jsonText(await listModelsHandler({ modality, service, action }, dependencies.client, dependencies.contract));
+      return jsonText(listModelsHandler({ modality, service, action }, dependencies.contract));
     }
   );
 

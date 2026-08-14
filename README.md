@@ -1,7 +1,7 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and model discovery — 130+ models from Flux, Kling, Seedance, Veo, Suno, ElevenLabs, Claude, GPT, Gemini, and 18 model families in one MCP server.</strong>
+  <strong>AI image generation, video generation, music creation, text-to-speech, prompt search, and model discovery — 160+ executable models across 4 modalities in one MCP server.</strong>
 </p>
 
 <p align="center">
@@ -12,7 +12,7 @@
   <a href="https://www.npmjs.com/package/@runapi.ai/mcp"><img src="https://img.shields.io/npm/v/%40runapi.ai/mcp?style=flat-square&color=blue" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square" alt="Apache-2.0 license"></a>
   <img src="https://img.shields.io/badge/Type-MCP_Server-blue?style=flat-square" alt="MCP Server">
-  <img src="https://img.shields.io/badge/Models-130+-green?style=flat-square" alt="130+ models">
+  <img src="https://img.shields.io/badge/Models-160+-green?style=flat-square" alt="160+ models">
 </p>
 
 <p align="center">
@@ -218,20 +218,18 @@ Expected behavior:
 
 ## Catalog Coverage
 
-The embedded catalog is generated from RunAPI's contract snapshot.
-It includes media models, utility endpoints, and LLM model slugs for discovery.
+The MCP Embedded Catalog is generated from RunAPI's contract snapshot.
+It includes only models executable by this server release.
 
 | Modality | What To Use |
 |---|---|
 | Image | `list_models` with `modality: "image"` |
 | Video | `list_models` with `modality: "video"` |
 | Audio and music | `list_models` with `modality: "audio"` |
-| LLM | `list_models` with `modality: "llm"` |
 | Utility | `list_models` with `modality: "utility"` |
 
 Catalog contents can change between releases.
 Use `list_models` for current service/action/model slugs and `get_model_info` for each model's current constraints.
-For LLM inference, connect through the RunAPI API or SDK directly.
 
 ---
 

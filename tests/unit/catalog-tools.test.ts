@@ -11,10 +11,9 @@ import {
 const contract = readContract();
 
 function listModelsHandler(
-  input: Parameters<typeof listModelsWith>[0],
-  client: Parameters<typeof listModelsWith>[1]
+  input: Parameters<typeof listModelsWith>[0]
 ) {
-  return listModelsWith(input, client, contract);
+  return listModelsWith(input, contract);
 }
 
 function pricingClient(priceSchedules = [{service: "flux_kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 31}]) {
@@ -34,40 +33,30 @@ function checkPricingHandler(input: Parameters<typeof checkPricingWith>[0], clie
 }
 
 describe("catalog tool handlers", () => {
-  it("lists models with contract data and runtime models when available", async () => {
-    const result = await listModelsHandler({
+  it("lists only executable models from embedded action rosters", () => {
+    const result = listModelsHandler({
       service: "flux-kontext",
       action: "text_to_image"
-    }, {
-      listModels: vi.fn(async () => ({ data: [{ id: "runtime-model" }] }))
     });
 
-    expect(result.source).toBe("embedded catalog + /v1/models");
+    expect(result.source).toBe("embedded catalog");
+    expect(result).not.toHaveProperty("runtime_models");
     expect(result.models.length).toBeGreaterThan(0);
     expect(result.models.every((model) => model.service === "flux-kontext")).toBe(true);
   });
 
-  it("falls back to contract data when /v1/models is unavailable", async () => {
-    const result = await listModelsHandler({
+  it("filters the embedded catalog by modality", () => {
+    const result = listModelsHandler({
       modality: "image"
-    }, {
-      listModels: vi.fn(async () => {
-        throw new Error("network");
-      })
     });
 
     expect(result.source).toBe("embedded catalog");
-    expect(result.runtime_models).toBeUndefined();
     expect(result.models.every((model) => model.modality === "image")).toBe(true);
   });
 
-  it("keeps catalog tools free when /v1/models requires auth", async () => {
-    const result = await listModelsHandler({
+  it("filters the embedded catalog by service", () => {
+    const result = listModelsHandler({
       service: "suno"
-    }, {
-      listModels: vi.fn(async () => {
-        throw new Error("401");
-      })
     });
 
     expect(result.source).toBe("embedded catalog");

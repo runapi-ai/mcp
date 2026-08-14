@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.10.0](https://github.com/runapi-ai/mcp/releases/tag/v0.10.0) - 2026-08-14
+
+### Changed
+- Serve Hosted and Local aggregate model discovery entirely from the MCP Embedded Catalog.
+
+### Removed
+- Remove catalog_models, runtime model merging, and the unsupported LLM discovery filter from aggregate discovery.
+  Migration: Use list_models and actions[].models for the executable model roster exposed by this server release.
+
+### Fixed
+- Describe replace-section windows as requiring at least 10 seconds without a 60-second maximum.
+- Accept enable_safety_checker for Hailuo 02 Pro image-to-video and Wan 2.7 video edit requests.
+
+
 ## [v0.9.1](https://github.com/runapi-ai/mcp/releases/tag/v0.9.1) - 2026-08-12
 
 ### Added

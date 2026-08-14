@@ -1,7 +1,7 @@
 <h1 align="center">RunAPI MCP Server</h1>
 
 <p align="center">
-  <strong>一个 MCP Server，把 RunAPI 的模型发现、价格查询、媒体任务和账户状态接入 AI 编程工具。</strong>
+  <strong>一个 MCP Server，把 160+ 个可执行模型、4 种模态的模型发现、价格查询、媒体任务和账户状态接入 AI 编程工具。</strong>
 </p>
 
 <p align="center">
@@ -199,20 +199,18 @@ Completion Wait 达到 deadline 时，task 创建仍然成功。这个非错误�
 
 ## Catalog Coverage
 
-内嵌目录来自 RunAPI 的 contract 快照。
-它包含媒体模型、工具类 endpoint 和用于发现的 LLM model slugs。
+MCP Embedded Catalog 来自 RunAPI 的 contract 快照。
+它只包含当前 server 版本可执行的模型，共 160+ 个模型、4 种模态。
 
 | Modality | 使用方式 |
 |---|---|
 | Image | `list_models` with `modality: "image"` |
 | Video | `list_models` with `modality: "video"` |
 | Audio and music | `list_models` with `modality: "audio"` |
-| LLM | `list_models` with `modality: "llm"` |
 | Utility | `list_models` with `modality: "utility"` |
 
 目录内容会随着版本变化。
 请用 `list_models` 获取当前 service/action/model slugs，用 `get_model_info` 查看当前约束。
-LLM 推理请直接通过 RunAPI API 或 SDK 接入。
 
 ---
 

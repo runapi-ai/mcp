@@ -16,7 +16,7 @@ import type { BusinessToolClient } from "../business-tools.js";
 import type { ModelInfo, RunApiPrompt, SearchPromptsParams } from "../types.js";
 
 export type ListModelsInput = {
-  modality?: "image" | "video" | "audio" | "utility" | "llm";
+  modality?: "image" | "video" | "audio" | "utility";
   service?: string;
   action?: string;
 };
@@ -27,13 +27,12 @@ export type GetModelInfoInput = {
   action?: string;
 };
 
-export async function listModelsHandler(
+export function listModelsHandler(
   input: ListModelsInput,
-  client: Pick<BusinessToolClient, "listModels">,
   contract: Contract
 ) {
   let models = listContractModels(contract);
-  if (input.modality && input.modality !== "llm") {
+  if (input.modality) {
     models = models.filter((model) => modalityForAction(model.action) === input.modality);
   }
   if (input.service) {
@@ -43,17 +42,9 @@ export async function listModelsHandler(
     models = models.filter((model) => model.action === input.action);
   }
 
-  let runtimeModels: unknown;
-  try {
-    runtimeModels = await client.listModels();
-  } catch {
-    runtimeModels = undefined;
-  }
-
   return {
     count: models.length,
-    source: runtimeModels ? "embedded catalog + /v1/models" : "embedded catalog",
-    runtime_models: runtimeModels,
+    source: "embedded catalog",
     models: models.map((model) => ({
       model: model.model,
       service: model.service,

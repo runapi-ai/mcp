@@ -19,7 +19,6 @@ export {
 } from "./tools/authenticated-handlers.js";
 
 export type BusinessToolClient = Pick<RuntimePricingClient, "listPriceSchedules"> & {
-  listModels(): Promise<unknown>;
   searchPrompts(params?: SearchPromptsParams): Promise<RunApiPromptsResponse>;
   balance(): Promise<unknown>;
   createTask(
@@ -32,7 +31,7 @@ export type BusinessToolClient = Pick<RuntimePricingClient, "listPriceSchedules"
   pollTask(service: string, taskId: string, action?: string, options?: PollingOptions): Promise<RunApiTaskResponse>;
 };
 
-export type DiscoveryToolClient = Pick<BusinessToolClient, "listModels" | "searchPrompts" | "listPriceSchedules">;
+export type DiscoveryToolClient = Pick<BusinessToolClient, "searchPrompts" | "listPriceSchedules">;
 
 export type DiscoveryServerOptions = {
   name: string;

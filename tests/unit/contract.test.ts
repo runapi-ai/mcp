@@ -5,7 +5,6 @@ import { validateParams } from "../../src/lib/schema.js";
 
 describe("contract helpers", () => {
   it("loads the embedded contract with no internal fields", () => {
-    expect(contract.catalog_models.length).toBeGreaterThan(100);
     expect(Object.keys(contract.actions).length).toBeGreaterThan(40);
     // The embedded contract must not ship provider names.
     expect(Object.values(contract.actions).every((action) => !("provider" in action))).toBe(true);
@@ -35,11 +34,11 @@ describe("contract helpers", () => {
     expect(groups.find((group) => group.modality === "video")?.actions).toContain("text_to_video");
   });
 
-  it("does not expose models outside catalog_models", () => {
-    const embeddedModels = new Set(contract.catalog_models);
-    const missing = listContractModels().filter((model) => !embeddedModels.has(model.model));
-
-    expect(missing).toEqual([]);
+  it("provides a field roster for every advertised action model", () => {
+    for (const action of Object.values(contract.actions)) {
+      const rosters = action.models.length > 0 ? action.models : ["_"];
+      expect(Object.keys(action.fields_by_model)).toEqual(expect.arrayContaining(rosters));
+    }
   });
 
   it("rejects Nano Banana Lite forbidden fields after model schema validation", () => {
