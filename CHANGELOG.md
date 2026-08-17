@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.11.0](https://github.com/runapi-ai/mcp/releases/tag/v0.11.0) - 2026-08-17
+
+### Added
+- Add Fish Audio voice creation, listing, lookup, and reusable voice_id contract metadata.
+
+### Fixed
+- Reject Suno text-to-music auto_lyrics prompts longer than 3000 characters before creating a task.
+
+
 ## [v0.10.0](https://github.com/runapi-ai/mcp/releases/tag/v0.10.0) - 2026-08-14
 
 ### Changed

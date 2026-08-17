@@ -232,6 +232,59 @@
         }
       }
     },
+    "fish-audio/create-voice": {
+      "model": "Fish Audio",
+      "endpoint": "create_voice",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "source_audio_url": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    "fish-audio/get-voice": {
+      "model": "Fish Audio",
+      "endpoint": "get_voice",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "voice_id": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    "fish-audio/list-voices": {
+      "model": "Fish Audio",
+      "endpoint": "list_voices",
+      "task_type": "synchronous",
+      "models": [],
+      "fields_by_model": {
+        "_": {
+          "page_number": {
+            "type": "integer",
+            "min": 1,
+            "default": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "max": 100,
+            "min": 1,
+            "default": 10
+          }
+        }
+      }
+    },
     "fish-audio/text-to-speech": {
       "model": "Fish Audio",
       "endpoint": "text_to_speech",
@@ -335,6 +388,9 @@
               }
             },
             "description": "Inline reference audio samples for this request."
+          },
+          "voice_id": {
+            "type": "string"
           }
         },
         "s2-pro": {
@@ -396,6 +452,9 @@
               }
             },
             "description": "Inline reference audio samples for this request."
+          },
+          "voice_id": {
+            "type": "string"
           }
         },
         "s2.1-pro": {
@@ -457,6 +516,9 @@
               }
             },
             "description": "Inline reference audio samples for this request."
+          },
+          "voice_id": {
+            "type": "string"
           }
         }
       }
@@ -11814,6 +11876,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
@@ -11897,6 +11961,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
@@ -11980,6 +12046,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
@@ -12063,6 +12131,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
@@ -12146,6 +12216,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
@@ -12229,6 +12301,8 @@
           },
           "prompt": {
             "type": "string",
+            "max": 3000,
+            "length": true,
             "description": "Song brief for automatic lyrics."
           },
           "lyrics": {
