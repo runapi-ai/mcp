@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.12.0](https://github.com/runapi-ai/mcp/releases/tag/v0.12.0) - 2026-08-21
+
+### Added
+- Add Fish Audio voice creation, listing, lookup, and reusable voice_id contract metadata.
+- Add Grok Imagine Image 2.0 text-to-image, segment-map, and segment-backed image editing requests.
+- Accept 1080p output resolution for Seedance 2.5 video generation.
+- Add Kling text-to-video and edit-video tools to the aggregate MCP contract.
+
+### Fixed
+- Reject Suno text-to-music auto_lyrics prompts longer than 3000 characters before creating a task.
+
+
 ## [v0.11.0](https://github.com/runapi-ai/mcp/releases/tag/v0.11.0) - 2026-08-17
 
 ### Added
