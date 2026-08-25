@@ -2016,7 +2016,9 @@
           },
           "forbidden": [
             "source_task_id",
-            "mask_indices"
+            "mask_indices",
+            "source_image_urls",
+            "aspect_ratio"
           ]
         },
         {
@@ -2025,6 +2027,8 @@
           },
           "forbidden": [
             "source_image_url",
+            "source_task_id",
+            "mask_indices",
             "enable_safety_checker"
           ]
         }
@@ -2041,13 +2045,8 @@
             "required": true,
             "description": "Public source image URL."
           },
-          "source_task_id": {
-            "type": "string",
-            "description": "Not accepted by this model."
-          },
-          "mask_indices": {
-            "type": "array",
-            "description": "Not accepted by this model."
+          "source_image_urls": {
+            "type": "array"
           },
           "callback_url": {
             "type": "string",
@@ -2057,9 +2056,18 @@
             "type": "string",
             "description": "Optional image editing instruction."
           },
+          "aspect_ratio": {
+            "type": "string"
+          },
           "enable_safety_checker": {
             "type": "boolean",
             "description": "Enable content safety checks."
+          },
+          "mask_indices": {
+            "description": "Not accepted by this model."
+          },
+          "source_task_id": {
+            "description": "Not accepted by this model."
           }
         },
         "grok-imagine-image-2-0": {
@@ -2072,19 +2080,15 @@
             "type": "string",
             "description": "Not accepted by this model."
           },
-          "source_task_id": {
-            "type": "string",
-            "required": true,
-            "description": "Completed Image 2.0 segment-map Task ID."
-          },
-          "mask_indices": {
+          "source_image_urls": {
             "type": "array",
             "items": {
-              "min": 1,
-              "type": "integer"
+              "type": "string"
             },
+            "required": true,
+            "max_items": 5,
             "min_items": 1,
-            "description": "Optional segment indexes to edit."
+            "description": "Source image URLs, from one to five entries."
           },
           "callback_url": {
             "type": "string",
@@ -2092,11 +2096,31 @@
           },
           "prompt": {
             "type": "string",
-            "required": true,
+            "max": 390000,
+            "length": true,
             "description": "Image editing prompt."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "2:3",
+              "3:2",
+              "16:9",
+              "9:16",
+              "auto"
+            ],
+            "required": true,
+            "description": "Output aspect ratio."
           },
           "enable_safety_checker": {
             "type": "boolean",
+            "description": "Not accepted by this model."
+          },
+          "mask_indices": {
+            "description": "Not accepted by this model."
+          },
+          "source_task_id": {
             "description": "Not accepted by this model."
           }
         }
@@ -2411,6 +2435,34 @@
       "models": [
         "grok-imagine-image-2-0"
       ],
+      "rules": [
+        {
+          "required_any": [
+            "image_url",
+            "source_task_id"
+          ]
+        },
+        {
+          "when": {
+            "image_url": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "source_task_id"
+          ]
+        },
+        {
+          "when": {
+            "source_task_id": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "image_url"
+          ]
+        }
+      ],
       "fields_by_model": {
         "grok-imagine-image-2-0": {
           "model": {
@@ -2418,10 +2470,13 @@
             "required": true,
             "description": "Model slug."
           },
+          "image_url": {
+            "type": "string",
+            "description": "Public image URL that the service can fetch."
+          },
           "source_task_id": {
             "type": "string",
-            "required": true,
-            "description": "Completed Image 2.0 text-to-image Task ID."
+            "description": "Completed Image 2.0 text-to-image Task ID owned by the same account. Compatibility input; use image_url instead."
           },
           "callback_url": {
             "type": "string",
@@ -13224,8 +13279,7 @@
             "enum": [
               1,
               2,
-              4,
-              8
+              4
             ],
             "required": true,
             "description": "Image upscale multiplier."
