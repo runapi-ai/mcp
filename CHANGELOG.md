@@ -1,5 +1,28 @@
 # Changelog
 
+## [v0.12.2](https://github.com/runapi-ai/mcp/releases/tag/v0.12.2) - 2026-09-04
+
+### Breaking
+- Correct Image 2.0 edit validation to require source_image_urls and aspect_ratio instead of task-based edit fields.
+  Migration: Replace source_task_id and mask_indices with one to five source_image_urls and an aspect_ratio; prompt is optional.
+
+### Added
+- Add Grok Imagine Image 2.0 text-to-image, segment-map, and segment-backed image editing requests.
+- Accept public image_url inputs for Image 2.0 segment-map requests.
+
+### Changed
+- Refresh aggregate contract metadata for hybrid terminal and 202 Task API responses.
+- Allow Hosted MCP tools to follow deferred Task Result locations and return terminal response bodies.
+- Add length limits for prompt, lyrics, style, title and range limits for style_weight, weirdness_constraint, audio_weight across Suno endpoints.
+
+### Deprecated
+- Deprecate source_task_id for Image 2.0 segment-map requests.
+  Replacement: Send image_url instead; source_task_id remains accepted for compatibility.
+
+### Fixed
+- Restrict the Topaz image upscale tool to the supported 1x, 2x, and 4x factors.
+
+
 ## [v0.12.1](https://github.com/runapi-ai/mcp/releases/tag/v0.12.1) - 2026-08-25
 
 ### Breaking

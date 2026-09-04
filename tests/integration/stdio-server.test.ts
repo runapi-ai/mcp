@@ -104,6 +104,20 @@ describe("stdio MCP server", () => {
     expect(JSON.parse(textContent(task))).toMatchObject({
       task: {billing: {reservation: {amount_cents: 37}, settlement: {charged_amount_cents: 37, amount_micro_cents: 37_000_000}, refund: null}}
     });
+
+    const hybrid = await client.callTool({
+      name: "create_task",
+      arguments: {
+        service: "midjourney",
+        action: "shorten_prompt",
+        params: {prompt: "A detailed mountain landscape"},
+        idempotency_key: "stdio-hybrid-task"
+      }
+    });
+    expect(JSON.parse(textContent(hybrid))).toMatchObject({
+      completed: true,
+      result: {prompts: ["Mountain landscape"]}
+    });
   });
 });
 
@@ -123,6 +137,19 @@ function createRuntimeApi(): Server {
       response.end(JSON.stringify({
         as_of: "2026-07-23T00:00:00.000000Z",
         price_schedules: [{service: "flux_kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 37}]
+      }));
+    } else if (request.method === "POST" && request.url === "/api/v1/midjourney/shorten_prompt") {
+      response.statusCode = 202;
+      response.setHeader("location", "/api/v1/tasks/123e4567-e89b-42d3-a456-426614174000");
+      response.end(JSON.stringify({
+        id: "123e4567-e89b-42d3-a456-426614174000",
+        status: "processing"
+      }));
+    } else if (request.url === "/api/v1/tasks/123e4567-e89b-42d3-a456-426614174000") {
+      response.end(JSON.stringify({
+        id: "123e4567-e89b-42d3-a456-426614174000",
+        status: "completed",
+        response: {body: {prompts: ["Mountain landscape"]}}
       }));
     } else if (request.url?.includes("550e8400-e29b-41d4-a716-446655440000")) {
       response.end(JSON.stringify({

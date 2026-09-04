@@ -89,6 +89,36 @@ describe("RunApiClient", () => {
     }));
   });
 
+  it("resolves a 202 hybrid response through its opaque Task Result location", async () => {
+    const fetchImpl = vi.fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({id: TASK_ID, status: "processing"}), {
+        status: 202,
+        headers: {"content-type": "application/json", location: `/api/v1/tasks/${TASK_ID}`}
+      }))
+      .mockResolvedValueOnce(jsonResponse({
+        id: TASK_ID,
+        status: "completed",
+        response: {body: {seed: 8_675_309}}
+      }));
+    const client = new RunApiClient({apiKey: "test_key", baseUrl: "https://runapi.ai"}, fetchImpl as any);
+
+    const result = await client.resolveHybridTask(
+      "midjourney",
+      "get_seed",
+      {image_id: "image_123"},
+      "opaque-task-key",
+      {intervalMs: 1, timeoutMs: 100}
+    );
+
+    expect(result).toMatchObject({
+      task_id: TASK_ID,
+      status: "completed",
+      completed: true,
+      result: {seed: 8_675_309}
+    });
+    expect(fetchImpl.mock.calls[1]![0]).toEqual(new URL(`https://runapi.ai/api/v1/tasks/${TASK_ID}`));
+  });
+
   it("builds task routes using service/action/id for media polling", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "completed" }));
     const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);

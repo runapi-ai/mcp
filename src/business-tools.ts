@@ -12,11 +12,15 @@ import { registerAuthenticatedTools } from "./tools/authenticated.js";
 import { registerCatalogTools } from "./tools/catalog.js";
 
 export { errorFromResponse, findAction, PollTimeoutError, taskStatus } from "@runapi.ai/mcp-core/web";
-export { CompletionWaitUnavailableError } from "./tools/authenticated-handlers.js";
+export { CompletionWaitUnavailableError, HybridTaskResolutionError } from "./tools/authenticated-handlers.js";
 export {
   COMPLETION_WAIT_DEADLINE_MS,
   COMPLETION_WAIT_POLL_INTERVAL_MS
 } from "./tools/authenticated-handlers.js";
+export {
+  HYBRID_TASK_COMPLETION_DEADLINE_MS,
+  isHybridTaskAction
+} from "./hybrid-task-capability.js";
 
 export type BusinessToolClient = Pick<RuntimePricingClient, "listPriceSchedules"> & {
   searchPrompts(params?: SearchPromptsParams): Promise<RunApiPromptsResponse>;
@@ -27,9 +31,22 @@ export type BusinessToolClient = Pick<RuntimePricingClient, "listPriceSchedules"
     params: Record<string, unknown>,
     idempotencyKey: string
   ): Promise<RunApiTaskResponse>;
+  resolveHybridTask?(
+    service: string,
+    action: string,
+    params: Record<string, unknown>,
+    idempotencyKey: string,
+    options?: HybridTaskOptions
+  ): Promise<HybridTaskResult>;
   getTask(service: string, taskId: string, action?: string): Promise<RunApiTaskResponse>;
   pollTask(service: string, taskId: string, action?: string, options?: PollingOptions): Promise<RunApiTaskResponse>;
 };
+
+export type HybridTaskOptions = PollingOptions & {
+  wait?: boolean;
+};
+
+export type HybridTaskResult = Record<string, unknown>;
 
 export type DiscoveryToolClient = Pick<BusinessToolClient, "searchPrompts" | "listPriceSchedules">;
 

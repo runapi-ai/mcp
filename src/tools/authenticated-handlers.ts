@@ -9,6 +9,10 @@ import {
   type ContractAction
 } from "@runapi.ai/mcp-core/web";
 import type { BusinessToolClient } from "../business-tools.js";
+import {
+  HYBRID_TASK_COMPLETION_DEADLINE_MS,
+  isHybridTaskAction
+} from "../hybrid-task-capability.js";
 import { validateModelSpecificParams } from "../lib/model-specific-validation.js";
 import { validateParams } from "../lib/schema.js";
 import type { RunApiTaskResponse } from "../types.js";
@@ -20,6 +24,17 @@ export class CompletionWaitUnavailableError extends Error {
   constructor() {
     super("Completion Wait capacity is unavailable");
     this.name = "CompletionWaitUnavailableError";
+  }
+}
+
+export class HybridTaskResolutionError extends Error {
+  constructor(
+    readonly taskId: string,
+    readonly created: RunApiTaskResponse,
+    readonly resolutionError: unknown
+  ) {
+    super(resolutionError instanceof Error ? resolutionError.message : "RunAPI task resolution failed");
+    this.name = "HybridTaskResolutionError";
   }
 }
 
@@ -54,7 +69,7 @@ export async function createTaskHandler(
     timeout_ms?: number;
     poll_interval_ms?: number;
   },
-  client: Pick<BusinessToolClient, "createTask" | "pollTask">,
+  client: Pick<BusinessToolClient, "createTask" | "pollTask" | "resolveHybridTask">,
   contract: Contract,
   formatError: ErrorFormatter,
   sendProgress?: ProgressSender,
@@ -69,7 +84,7 @@ export async function createTaskHandler(
     }
 
     const info = findModelForAction(input.service, input.action, input.model, contract);
-    const action = findAction(input.service, input.action, contract) as ((ContractAction & { task_type?: string }) | undefined);
+    const action = findAction(input.service, input.action, contract) as ContractAction | undefined;
     if (!info) {
       return {
         error: "Unsupported RunAPI service/action/model combination.",
@@ -96,11 +111,52 @@ export async function createTaskHandler(
       };
     }
 
-    const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
+    const hybridTask = isHybridTaskAction(input.service, input.action);
+    const completionDeadline = hybridTask
+      ? HYBRID_TASK_COMPLETION_DEADLINE_MS
+      : COMPLETION_WAIT_DEADLINE_MS;
+    const timeout = Math.min(input.timeout_ms ?? completionDeadline, completionDeadline);
+    const startedAt = Date.now();
+    const onProgress = async (task: RunApiTaskResponse) => {
+      if (progressToken === undefined) return;
+
+      const elapsed = Date.now() - startedAt;
+      await sendProgress?.({
+        progressToken,
+        progress: Math.min(elapsed, timeout),
+        total: timeout,
+        message: `RunAPI task ${taskIdFromResponse(task) ?? "unknown"}: ${taskStatus(task)}`
+      });
+    };
+
+    if (hybridTask && client.resolveHybridTask) {
+      try {
+        return await client.resolveHybridTask(input.service, input.action, body, input.idempotency_key, {
+          wait: input.wait,
+          timeoutMs: timeout,
+          intervalMs: input.poll_interval_ms ?? COMPLETION_WAIT_POLL_INTERVAL_MS,
+          onProgress
+        });
+      } catch (error) {
+        if (!(error instanceof HybridTaskResolutionError)) throw error;
+
+        return {
+          created: error.created,
+          task_id: error.taskId,
+          status: taskStatus(error.created),
+          completed: false,
+          warning: formatError(error.resolutionError),
+          next_action: "get_task"
+        };
+      }
+    }
+
     if (action?.task_type === "synchronous") {
+      const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
       return { result: created };
     }
 
+    const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
     const taskId = taskIdFromResponse(created);
 
     if (!input.wait || !taskId) {
@@ -113,25 +169,12 @@ export async function createTaskHandler(
 
     let latestTask: RunApiTaskResponse = created;
     try {
-      const timeout = Math.min(
-        input.timeout_ms ?? defaultTimeout(input.action),
-        COMPLETION_WAIT_DEADLINE_MS
-      );
-      const startedAt = Date.now();
       const completed = await client.pollTask(input.service, taskId, input.action, {
         timeoutMs: timeout,
         intervalMs: input.poll_interval_ms ?? COMPLETION_WAIT_POLL_INTERVAL_MS,
         onProgress: async (task: RunApiTaskResponse) => {
           latestTask = task;
-          if (progressToken === undefined) return;
-
-          const elapsed = Date.now() - startedAt;
-          await sendProgress?.({
-            progressToken,
-            progress: Math.min(elapsed, timeout),
-            total: timeout,
-            message: `RunAPI task ${taskId}: ${taskStatus(task)}`
-          });
+          await onProgress(task);
         }
       });
 

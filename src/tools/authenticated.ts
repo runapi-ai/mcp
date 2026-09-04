@@ -4,7 +4,6 @@ import type { BusinessToolDependencies } from "../business-tools.js";
 import { jsonText } from "../lib/tool-response.js";
 import {
   checkBalanceHandler,
-  COMPLETION_WAIT_DEADLINE_MS,
   createTaskHandler,
   getTaskHandler
 } from "./authenticated-handlers.js";
@@ -32,10 +31,10 @@ export function registerAuthenticatedTools(server: McpServer, dependencies: Busi
         .max(512)
         .refine((value) => value.trim().length > 0, "idempotency_key cannot be blank")
         .describe("Opaque caller-generated key for safely replaying one logical task creation."),
-      wait: z.boolean().default(true).describe("For asynchronous endpoints, poll until the task reaches a terminal status."),
+      wait: z.boolean().default(true).describe("Wait for the completed result when the endpoint requires durable processing."),
       timeout_ms: z.number().int().positive().optional()
-        .describe(`Requested Completion Wait deadline for asynchronous endpoints; values above ${COMPLETION_WAIT_DEADLINE_MS} milliseconds are capped.`),
-      poll_interval_ms: z.number().int().positive().optional().describe("Polling interval for asynchronous endpoints.")
+        .describe("Requested completion deadline in milliseconds; values above the endpoint limit are capped."),
+      poll_interval_ms: z.number().int().positive().optional().describe("Status check interval while waiting for completion.")
     },
     async ({ service, action, model, params, idempotency_key, wait, timeout_ms, poll_interval_ms }, extra) => {
       const progressToken = extra._meta?.progressToken;
