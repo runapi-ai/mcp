@@ -1280,7 +1280,11 @@
           "reference_image_url": {
             "type": "string",
             "required": true,
-            "description": "Public character reference image URL."
+            "description": "Public portrait reference image URL."
+          },
+          "body_reference_image_url": {
+            "type": "string",
+            "description": "Optional public full-body reference image URL; reference_image_url must provide the portrait."
           },
           "audio_ids": {
             "type": "array",
@@ -1300,10 +1304,36 @@
       "endpoint": "text_to_video",
       "task_type": "asynchronous",
       "models": [
+        "gemini-omni-flash-1-1",
         "gemini-omni-flash-preview",
         "gemini-omni-text-to-video"
       ],
       "rules": [
+        {
+          "when": {
+            "model": "gemini-omni-flash-1-1",
+            "first_frame_image_url": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "reference_image_urls",
+            "audio_ids",
+            "video_list",
+            "character_ids"
+          ]
+        },
+        {
+          "when": {
+            "model": "gemini-omni-flash-1-1",
+            "last_frame_image_url": {
+              "present": true
+            }
+          },
+          "required": [
+            "first_frame_image_url"
+          ]
+        },
         {
           "when": {
             "model": "gemini-omni-flash-preview"
@@ -1313,12 +1343,128 @@
             "audio_ids",
             "video_list",
             "character_ids",
+            "first_frame_image_url",
+            "last_frame_image_url",
             "duration_seconds",
             "seed"
+          ]
+        },
+        {
+          "when": {
+            "model": "gemini-omni-text-to-video"
+          },
+          "forbidden": [
+            "first_frame_image_url",
+            "last_frame_image_url"
           ]
         }
       ],
       "fields_by_model": {
+        "gemini-omni-flash-1-1": {
+          "model": {
+            "type": "string",
+            "description": "Model slug; defaults to gemini-omni-text-to-video when omitted."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              4,
+              6,
+              8,
+              10
+            ],
+            "required": true,
+            "description": "Output duration in seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for terminal Task delivery."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "max_items": 7,
+            "description": "Public reference image URLs; images, video clips, and characters share a seven-unit reference limit."
+          },
+          "audio_ids": {
+            "type": "array",
+            "max_items": 3,
+            "description": "Audio preset IDs returned by create-audio."
+          },
+          "video_list": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "required": true,
+                  "description": "Public source video URL."
+                },
+                "ends": {
+                  "min": 0,
+                  "type": "number",
+                  "required": true,
+                  "description": "Clip end time in seconds; must be greater than start and no more than 10 seconds after start."
+                },
+                "start": {
+                  "min": 0,
+                  "type": "number",
+                  "required": true,
+                  "description": "Clip start time in seconds."
+                }
+              }
+            },
+            "max_items": 1,
+            "description": "Source video clips; each clip consumes two reference units."
+          },
+          "character_ids": {
+            "type": "array",
+            "max_items": 3,
+            "description": "Character IDs returned by create-character; dual-image characters consume two of the shared seven reference units."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public first-frame image URL; mutually exclusive with reference images, audio IDs, video clips, and character IDs."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public last-frame image URL; requires first_frame_image_url."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16"
+            ],
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "360p",
+              "720p",
+              "1080p",
+              "4k"
+            ],
+            "default": "720p",
+            "description": "Output resolution."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 2147483647,
+            "min": 0,
+            "description": "Deterministic generation seed."
+          }
+        },
         "gemini-omni-flash-preview": {
           "model": {
             "type": "string",
@@ -1349,6 +1495,12 @@
           },
           "character_ids": {
             "type": "array"
+          },
+          "first_frame_image_url": {
+            "type": "string"
+          },
+          "last_frame_image_url": {
+            "type": "string"
           },
           "aspect_ratio": {
             "type": "string",
@@ -1439,7 +1591,17 @@
           "character_ids": {
             "type": "array",
             "max_items": 3,
-            "description": "Character IDs returned by create-character; images, video clips, and characters share a seven-unit reference limit."
+            "description": "Character IDs returned by create-character; dual-image characters consume two of the shared seven reference units."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public first-frame image URL for supported models."
+          },
+          "last_frame_image_url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "Public last-frame image URL for supported models."
           },
           "aspect_ratio": {
             "type": "string",
@@ -4090,6 +4252,21 @@
         {
           "when": {
             "model": "kling-v3-omni-edit",
+            "source_task_id": {
+              "present": false
+            },
+            "source_video_url": {
+              "present": false
+            }
+          },
+          "required_any": [
+            "source_video_url",
+            "source_task_id"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v3-omni-edit",
             "source_video_url": {
               "present": true
             }
@@ -4184,45 +4361,6 @@
           },
           "when": {
             "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": false
-            },
-            "source_video_url": {
-              "present": false
-            }
-          },
-          "required_any": [
-            "source_video_url",
-            "source_task_id"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ],
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
             "source_task_id": {
               "present": true
             },
@@ -4335,6 +4473,30 @@
           "when": {
             "model": "kling-v3-omni-reference",
             "source_video_url": {
+              "present": true
+            },
+            "reference_image_urls": {
+              "present": true
+            }
+          },
+          "required": [
+            "aspect_ratio"
+          ]
+        },
+        {
+          "enum": {
+            "aspect_ratio": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "model": "kling-v3-omni-reference",
+            "source_task_id": {
               "present": true
             },
             "reference_image_urls": {
@@ -9763,6 +9925,10 @@
             "required": true,
             "description": "URL of the audio file to sample."
           },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
           "start_seconds": {
             "type": "number",
             "min": 0,
@@ -9790,6 +9956,10 @@
             "type": "string",
             "required": true,
             "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
           },
           "start_seconds": {
             "type": "number",
@@ -9819,6 +9989,10 @@
             "required": true,
             "description": "URL of the audio file to sample."
           },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
           "start_seconds": {
             "type": "number",
             "min": 0,
@@ -9847,6 +10021,10 @@
             "required": true,
             "description": "URL of the audio file to sample."
           },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
           "start_seconds": {
             "type": "number",
             "min": 0,
@@ -9874,6 +10052,10 @@
             "type": "string",
             "required": true,
             "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
           },
           "start_seconds": {
             "type": "number",

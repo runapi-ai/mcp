@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.12.3](https://github.com/runapi-ai/mcp/releases/tag/v0.12.3) - 2026-09-07
+
+### Added
+- Add gemini-omni-flash-1-1 video generation with frame controls and model-specific validation.
+- Expose the optional full-body character reference field in the aggregate MCP contract.
+
+### Fixed
+- Add optional prompt input for Suno add samples requests.
+
+
 ## [v0.12.2](https://github.com/runapi-ai/mcp/releases/tag/v0.12.2) - 2026-09-04
 
 ### Breaking
