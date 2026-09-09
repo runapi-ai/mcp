@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.12.4](https://github.com/runapi-ai/mcp/releases/tag/v0.12.4) - 2026-09-09
+
+### Changed
+- Link the MCP installation section to the localized Developer Docs Overview.
+- Validate Nano Banana Pro requests with no more than eight reference images.
+
+### Fixed
+- Reject non-auto aspect ratios for Seedance 2.5 frame-guided video requests before submission.
+
+
 ## [v0.12.3](https://github.com/runapi-ai/mcp/releases/tag/v0.12.3) - 2026-09-07
 
 ### Added
