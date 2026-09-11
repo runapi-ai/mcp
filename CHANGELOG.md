@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.12.5](https://github.com/runapi-ai/mcp/releases/tag/v0.12.5) - 2026-09-11
+
+### Added
+- Add GPT Image 2.5 Flare and Sunburst request contracts to aggregate MCP metadata.
+
+### Changed
+- Align MCP landing page with unified site navigation and visual design refresh.
+- Keep model catalog navigation available from the MCP page and its Markdown version while preserving existing URLs.
+
+### Fixed
+- Remove signup bonus advertising from the MCP page while keeping account and API key access available.
+
+
 ## [v0.12.4](https://github.com/runapi-ai/mcp/releases/tag/v0.12.4) - 2026-09-09
 
 ### Changed
