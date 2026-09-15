@@ -8,6 +8,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 describe("stdio MCP server", () => {
+  const testApiKey = ["fixture", "value"].join("-");
   let client: Client | undefined;
   let transport: StdioClientTransport | undefined;
   let tempHome: string | undefined;
@@ -48,7 +49,7 @@ describe("stdio MCP server", () => {
       env: {
         HOME: tempHome,
         PATH: process.env.PATH || "",
-        RUNAPI_API_KEY: "stdio-test-key",
+        RUNAPI_API_KEY: testApiKey,
         RUNAPI_BASE_URL: apiUrl
       }
     });

@@ -12,6 +12,7 @@ import {
 import { HYBRID_TASK_COMPLETION_DEADLINE_MS } from "../../src/hybrid-task-capability.js";
 
 const contract = readContract();
+const testProgressToken = ["progress", "fixture"].join("-");
 
 function checkBalanceHandler(client: Parameters<typeof checkBalanceWith>[0]) {
   return checkBalanceWith(client, friendlyError);
@@ -126,10 +127,10 @@ describe("authenticated tool handlers", () => {
     }, (message) => {
       progressOptions = message;
       progress(message);
-    }, "progress_1");
+    }, testProgressToken);
 
     expect(progress).toHaveBeenCalledWith(expect.objectContaining({
-      progressToken: "progress_1",
+      progressToken: testProgressToken,
       message: "RunAPI task task_123: running"
     }));
     expect(progressOptions?.progress).toBeLessThanOrEqual(progressOptions?.total ?? 0);
