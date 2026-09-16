@@ -1,7 +1,15 @@
 {
   "name": "runapi-mcp",
-  "version": "0.12.6",
+  "version": "0.12.7",
   "description": "AI image generation, video generation, music creation, text-to-speech — 130+ models from 18 providers via RunAPI MCP server.",
+  "homepage": "https://runapi.ai/mcp",
+  "keywords": [
+    "mcp",
+    "image-generation",
+    "video-generation",
+    "music-generation",
+    "text-to-speech"
+  ],
   "repository": "https://github.com/runapi-ai/mcp",
   "author": {
     "name": "RunAPI",
@@ -11,6 +19,20 @@
   "interface": {
     "displayName": "RunAPI MCP Server",
     "shortDescription": "130+ AI models for image, video, music, audio — one MCP server",
+    "longDescription": "Connect MCP-compatible agents to RunAPI for model discovery, live pricing, AI media task creation, polling, and account balance checks.",
+    "developerName": "RunAPI",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Model discovery",
+      "Pricing lookup",
+      "Image generation",
+      "Video generation",
+      "Music generation",
+      "Text-to-speech"
+    ],
+    "websiteURL": "https://runapi.ai/mcp",
+    "privacyPolicyURL": "https://runapi.ai/privacy",
+    "termsOfServiceURL": "https://runapi.ai/terms",
     "composerIcon": "./assets/icon.svg"
   }
 }

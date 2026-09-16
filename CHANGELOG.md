@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.12.7](https://github.com/runapi-ai/mcp/releases/tag/v0.12.7) - 2026-09-16
+
+### Fixed
+- Remove scanner-detectable test fixture secrets from the aggregate MCP security scan surface.
+
+
 ## [v0.12.6](https://github.com/runapi-ai/mcp/releases/tag/v0.12.6) - 2026-09-16
 
 ### Added

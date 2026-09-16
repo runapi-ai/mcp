@@ -1,3 +1,3 @@
 export const PACKAGE_NAME = "@runapi.ai/mcp";
-export const PACKAGE_VERSION = "0.12.6";
+export const PACKAGE_VERSION = "0.12.7";
 export const USER_AGENT = `${PACKAGE_NAME}/${PACKAGE_VERSION}`;
