@@ -71,6 +71,7 @@ export function registerAuthenticatedTools(server: McpServer, dependencies: Busi
       return jsonText(await getTaskHandler(
         { service, action, task_id },
         dependencies.client,
+        dependencies.contract,
         dependencies.errorFormatter
       ));
     }

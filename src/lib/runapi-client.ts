@@ -17,9 +17,10 @@ export class RunApiClient extends CoreRunApiClient {
     action: string,
     params: Record<string, unknown>,
     idempotencyKey: string,
-    options: HybridTaskOptions = {}
+    options: HybridTaskOptions = {},
+    route?: string
   ): Promise<HybridTaskResult> {
-    const response = await this.createTaskResponse(service, action, params, idempotencyKey);
+    const response = await this.createTaskResponse(service, action, params, idempotencyKey, route);
     if (response.status !== 202) return {result: await responseBody(response)};
 
     const created = await response.json() as RunApiTaskResponse;

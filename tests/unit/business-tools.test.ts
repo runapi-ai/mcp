@@ -137,7 +137,8 @@ describe("Business Tools composition", () => {
       "hosted-fixture",
       "text_to_image",
       {model: "hosted-only-model", prompt: "fixture"},
-      "opaque-business-request-1"
+      "opaque-business-request-1",
+      undefined
     );
   });
 

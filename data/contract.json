@@ -4550,6 +4550,21 @@
         {
           "when": {
             "model": "kling-v3-omni-edit",
+            "source_task_id": {
+              "present": false
+            },
+            "source_video_url": {
+              "present": false
+            }
+          },
+          "required_any": [
+            "source_video_url",
+            "source_task_id"
+          ]
+        },
+        {
+          "when": {
+            "model": "kling-v3-omni-edit",
             "source_video_url": {
               "present": true
             }
@@ -4644,45 +4659,6 @@
           },
           "when": {
             "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": false
-            },
-            "source_video_url": {
-              "present": false
-            }
-          },
-          "required_any": [
-            "source_video_url",
-            "source_task_id"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ],
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
             "source_task_id": {
               "present": true
             },
@@ -4795,6 +4771,30 @@
           "when": {
             "model": "kling-v3-omni-reference",
             "source_video_url": {
+              "present": true
+            },
+            "reference_image_urls": {
+              "present": true
+            }
+          },
+          "required": [
+            "aspect_ratio"
+          ]
+        },
+        {
+          "enum": {
+            "aspect_ratio": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ],
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "model": "kling-v3-omni-reference",
+            "source_task_id": {
               "present": true
             },
             "reference_image_urls": {
@@ -10527,6 +10527,30 @@
         }
       }
     },
+    "suno/audio-exports": {
+      "model": "Suno",
+      "endpoint": "convert_audio",
+      "task_type": "asynchronous",
+      "models": [],
+      "path": "/api/v1/audio_exports",
+      "fields_by_model": {
+        "_": {
+          "source_audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio id within the source Task, or a RunAPI audio resource id returned by a previous request."
+          },
+          "source_task_id": {
+            "type": "string",
+            "description": "RunAPI Task id that produced the audio. Required when the audio id alone does not identify the source."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
     "suno/blend-lyrics": {
       "model": "Suno",
       "endpoint": "blend_lyrics",
@@ -10615,7 +10639,10 @@
         "suno-v4.5-all",
         "suno-v4.5-plus",
         "suno-v5",
-        "suno-v5.5"
+        "suno-v5.5",
+        "suno-v6",
+        "suno-v6-mini",
+        "suno-v6-wild"
       ],
       "rules": [
         {
@@ -11120,6 +11147,282 @@
           }
         },
         "suno-v5.5": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to cover."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Cover brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact cover lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to cover."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Cover brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact cover lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6-mini": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to cover."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Cover brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact cover lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6-wild": {
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
@@ -11223,7 +11526,10 @@
         "suno-v4.5-all",
         "suno-v4.5-plus",
         "suno-v5",
-        "suno-v5.5"
+        "suno-v5.5",
+        "suno-v6",
+        "suno-v6-mini",
+        "suno-v6-wild"
       ],
       "rules": [
         {
@@ -11806,6 +12112,276 @@
             ],
             "description": "Persona type."
           }
+        },
+        "suno-v6": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url_list": {
+            "type": "array",
+            "required": true,
+            "max_items": 2,
+            "min_items": 2,
+            "description": "Two audio URLs to mashup."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Mashup brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact mashup lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          }
+        },
+        "suno-v6-mini": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url_list": {
+            "type": "array",
+            "required": true,
+            "max_items": 2,
+            "min_items": 2,
+            "description": "Two audio URLs to mashup."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Mashup brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact mashup lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          }
+        },
+        "suno-v6-wild": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "upload_url_list": {
+            "type": "array",
+            "required": true,
+            "max_items": 2,
+            "min_items": 2,
+            "description": "Two audio URLs to mashup."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Mashup brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact mashup lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          }
         }
       }
     },
@@ -11819,7 +12395,10 @@
         "suno-v4.5-all",
         "suno-v4.5-plus",
         "suno-v5",
-        "suno-v5.5"
+        "suno-v5.5",
+        "suno-v6",
+        "suno-v6-mini",
+        "suno-v6-wild"
       ],
       "fields_by_model": {
         "suno-v4": {
@@ -12373,6 +12952,336 @@
           }
         },
         "suno-v5.5": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Source task ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_id": {
+            "type": "string",
+            "description": "Source audio ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_url": {
+            "type": "string",
+            "description": "Source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "upload_url": {
+            "type": "string",
+            "description": "Uploaded source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "parameter_mode": {
+            "type": "string",
+            "enum": [
+              "source",
+              "custom"
+            ],
+            "required": true,
+            "description": "Inherit the source track's parameters (source) or supply custom ones (custom)."
+          },
+          "instrumental": {
+            "type": "boolean",
+            "description": "When true, generate without vocals."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Extension brief. Cannot be combined with lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics. Only allowed when extending uploaded audio in custom parameter mode."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Style preset. Required in custom parameter mode."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Song title. Required in custom parameter mode."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Seconds into the source to continue from. Required in custom parameter mode."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Source task ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_id": {
+            "type": "string",
+            "description": "Source audio ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_url": {
+            "type": "string",
+            "description": "Source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "upload_url": {
+            "type": "string",
+            "description": "Uploaded source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "parameter_mode": {
+            "type": "string",
+            "enum": [
+              "source",
+              "custom"
+            ],
+            "required": true,
+            "description": "Inherit the source track's parameters (source) or supply custom ones (custom)."
+          },
+          "instrumental": {
+            "type": "boolean",
+            "description": "When true, generate without vocals."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Extension brief. Cannot be combined with lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics. Only allowed when extending uploaded audio in custom parameter mode."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Style preset. Required in custom parameter mode."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Song title. Required in custom parameter mode."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Seconds into the source to continue from. Required in custom parameter mode."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6-mini": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Source task ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_id": {
+            "type": "string",
+            "description": "Source audio ID to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "audio_url": {
+            "type": "string",
+            "description": "Source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "upload_url": {
+            "type": "string",
+            "description": "Uploaded source audio URL to extend. Provide one of task_id, audio_id, audio_url, or upload_url."
+          },
+          "parameter_mode": {
+            "type": "string",
+            "enum": [
+              "source",
+              "custom"
+            ],
+            "required": true,
+            "description": "Inherit the source track's parameters (source) or supply custom ones (custom)."
+          },
+          "instrumental": {
+            "type": "boolean",
+            "description": "When true, generate without vocals."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Extension brief. Cannot be combined with lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics. Only allowed when extending uploaded audio in custom parameter mode."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Style preset. Required in custom parameter mode."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Song title. Required in custom parameter mode."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Seconds into the source to continue from. Required in custom parameter mode."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          }
+        },
+        "suno-v6-wild": {
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
@@ -12756,6 +13665,244 @@
         }
       }
     },
+    "suno/music-from-sample": {
+      "model": "Suno",
+      "endpoint": "add_samples",
+      "task_type": "asynchronous",
+      "models": [
+        "suno-v4",
+        "suno-v4.5",
+        "suno-v4.5-plus",
+        "suno-v5",
+        "suno-v5.5"
+      ],
+      "path": "/api/v1/music_from_sample",
+      "fields_by_model": {
+        "suno-v4": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v4.5-plus": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        },
+        "suno-v5.5": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "URL of the audio file to sample."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Optional description of the sample to add."
+          },
+          "start_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "Start of the sample range in seconds."
+          },
+          "end_seconds": {
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "description": "End of the sample range in seconds; must exceed start_seconds."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
+    "suno/music-visualizations": {
+      "model": "Suno",
+      "endpoint": "visualize_music",
+      "task_type": "asynchronous",
+      "models": [],
+      "path": "/api/v1/music_visualizations",
+      "fields_by_model": {
+        "_": {
+          "source_audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio id within the source Task, or a RunAPI audio resource id returned by a previous request."
+          },
+          "source_task_id": {
+            "type": "string",
+            "description": "RunAPI Task id that produced the audio. Required when the audio id alone does not identify the source."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "author": {
+            "type": "string",
+            "description": "Author name shown in the video."
+          },
+          "domain_name": {
+            "type": "string",
+            "description": "Domain name watermark."
+          }
+        }
+      }
+    },
+    "suno/personas": {
+      "model": "Suno",
+      "endpoint": "generate_persona",
+      "task_type": "synchronous",
+      "models": [],
+      "path": "/api/v1/personas",
+      "fields_by_model": {
+        "_": {
+          "source_task_id": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI Task id that produced the reference audio."
+          },
+          "source_audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio id within the source Task that carries the reference vocals."
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "Persona name."
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "description": "Persona description."
+          }
+        }
+      }
+    },
     "suno/regenerate-validation-phrase": {
       "model": "Suno",
       "endpoint": "regenerate_validation_phrase",
@@ -12916,6 +14063,9 @@
           "model": {
             "type": "string",
             "enum": [
+              "suno-v6",
+              "suno-v6-wild",
+              "suno-v6-mini",
               "suno-v4",
               "suno-v4.5",
               "suno-v4.5-all",
@@ -13241,6 +14391,22 @@
         }
       }
     },
+    "suno/style-expansions": {
+      "model": "Suno",
+      "endpoint": "boost_style",
+      "task_type": "synchronous",
+      "models": [],
+      "path": "/api/v1/style_expansions",
+      "fields_by_model": {
+        "_": {
+          "description": {
+            "type": "string",
+            "required": true,
+            "description": "Style description to expand into genre tags."
+          }
+        }
+      }
+    },
     "suno/text-to-music": {
       "model": "Suno",
       "endpoint": "text_to_music",
@@ -13251,7 +14417,10 @@
         "suno-v4.5-all",
         "suno-v4.5-plus",
         "suno-v5",
-        "suno-v5.5"
+        "suno-v5.5",
+        "suno-v6",
+        "suno-v6-mini",
+        "suno-v6-wild"
       ],
       "rules": [
         {
@@ -13335,6 +14504,17 @@
           },
           "forbidden": [
             "duration_seconds"
+          ]
+        },
+        {
+          "when": {
+            "voice_id": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "persona_id",
+            "persona_type"
           ]
         }
       ],
@@ -13424,6 +14604,10 @@
               "voice"
             ],
             "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
           },
           "duration_seconds": {
             "type": "integer",
@@ -13522,6 +14706,10 @@
             ],
             "description": "Persona type."
           },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
           "duration_seconds": {
             "type": "integer",
             "max": 360,
@@ -13618,6 +14806,10 @@
               "voice"
             ],
             "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
           },
           "duration_seconds": {
             "type": "integer",
@@ -13716,6 +14908,10 @@
             ],
             "description": "Persona type."
           },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
           "duration_seconds": {
             "type": "integer",
             "max": 360,
@@ -13813,6 +15009,10 @@
             ],
             "description": "Persona type."
           },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
           "duration_seconds": {
             "type": "integer",
             "max": 360,
@@ -13909,6 +15109,313 @@
               "voice"
             ],
             "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Timestamp in seconds to continue from."
+          }
+        },
+        "suno-v6": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Song brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Timestamp in seconds to continue from."
+          }
+        },
+        "suno-v6-mini": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Song brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 360,
+            "min": 10,
+            "description": "Preferred duration in seconds; only available for Suno V5.5 custom requests."
+          },
+          "continue_at": {
+            "type": "number",
+            "description": "Timestamp in seconds to continue from."
+          }
+        },
+        "suno-v6-wild": {
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "vocal_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "Vocal gender."
+          },
+          "style_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Style adherence weight (0-1)."
+          },
+          "weirdness_constraint": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Weirdness constraint (0-1)."
+          },
+          "audio_weight": {
+            "type": "number",
+            "max": 1,
+            "min": 0,
+            "description": "Audio weight (0-1)."
+          },
+          "vocal_mode": {
+            "type": "string",
+            "enum": [
+              "auto_lyrics",
+              "exact_lyrics",
+              "instrumental"
+            ],
+            "required": true,
+            "description": "Vocal generation mode."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Song brief for automatic lyrics."
+          },
+          "lyrics": {
+            "type": "string",
+            "max": 5000,
+            "length": true,
+            "description": "Exact lyrics to sing."
+          },
+          "style": {
+            "type": "string",
+            "max": 1000,
+            "length": true,
+            "description": "Music style."
+          },
+          "title": {
+            "type": "string",
+            "max": 80,
+            "length": true,
+            "description": "Music title."
+          },
+          "negative_tags": {
+            "type": "string",
+            "description": "Styles to avoid."
+          },
+          "persona_id": {
+            "type": "string",
+            "description": "Persona ID."
+          },
+          "persona_type": {
+            "type": "string",
+            "enum": [
+              "style",
+              "voice"
+            ],
+            "description": "Persona type."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "RunAPI Voice handle."
           },
           "duration_seconds": {
             "type": "integer",
@@ -14050,6 +15557,26 @@
         }
       }
     },
+    "suno/timestamped-lyrics": {
+      "model": "Suno",
+      "endpoint": "get_timestamped_lyrics",
+      "task_type": "synchronous",
+      "models": [],
+      "path": "/api/v1/timestamped_lyrics",
+      "fields_by_model": {
+        "_": {
+          "source_audio_id": {
+            "type": "string",
+            "required": true,
+            "description": "Audio id within the source Task, or a RunAPI audio resource id returned by a previous request."
+          },
+          "source_task_id": {
+            "type": "string",
+            "description": "RunAPI Task id that produced the audio. Required when the audio id alone does not identify the source."
+          }
+        }
+      }
+    },
     "suno/visualize-music": {
       "model": "Suno",
       "endpoint": "visualize_music",
@@ -14123,6 +15650,26 @@
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
+    "suno/voices": {
+      "model": "Suno",
+      "endpoint": "generate_voice",
+      "task_type": "synchronous",
+      "models": [],
+      "path": "/api/v1/voices",
+      "fields_by_model": {
+        "_": {
+          "source_audio_url": {
+            "type": "string",
+            "required": true,
+            "description": "Public URL of the voice recording to clone."
+          },
+          "name": {
+            "type": "string",
+            "description": "Voice name."
           }
         }
       }

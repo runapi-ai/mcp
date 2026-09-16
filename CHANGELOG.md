@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.12.6](https://github.com/runapi-ai/mcp/releases/tag/v0.12.6) - 2026-09-16
+
+### Added
+- Add Suno V6 model variants to the aggregate MCP contract.
+- Add the Suno persona, voice, style-expansion, timestamped-lyrics, audio-export, music-visualization, and music-from-sample capabilities to the aggregate MCP contract.
+
+### Changed
+- Refresh generated MCP contract metadata for canonical Voice consumption.
+
+
 ## [v0.12.5](https://github.com/runapi-ai/mcp/releases/tag/v0.12.5) - 2026-09-11
 
 ### Added

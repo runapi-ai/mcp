@@ -4,6 +4,7 @@ import { PollTimeoutError, RunApiClientError } from "../../src/lib/errors.js";
 import { friendlyError } from "@runapi.ai/mcp-core/web";
 import {
   checkBalanceHandler as checkBalanceWith,
+  COMPLETION_WAIT_DEADLINE_MS,
   createTaskHandler as createTaskWith,
   defaultTimeout,
   getTaskHandler as getTaskWith,
@@ -12,7 +13,6 @@ import {
 import { HYBRID_TASK_COMPLETION_DEADLINE_MS } from "../../src/hybrid-task-capability.js";
 
 const contract = readContract();
-const testProgressToken = ["progress", "fixture"].join("-");
 
 function checkBalanceHandler(client: Parameters<typeof checkBalanceWith>[0]) {
   return checkBalanceWith(client, friendlyError);
@@ -38,7 +38,7 @@ function getTaskHandler(
   input: Parameters<typeof getTaskWith>[0],
   client: Parameters<typeof getTaskWith>[1]
 ) {
-  return getTaskWith(input, client, friendlyError);
+  return getTaskWith(input, client, contract, friendlyError);
 }
 
 describe("authenticated tool handlers", () => {
@@ -78,13 +78,52 @@ describe("authenticated tool handlers", () => {
         model: "flux-kontext-pro",
         prompt: "test"
       }),
-      "local-create-task-1"
+      "local-create-task-1",
+      undefined
     );
     expect(result).toMatchObject({
       task_id: "task_123",
       status: "queued",
       created
     });
+  });
+
+  it("creates and polls on the action's public route when the contract publishes one", async () => {
+    const created = {id: "task_123", status: "queued"};
+    const createTask = vi.fn(async () => created);
+    const pollTask = vi.fn(async () => ({id: "task_123", status: "completed"}));
+
+    const result = await createTaskHandler({
+      service: "suno",
+      action: "visualize_music",
+      params: {source_audio_id: "audio_123"},
+      wait: true
+    }, {createTask, pollTask});
+
+    expect(createTask).toHaveBeenCalledWith(
+      "suno",
+      "visualize_music",
+      {source_audio_id: "audio_123"},
+      "unit-test-task-creation",
+      "/api/v1/music_visualizations"
+    );
+    expect(pollTask).toHaveBeenCalledWith(
+      "suno",
+      "task_123",
+      "visualize_music",
+      expect.objectContaining({timeoutMs: COMPLETION_WAIT_DEADLINE_MS, intervalMs: 5_000}),
+      {route: "/api/v1/music_visualizations"}
+    );
+    expect(result).toMatchObject({task_id: "task_123", status: "completed", completed: true});
+  });
+
+  it("polls an existing task on the action's public route when the contract publishes one", async () => {
+    const getTask = vi.fn(async () => ({id: "task_123", status: "completed"}));
+
+    const result = await getTaskHandler({service: "suno", action: "convert_audio", task_id: "task_123"}, {getTask});
+
+    expect(getTask).toHaveBeenCalledWith("suno", "task_123", "convert_audio", {route: "/api/v1/audio_exports"});
+    expect(result).toMatchObject({task_id: "task_123", status: "completed"});
   });
 
   it("rejects a missing idempotency key before creating a paid task", async () => {
@@ -127,10 +166,10 @@ describe("authenticated tool handlers", () => {
     }, (message) => {
       progressOptions = message;
       progress(message);
-    }, testProgressToken);
+    }, "progress_1");
 
     expect(progress).toHaveBeenCalledWith(expect.objectContaining({
-      progressToken: testProgressToken,
+      progressToken: "progress_1",
       message: "RunAPI task task_123: running"
     }));
     expect(progressOptions?.progress).toBeLessThanOrEqual(progressOptions?.total ?? 0);
@@ -228,7 +267,8 @@ describe("authenticated tool handlers", () => {
       "midjourney",
       "get_seed",
       {image_id: "image_123"},
-      "unit-test-task-creation"
+      "unit-test-task-creation",
+      undefined
     );
     expect(pollTask).not.toHaveBeenCalled();
     expect(result).toEqual({ result: { seed: 8_675_309 } });
@@ -252,7 +292,8 @@ describe("authenticated tool handlers", () => {
       "shorten_prompt",
       {prompt: "A detailed prompt"},
       "unit-test-task-creation",
-      expect.objectContaining({timeoutMs: HYBRID_TASK_COMPLETION_DEADLINE_MS, intervalMs: 5_000})
+      expect.objectContaining({timeoutMs: HYBRID_TASK_COMPLETION_DEADLINE_MS, intervalMs: 5_000}),
+      undefined
     );
     expect(result).toEqual({result: {shortened: "concise prompt"}});
   });
@@ -276,7 +317,8 @@ describe("authenticated tool handlers", () => {
       "get_seed",
       {image_id: "image_123"},
       "unit-test-task-creation",
-      expect.objectContaining({timeoutMs: 45_000})
+      expect.objectContaining({timeoutMs: 45_000}),
+      undefined
     );
   });
 

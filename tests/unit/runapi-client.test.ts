@@ -6,18 +6,17 @@ import { friendlyError, PollTimeoutError, RunApiClientError } from "../../src/li
 import { RunApiClient, taskIdFromResponse, taskStatus } from "../../src/lib/runapi-client.js";
 
 const TASK_ID = "123e4567-e89b-42d3-a456-426614174000";
-const TEST_API_KEY = ["fixture", "value"].join("-");
 
 describe("RunApiClient", () => {
   it("injects bearer auth for authenticated requests", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ balance_cents: 100 }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await client.balance();
 
     expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/me/balance"), expect.objectContaining({
       headers: expect.objectContaining({
-        authorization: `Bearer ${TEST_API_KEY}`
+        authorization: "Bearer test_key"
       })
     }));
   });
@@ -32,12 +31,12 @@ describe("RunApiClient", () => {
       const client = new RunApiClient(undefined, fetchImpl as any);
       const configFile = path.join(tempHome, ".config", "runapi", "config.json");
       fs.mkdirSync(path.dirname(configFile), { recursive: true });
-      fs.writeFileSync(configFile, JSON.stringify({ api_key: TEST_API_KEY }));
+      fs.writeFileSync(configFile, JSON.stringify({ api_key: "new_token" }));
 
       await client.balance();
 
       expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/me/balance"), expect.objectContaining({
-        headers: expect.objectContaining({ authorization: `Bearer ${TEST_API_KEY}` })
+        headers: expect.objectContaining({ authorization: "Bearer new_token" })
       }));
     } finally {
       process.env.HOME = originalHome;
@@ -81,7 +80,7 @@ describe("RunApiClient", () => {
 
   it("normalizes service slugs when creating tasks", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "queued" }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await client.createTask("flux-kontext", "text_to_image", { prompt: "test" });
 
@@ -101,7 +100,7 @@ describe("RunApiClient", () => {
         status: "completed",
         response: {body: {seed: 8_675_309}}
       }));
-    const client = new RunApiClient({apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai"}, fetchImpl as any);
+    const client = new RunApiClient({apiKey: "test_key", baseUrl: "https://runapi.ai"}, fetchImpl as any);
 
     const result = await client.resolveHybridTask(
       "midjourney",
@@ -122,7 +121,7 @@ describe("RunApiClient", () => {
 
   it("builds task routes using service/action/id for media polling", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "completed" }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await client.getTask("flux-kontext", TASK_ID, "text_to_image");
 
@@ -131,7 +130,7 @@ describe("RunApiClient", () => {
 
   it("normalizes service slugs while polling tasks", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "completed" }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await client.pollTask("flux-kontext", TASK_ID, "text_to_image", {
       intervalMs: 1,
@@ -154,7 +153,7 @@ describe("RunApiClient", () => {
     const fetchImpl = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ id: TASK_ID, status: "running" }))
       .mockResolvedValueOnce(jsonResponse({ id: TASK_ID, status: "completed" }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
     const progress = vi.fn();
 
     const result = await client.pollTask("suno", TASK_ID, "text_to_music", {
@@ -169,7 +168,7 @@ describe("RunApiClient", () => {
 
   it("times out while polling non-terminal tasks", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: TASK_ID, status: "running" }));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await expect(client.pollTask("suno", TASK_ID, "text_to_music", {
       intervalMs: 1,
@@ -179,7 +178,7 @@ describe("RunApiClient", () => {
 
   it("transforms HTTP errors into client errors", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ message: "No credits" }, 402));
-    const client = new RunApiClient({ apiKey: TEST_API_KEY, baseUrl: "https://runapi.ai" }, fetchImpl as any);
+    const client = new RunApiClient({ apiKey: "test_key", baseUrl: "https://runapi.ai" }, fetchImpl as any);
 
     await expect(client.balance()).rejects.toMatchObject({
       name: "RunApiClientError",

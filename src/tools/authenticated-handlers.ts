@@ -136,7 +136,7 @@ export async function createTaskHandler(
           timeoutMs: timeout,
           intervalMs: input.poll_interval_ms ?? COMPLETION_WAIT_POLL_INTERVAL_MS,
           onProgress
-        });
+        }, action?.path);
       } catch (error) {
         if (!(error instanceof HybridTaskResolutionError)) throw error;
 
@@ -152,11 +152,11 @@ export async function createTaskHandler(
     }
 
     if (action?.task_type === "synchronous") {
-      const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
+      const created = await client.createTask(input.service, input.action, body, input.idempotency_key, action?.path);
       return { result: created };
     }
 
-    const created = await client.createTask(input.service, input.action, body, input.idempotency_key);
+    const created = await client.createTask(input.service, input.action, body, input.idempotency_key, action?.path);
     const taskId = taskIdFromResponse(created);
 
     if (!input.wait || !taskId) {
@@ -176,7 +176,7 @@ export async function createTaskHandler(
           latestTask = task;
           await onProgress(task);
         }
-      });
+      }, { route: action?.path });
 
       return {
         task_id: taskId,
@@ -223,10 +223,12 @@ export async function createTaskHandler(
 export async function getTaskHandler(
   input: { service: string; action?: string; task_id: string },
   client: Pick<BusinessToolClient, "getTask">,
+  contract: Contract,
   formatError: ErrorFormatter
 ) {
   try {
-    const task = await client.getTask(input.service, input.task_id, input.action);
+    const route = input.action ? findAction(input.service, input.action, contract)?.path : undefined;
+    const task = await client.getTask(input.service, input.task_id, input.action, { route });
     return {
       task_id: input.task_id,
       status: taskStatus(task),

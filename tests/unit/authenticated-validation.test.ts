@@ -36,7 +36,7 @@ function getTaskHandler(
   input: Parameters<typeof getTaskWith>[0],
   client: Parameters<typeof getTaskWith>[1]
 ) {
-  return getTaskWith(input, client, friendlyError);
+  return getTaskWith(input, client, contract, friendlyError);
 }
 
 describe("authenticated tool handlers", () => {
@@ -102,7 +102,8 @@ describe("authenticated tool handlers", () => {
         style: "calm software demo background music",
         title: "RunAPI MCP UX Check"
       }),
-      "unit-test-task-creation"
+      "unit-test-task-creation",
+      undefined
     );
     expect(result).toMatchObject({
       task_id: "music_task",
