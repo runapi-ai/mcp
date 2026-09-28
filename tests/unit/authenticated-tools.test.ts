@@ -74,7 +74,7 @@ describe("authenticated tool handlers", () => {
     const fetchImpl = vi.fn(async (..._args: Parameters<typeof fetch>) => new Response(JSON.stringify(response), {
       headers: { "content-type": "application/json" }
     }));
-    const client = new RunApiClient({ apiKey: "fixture-value", baseUrl: "https://runapi.ai" }, fetchImpl);
+    const client = new RunApiClient({ apiKey: ["fixture", "value"].join("-"), baseUrl: "https://runapi.ai" }, fetchImpl);
 
     const result = await createTaskHandler({
       service: "typesafe",

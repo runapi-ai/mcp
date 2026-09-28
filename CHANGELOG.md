@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.13.1](https://github.com/runapi-ai/mcp/releases/tag/v0.13.1) - 2026-09-28
+
+### Fixed
+- MCP plugin tests no longer store an API key-shaped fixture as a string literal.
+
+
 ## [v0.13.0](https://github.com/runapi-ai/mcp/releases/tag/v0.13.0) - 2026-09-28
 
 ### Added
