@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.13.0](https://github.com/runapi-ai/mcp/releases/tag/v0.13.0) - 2026-09-28
+
+### Added
+- Serve the authenticated Hosted MCP transport directly from `https://runapi.ai/.well-known/mcp`.
+- Add typesafe/system-one and jev-latest to the aggregate MCP contract catalog.
+
+### Changed
+- Build the Hosted MCP Worker with the globally installed wrangler CLI instead of a Worker-local dependency.
+- Hosted MCP 503 responses now say "Service temporarily unavailable", matching the rest of RunAPI.
+- Add remaster_audio variation_category and updated Live delegation descriptions to the aggregate MCP contract.
+
+### Fixed
+- Preserve arbitrary TypeSafe state and question data, including string and array state, in MCP requests.
+
+
 ## [v0.12.7](https://github.com/runapi-ai/mcp/releases/tag/v0.12.7) - 2026-09-16
 
 ### Fixed

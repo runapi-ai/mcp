@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { readContract } from "../../src/lib/data.js";
 import { PollTimeoutError, RunApiClientError } from "../../src/lib/errors.js";
+import { RunApiClient } from "../../src/lib/runapi-client.js";
 import { friendlyError } from "@runapi.ai/mcp-core/web";
 import {
   checkBalanceHandler as checkBalanceWith,
@@ -43,6 +44,53 @@ function getTaskHandler(
 }
 
 describe("authenticated tool handlers", () => {
+  it.each([
+    { state: "My payout failed three days ago." },
+    { state: { ticket: { text: "My payout failed", tags: ["urgent"], refunded: false }, history: [null, 3] } },
+    { state: [{ role: "user", content: "My payout failed" }, { metadata: { retries: 3 } }] }
+  ])("sends TypeSafe state and dynamic questions losslessly to HTTP: $state", async ({ state }) => {
+    const questions = {
+      route_ticket: {
+        type: "choice",
+        instructions: { question: "Which team should handle this?", context: ["Support triage"] },
+        criteria: {
+          billing: { description: "Payments and refunds", examples: ["Failed payout"] },
+          technical: ["Bugs", "Outages"],
+          sales: null
+        }
+      },
+      urgent: { type: "noul", instructions: "Is this urgent?", criteria: { true: "Time-sensitive", false: "Can wait" } },
+      frustration: { type: "score", instructions: ["Rate frustration"], criteria: ["Calm", { level: "Frustrated" }] }
+    };
+    const response = {
+      model: "jev-1.13.0",
+      answers: {
+        route_ticket: { type: "choice", choice: "billing", probabilities: { billing: 0.88, technical: 0.12, sales: 0 }, confidence: 0.81 },
+        urgent: { type: "noul", noul: 0.95 },
+        frustration: { type: "score", score: 0.8, legend: { "0": "Calm", "1": "Frustrated" }, probabilities: { "0": 0.2, "1": 0.8 }, confidence: 0.6 }
+      },
+      usage: { input_tokens: 318, output_tokens: 74 }
+    };
+    const fetchImpl = vi.fn(async (..._args: Parameters<typeof fetch>) => new Response(JSON.stringify(response), {
+      headers: { "content-type": "application/json" }
+    }));
+    const client = new RunApiClient({ apiKey: "fixture-value", baseUrl: "https://runapi.ai" }, fetchImpl);
+
+    const result = await createTaskHandler({
+      service: "typesafe",
+      action: "system_one",
+      model: "jev-latest",
+      params: { state, questions }
+    }, client);
+
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchImpl.mock.calls[0];
+    expect(String(url)).toBe("https://runapi.ai/api/v1/typesafe/system_one");
+    expect(init?.method).toBe("POST");
+    expect(JSON.parse(init?.body as string)).toEqual({ model: "jev-latest", state, questions });
+    expect(result).toEqual({ result: response });
+  });
+
   it("checks balance and maps auth errors", async () => {
     await expect(checkBalanceHandler({
       balance: vi.fn(async () => ({ balance_cents: 100 }))
