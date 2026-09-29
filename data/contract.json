@@ -97,7 +97,8 @@
             "type": "boolean"
           },
           "duration_seconds": {
-            "type": "number"
+            "type": "number",
+            "required": true
           },
           "prompt_influence": {
             "type": "number"
@@ -600,6 +601,7 @@
               "1k",
               "2k"
             ],
+            "default": "1k",
             "description": "Output resolution."
           },
           "enable_safety_checker": {
@@ -708,6 +710,7 @@
               "1k",
               "2k"
             ],
+            "default": "1k",
             "description": "Output resolution."
           },
           "enable_safety_checker": {
@@ -790,6 +793,7 @@
               "1k",
               "2k"
             ],
+            "default": "1k",
             "description": "Output resolution."
           },
           "enable_safety_checker": {
@@ -883,6 +887,7 @@
               "1k",
               "2k"
             ],
+            "default": "1k",
             "description": "Output resolution."
           },
           "enable_safety_checker": {
@@ -1964,7 +1969,8 @@
               1,
               2,
               4
-            ]
+            ],
+            "default": 1
           },
           "callback_url": {
             "type": "string"
@@ -2075,7 +2081,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -2121,7 +2128,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -2224,7 +2232,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -2265,7 +2274,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -2320,7 +2330,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -2371,7 +2382,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "callback_url": {
             "type": "string"
@@ -3035,6 +3047,7 @@
           },
           "enable_pro": {
             "type": "boolean",
+            "default": false,
             "description": "Enable Pro image generation mode."
           }
         }
@@ -3289,6 +3302,30 @@
         "hailuo-2.3-image-to-video-pro",
         "hailuo-2.3-image-to-video-standard"
       ],
+      "rules": [
+        {
+          "enum": {
+            "output_resolution": [
+              "768p"
+            ]
+          },
+          "when": {
+            "model": "hailuo-2.3-image-to-video-pro",
+            "duration_seconds": 10
+          }
+        },
+        {
+          "enum": {
+            "output_resolution": [
+              "768p"
+            ]
+          },
+          "when": {
+            "model": "hailuo-2.3-image-to-video-standard",
+            "duration_seconds": 10
+          }
+        }
+      ],
       "fields_by_model": {
         "hailuo-02-image-to-video-pro": {
           "model": {
@@ -3340,14 +3377,16 @@
             "enum": [
               6,
               10
-            ]
+            ],
+            "default": 10
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "512p",
               "768p"
-            ]
+            ],
+            "default": "768p"
           },
           "prompt_optimizer": {
             "type": "boolean"
@@ -3378,14 +3417,16 @@
             "enum": [
               6,
               10
-            ]
+            ],
+            "default": 6
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "768p",
               "1080p"
-            ]
+            ],
+            "default": "768p"
           },
           "prompt_optimizer": {
             "type": "boolean"
@@ -3416,14 +3457,16 @@
             "enum": [
               6,
               10
-            ]
+            ],
+            "default": 6
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "768p",
               "1080p"
-            ]
+            ],
+            "default": "768p"
           },
           "prompt_optimizer": {
             "type": "boolean"
@@ -3478,7 +3521,8 @@
             "enum": [
               6,
               10
-            ]
+            ],
+            "default": 6
           },
           "prompt_optimizer": {
             "type": "boolean"
@@ -3520,7 +3564,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "audio_setting": {
             "type": "string",
@@ -3563,10 +3608,12 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3591,10 +3638,12 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3634,7 +3683,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -3647,7 +3697,8 @@
             ]
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3671,7 +3722,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -3684,7 +3736,8 @@
             ]
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3711,7 +3764,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -3724,7 +3778,8 @@
             ]
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3748,7 +3803,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -3761,7 +3817,8 @@
             ]
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "seed": {
             "type": "integer"
@@ -3802,7 +3859,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -3856,7 +3914,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string"
@@ -3917,7 +3976,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -3972,7 +4032,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -4044,7 +4105,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -4123,7 +4185,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -4182,7 +4245,8 @@
               "turbo",
               "balanced",
               "quality"
-            ]
+            ],
+            "default": "balanced"
           },
           "style": {
             "type": "string",
@@ -4276,7 +4340,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "output_format": {
             "type": "string",
@@ -4413,7 +4478,8 @@
             "enum": [
               "480p",
               "720p"
-            ]
+            ],
+            "default": "480p"
           },
           "seed": {
             "type": "integer"
@@ -5108,6 +5174,17 @@
           ]
         },
         {
+          "enum": {
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "mode": "std",
+            "model": "kling-v2.6"
+          }
+        },
+        {
           "when": {
             "model": "kling-v2.6"
           },
@@ -5120,6 +5197,19 @@
             "reference_video_type",
             "preserve_reference_video_audio"
           ]
+        },
+        {
+          "enum": {
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "mode": {
+              "present": false
+            },
+            "model": "kling-v2.6"
+          }
         },
         {
           "when": {
@@ -5265,6 +5355,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -5310,6 +5401,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -5355,6 +5447,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -5400,6 +5493,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -5653,6 +5747,7 @@
               "720p",
               "1080p"
             ],
+            "required": true,
             "description": "Output resolution."
           },
           "character_orientation": {
@@ -5808,6 +5903,30 @@
           ]
         },
         {
+          "enum": {
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "mode": "std",
+            "model": "kling-v2.6"
+          }
+        },
+        {
+          "enum": {
+            "enable_sound": [
+              false
+            ]
+          },
+          "when": {
+            "mode": {
+              "present": false
+            },
+            "model": "kling-v2.6"
+          }
+        },
+        {
           "when": {
             "model": "kling-v3-omni"
           },
@@ -5862,6 +5981,7 @@
           },
           "enable_sound": {
             "type": "boolean",
+            "default": false,
             "description": "Enable sound generation."
           },
           "duration_seconds": {
@@ -5881,6 +6001,7 @@
               14,
               15
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -5899,6 +6020,7 @@
               "1080p",
               "4k"
             ],
+            "default": "1080p",
             "description": "Output resolution."
           },
           "negative_prompt": {
@@ -6032,6 +6154,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -6076,6 +6199,7 @@
               5,
               10
             ],
+            "default": 5,
             "description": "Duration in seconds."
           },
           "aspect_ratio": {
@@ -6958,7 +7082,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "reference_image_urls": {
             "type": "array"
@@ -7045,7 +7170,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "1k"
           },
           "reference_image_urls": {
             "type": "array",
@@ -9004,7 +9130,8 @@
               "480p",
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9013,7 +9140,8 @@
             "required": true
           },
           "generate_audio": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -9058,7 +9186,8 @@
             "enum": [
               "480p",
               "720p"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9067,7 +9196,8 @@
             "default": 5
           },
           "generate_audio": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
           },
           "first_frame_image_url": {
             "type": "string"
@@ -9120,7 +9250,8 @@
               "720p",
               "1080p",
               "4k"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9183,7 +9314,8 @@
             "enum": [
               "480p",
               "720p"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9383,7 +9515,8 @@
               "480p",
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9421,7 +9554,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "720p"
           },
           "duration_seconds": {
             "type": "integer",
@@ -9751,7 +9885,8 @@
               4,
               5,
               6
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -9997,7 +10132,8 @@
               4,
               5,
               6
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -10071,6 +10207,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Styles to avoid."
           },
@@ -10132,6 +10270,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Styles to avoid."
           },
@@ -10193,6 +10333,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Styles to avoid."
           },
@@ -10446,6 +10588,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Styles to avoid."
           },
@@ -10514,6 +10658,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Styles to avoid."
           },
@@ -10775,6 +10921,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -10867,6 +11015,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -10959,6 +11109,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11051,6 +11203,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11143,6 +11297,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11235,6 +11391,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11327,6 +11485,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11419,6 +11579,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -11511,6 +11673,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         }
@@ -12508,6 +12672,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -12618,6 +12784,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -12728,6 +12896,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -12838,6 +13008,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -12948,6 +13120,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -13058,6 +13232,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -13168,6 +13344,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -13278,6 +13456,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         },
@@ -13388,6 +13568,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           }
         }
@@ -13421,6 +13603,8 @@
         "_": {
           "prompt": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "required": true,
             "description": "Lyrics generation prompt."
           },
@@ -14157,6 +14341,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "full_lyrics": {
@@ -14636,6 +14822,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -14737,6 +14925,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -14838,6 +15028,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -14939,6 +15131,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -15040,6 +15234,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -15141,6 +15337,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -15242,6 +15440,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -15343,6 +15543,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -15444,6 +15646,8 @@
           },
           "negative_tags": {
             "type": "string",
+            "max": 200,
+            "length": true,
             "description": "Styles to avoid."
           },
           "persona_id": {
@@ -16077,7 +16281,8 @@
             "enum": [
               "1080p",
               "4k"
-            ]
+            ],
+            "default": "1080p"
           },
           "index": {
             "type": "integer"
@@ -16196,7 +16401,8 @@
               "480p",
               "580p",
               "720p"
-            ]
+            ],
+            "default": "480p"
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -16223,7 +16429,8 @@
               "480p",
               "580p",
               "720p"
-            ]
+            ],
+            "default": "480p"
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -16280,7 +16487,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -16360,7 +16568,8 @@
             "type": "boolean"
           },
           "audio": {
-            "type": "boolean"
+            "type": "boolean",
+            "required": true
           },
           "multi_shots": {
             "type": "boolean"
@@ -16394,7 +16603,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -16516,7 +16726,8 @@
             "enum": [
               "480p",
               "720p"
-            ]
+            ],
+            "default": "720p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -16577,14 +16788,19 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "required": true
+            "required": true,
+            "enum": [
+              5,
+              10
+            ]
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "required": true
           },
           "aspect_ratio": {
             "type": "string"
@@ -16725,7 +16941,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -16790,7 +17007,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -16870,7 +17088,8 @@
               "480p",
               "580p",
               "720p"
-            ]
+            ],
+            "default": "480p"
           },
           "negative_prompt": {
             "type": "string"
@@ -17095,7 +17314,8 @@
               "480p",
               "580p",
               "720p"
-            ]
+            ],
+            "default": "720p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -17151,14 +17371,19 @@
             "type": "string"
           },
           "duration_seconds": {
-            "type": "integer"
+            "type": "integer",
+            "enum": [
+              5,
+              10
+            ]
           },
           "output_resolution": {
             "type": "string",
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "required": true
           },
           "aspect_ratio": {
             "type": "string"
@@ -17221,7 +17446,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string"
@@ -17285,7 +17511,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string",
@@ -17355,7 +17582,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "aspect_ratio": {
             "type": "string"

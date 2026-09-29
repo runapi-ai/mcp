@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.14.0](https://github.com/runapi-ai/mcp/releases/tag/v0.14.0) - 2026-09-29
+
+### Changed
+- Require output_resolution for Wan 2.5 and Kling 3.0 motion control, audio for Wan 2.6 Flash edit, and duration_seconds for sound effects, add the Kling 2.6 sound-mode and Hailuo 2.3 1080p duration rules, and declare server defaults for optional media fields, in the aggregate MCP contract.
+- The aggregate MCP contract accepts only duration_seconds 5 or 10 for wan-2.5-image-to-video and wan-2.5-text-to-video.
+
+
 ## [v0.13.1](https://github.com/runapi-ai/mcp/releases/tag/v0.13.1) - 2026-09-28
 
 ### Fixed
