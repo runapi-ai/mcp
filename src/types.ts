@@ -3,7 +3,6 @@ export type {
   Contract,
   ContractAction,
   ContractField,
-  InputRule,
   ModelInfo,
   PollingOptions,
   RunApiPrompt,

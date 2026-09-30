@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.15.0](https://github.com/runapi-ai/mcp/releases/tag/v0.15.0) - 2026-09-30
+
+### Changed
+- Send tool arguments to the service without local model, enum, range, required-field, or cross-field validation. Tool descriptions still list declared types and known values.
+  Migration: Invalid arguments now return the service's error, including its message, instead of a local tool-input rejection.
+- Declare the auto server default for audio_setting on happyhorse edit_video in the aggregate MCP contract.
+
+
 ## [v0.14.0](https://github.com/runapi-ai/mcp/releases/tag/v0.14.0) - 2026-09-29
 
 ### Changed

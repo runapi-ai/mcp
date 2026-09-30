@@ -170,7 +170,7 @@ Generate a square product image with RunAPI. Pick a suitable image model.
 Expected behavior:
 
 1. The assistant calls `list_models` to choose a compatible image model.
-2. It calls `get_model_info` with the selected service/action/model to validate parameters and any conditional input rules.
+2. It calls `get_model_info` with the selected service/action/model to read the parameter descriptions.
 3. It asks for confirmation if the request is expensive, long-running, or a batch.
 4. It generates one opaque `idempotency_key` for this logical task and calls `create_task`.
 5. It returns task ID, status, output URLs, and cost fields when available.

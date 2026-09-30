@@ -1,10 +1,8 @@
 import {
   findAction,
-  findModelForAction,
   PollTimeoutError,
   taskIdFromResponse,
   taskStatus,
-  validateInputRules,
   type Contract,
   type ContractAction
 } from "@runapi.ai/mcp-core/web";
@@ -13,8 +11,6 @@ import {
   HYBRID_TASK_COMPLETION_DEADLINE_MS,
   isHybridTaskAction
 } from "../hybrid-task-capability.js";
-import { validateModelSpecificParams } from "../lib/model-specific-validation.js";
-import { validateParams } from "../lib/schema.js";
 import type { RunApiTaskResponse } from "../types.js";
 
 export const COMPLETION_WAIT_DEADLINE_MS = 300_000;
@@ -62,7 +58,7 @@ export async function createTaskHandler(
   input: {
     service: string;
     action: string;
-    model?: string;
+    model?: unknown;
     params?: Record<string, unknown>;
     idempotency_key?: string;
     wait?: boolean;
@@ -83,32 +79,19 @@ export async function createTaskHandler(
       };
     }
 
-    const info = findModelForAction(input.service, input.action, input.model, contract);
     const action = findAction(input.service, input.action, contract) as ContractAction | undefined;
-    if (!info) {
+    if (!action) {
       return {
-        error: "Unsupported RunAPI service/action/model combination.",
-        hint: "Call list_models first to choose a supported model."
+        error: "Unsupported RunAPI service/action combination.",
+        hint: "Call list_actions to choose a supported endpoint."
       };
     }
 
-    const body = validateParams(info.fields, {
-      ...(input.params || {}),
-      ...(input.model ? { model: input.model } : {})
-    });
-    const ruleError = validateInputRules(action?.rules ?? [], body);
-    if (ruleError) {
-      return {
-        error: `Invalid RunAPI parameters: ${ruleError}`,
-        hint: "Call get_model_info with service and action to inspect input_rules before create_task."
-      };
-    }
-    const modelError = validateModelSpecificParams(input.service, input.action, body);
-    if (modelError) {
-      return {
-        error: `Invalid RunAPI parameters: ${modelError}`,
-        hint: "Adjust the model-specific parameters before creating the task."
-      };
+    const body = { ...(input.params ?? {}) };
+    if (action.models.length > 0) {
+      body.model = input.model ?? body.model ?? action.models[0];
+    } else {
+      delete body.model;
     }
 
     const hybridTask = isHybridTaskAction(input.service, input.action);

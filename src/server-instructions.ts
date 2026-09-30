@@ -39,15 +39,14 @@ Phase 1: Intent assessment
 - If the user asks for LLM inference through RunAPI, explain that this MCP server does not expose LLM inference tools and they should connect through the RunAPI API or SDK directly.
 
 Phase 2: Model selection
-- When the user names a model slug, use it after verifying with get_model_info.
+- When the user names a model slug, use it. Consult get_model_info for available catalog help; models absent from the embedded catalog can still be submitted to RunAPI.
 - If get_model_info returns ambiguous matches, call it again with the selected service and action before choosing params.
 - When the user does not name a model, call list_models with a modality/action filter.
 - Compare returned candidates by modality, supported inputs, likely quality/speed tradeoffs, and check_pricing results.
 - Ask one clarifying question only when required to choose a compatible model or required input.
 
 Phase 3: Task creation
-- Always verify params with get_model_info before create_task. Include service and action in get_model_info when they are known.
-- If get_model_info returns input_rules, follow them exactly before create_task.
+- Consult get_model_info for parameter descriptions and type help. Include service and action when they are known. RunAPI validates API business parameters on the server.
 - Include model in create_task when the selected action requires or supports a model slug.
 - Generate one new opaque idempotency_key for each logical task and retain it with the exact service, action, model, and params.
 - Reuse an idempotency_key only to retry the same logical task with identical input. Never reuse it with different input.
@@ -71,7 +70,7 @@ Phase 5: Error recovery
 - Insufficient balance: tell the user to add balance in the RunAPI dashboard.
 - Rate limit: wait briefly before one retry only if the user confirms.
 - Service unavailable: use list_models to suggest another compatible RunAPI model.
-- Invalid params: call get_model_info, show valid fields, constraints, and input_rules, and ask for the corrected input.
+- Invalid params: show the RunAPI server error, consult get_model_info for available field help, and ask for corrected input.
 - Completion Wait deadline: treat the Task Reference Fallback as success and continue with get_task. Never recreate the task.
 - Connection loss: do not recreate the task automatically; tell the user to check status with get_task. If no task ID was returned and the user explicitly retries, reuse the original idempotency_key and identical input.
 `.trim();

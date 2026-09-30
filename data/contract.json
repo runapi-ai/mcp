@@ -138,16 +138,6 @@
         "text-to-speech-multilingual-v2",
         "text-to-speech-turbo-v2.5"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "text-to-speech-multilingual-v2"
-          },
-          "required": [
-            "voice"
-          ]
-        }
-      ],
       "fields_by_model": {
         "text-to-speech-multilingual-v2": {
           "model": {
@@ -294,40 +284,6 @@
         "s1",
         "s2-pro",
         "s2.1-pro"
-      ],
-      "rules": [
-        {
-          "when": {
-            "output_format": "wav"
-          },
-          "forbidden": [
-            "bitrate_kbps"
-          ]
-        },
-        {
-          "enum": {
-            "sample_rate_hz": [
-              32000,
-              44100
-            ]
-          },
-          "when": {
-            "output_format": "mp3"
-          }
-        },
-        {
-          "enum": {
-            "sample_rate_hz": [
-              32000,
-              44100
-            ]
-          },
-          "when": {
-            "output_format": {
-              "present": false
-            }
-          }
-        }
       ],
       "fields_by_model": {
         "s1": {
@@ -533,32 +489,6 @@
         "flux-2-max-remix-image",
         "flux-2-pro-remix-image"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "flux-2-flex-remix-image"
-          },
-          "forbidden": [
-            "output_count"
-          ]
-        },
-        {
-          "when": {
-            "model": "flux-2-max-remix-image"
-          },
-          "forbidden": [
-            "enable_safety_checker"
-          ]
-        },
-        {
-          "when": {
-            "model": "flux-2-pro-remix-image"
-          },
-          "forbidden": [
-            "output_count"
-          ]
-        }
-      ],
       "fields_by_model": {
         "flux-2-flex-remix-image": {
           "model": {
@@ -732,32 +662,6 @@
         "flux-2-flex-text-to-image",
         "flux-2-max-text-to-image",
         "flux-2-pro-text-to-image"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "flux-2-flex-text-to-image"
-          },
-          "forbidden": [
-            "output_count"
-          ]
-        },
-        {
-          "when": {
-            "model": "flux-2-max-text-to-image"
-          },
-          "forbidden": [
-            "enable_safety_checker"
-          ]
-        },
-        {
-          "when": {
-            "model": "flux-2-pro-text-to-image"
-          },
-          "forbidden": [
-            "output_count"
-          ]
-        }
       ],
       "fields_by_model": {
         "flux-2-flex-text-to-image": {
@@ -1312,57 +1216,6 @@
         "gemini-omni-flash-1-1",
         "gemini-omni-flash-preview",
         "gemini-omni-text-to-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "gemini-omni-flash-1-1",
-            "first_frame_image_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "reference_image_urls",
-            "audio_ids",
-            "video_list",
-            "character_ids"
-          ]
-        },
-        {
-          "when": {
-            "model": "gemini-omni-flash-1-1",
-            "last_frame_image_url": {
-              "present": true
-            }
-          },
-          "required": [
-            "first_frame_image_url"
-          ]
-        },
-        {
-          "when": {
-            "model": "gemini-omni-flash-preview"
-          },
-          "forbidden": [
-            "reference_image_urls",
-            "audio_ids",
-            "video_list",
-            "character_ids",
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "duration_seconds",
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "gemini-omni-text-to-video"
-          },
-          "forbidden": [
-            "first_frame_image_url",
-            "last_frame_image_url"
-          ]
-        }
       ],
       "fields_by_model": {
         "gemini-omni-flash-1-1": {
@@ -1989,57 +1842,6 @@
         "gpt-image-2.5-flare",
         "gpt-image-2.5-sunburst"
       ],
-      "rules": [
-        {
-          "when": {
-            "aspect_ratio": "1:1",
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": "auto",
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": {
-              "present": false
-            },
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "output_resolution"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": "auto",
-            "output_resolution": "2k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": {
-              "present": false
-            },
-            "output_resolution": "2k"
-          },
-          "forbidden": [
-            "output_resolution"
-          ]
-        }
-      ],
       "fields_by_model": {
         "gpt-image-2.5-flare": {
           "model": {
@@ -2144,57 +1946,6 @@
       "models": [
         "gpt-image-2.5-flare",
         "gpt-image-2.5-sunburst"
-      ],
-      "rules": [
-        {
-          "when": {
-            "aspect_ratio": "1:1",
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": "auto",
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": {
-              "present": false
-            },
-            "output_resolution": "4k"
-          },
-          "forbidden": [
-            "output_resolution"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": "auto",
-            "output_resolution": "2k"
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "aspect_ratio": {
-              "present": false
-            },
-            "output_resolution": "2k"
-          },
-          "forbidden": [
-            "output_resolution"
-          ]
-        }
       ],
       "fields_by_model": {
         "gpt-image-2.5-flare": {
@@ -2481,30 +2232,6 @@
         "grok-imagine-edit-image",
         "grok-imagine-image-2-0"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "grok-imagine-edit-image"
-          },
-          "forbidden": [
-            "source_task_id",
-            "mask_indices",
-            "source_image_urls",
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "model": "grok-imagine-image-2-0"
-          },
-          "forbidden": [
-            "source_image_url",
-            "source_task_id",
-            "mask_indices",
-            "enable_safety_checker"
-          ]
-        }
-      ],
       "fields_by_model": {
         "grok-imagine-edit-image": {
           "model": {
@@ -2647,38 +2374,6 @@
         "grok-imagine-image-to-video",
         "grok-imagine-video-1.5-fast",
         "grok-imagine-video-1.5-preview"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "grok-imagine-image-to-video"
-          },
-          "forbidden": [
-            "reference_image_urls"
-          ]
-        },
-        {
-          "when": {
-            "model": "grok-imagine-video-1.5-fast"
-          },
-          "forbidden": [
-            "source_task_id",
-            "index",
-            "motion_style",
-            "enable_safety_checker"
-          ]
-        },
-        {
-          "when": {
-            "model": "grok-imagine-video-1.5-preview"
-          },
-          "forbidden": [
-            "source_task_id",
-            "index",
-            "motion_style",
-            "enable_safety_checker"
-          ]
-        }
       ],
       "fields_by_model": {
         "grok-imagine-image-to-video": {
@@ -2907,34 +2602,6 @@
       "models": [
         "grok-imagine-image-2-0"
       ],
-      "rules": [
-        {
-          "required_any": [
-            "image_url",
-            "source_task_id"
-          ]
-        },
-        {
-          "when": {
-            "image_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "source_task_id"
-          ]
-        },
-        {
-          "when": {
-            "source_task_id": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "image_url"
-          ]
-        }
-      ],
       "fields_by_model": {
         "grok-imagine-image-2-0": {
           "model": {
@@ -2964,17 +2631,6 @@
       "models": [
         "grok-imagine-image-2-0",
         "grok-imagine-text-to-image"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "grok-imagine-image-2-0"
-          },
-          "forbidden": [
-            "enable_safety_checker",
-            "enable_pro"
-          ]
-        }
       ],
       "fields_by_model": {
         "grok-imagine-image-2-0": {
@@ -3061,34 +2717,6 @@
         "grok-imagine-text-to-video",
         "grok-imagine-video-1.5-fast",
         "grok-imagine-video-1.5-preview"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "grok-imagine-text-to-video"
-          },
-          "forbidden": [
-            "reference_image_urls"
-          ]
-        },
-        {
-          "when": {
-            "model": "grok-imagine-video-1.5-fast"
-          },
-          "forbidden": [
-            "motion_style",
-            "enable_safety_checker"
-          ]
-        },
-        {
-          "when": {
-            "model": "grok-imagine-video-1.5-preview"
-          },
-          "forbidden": [
-            "motion_style",
-            "enable_safety_checker"
-          ]
-        }
       ],
       "fields_by_model": {
         "grok-imagine-text-to-video": {
@@ -3301,30 +2929,6 @@
         "hailuo-02-image-to-video-standard",
         "hailuo-2.3-image-to-video-pro",
         "hailuo-2.3-image-to-video-standard"
-      ],
-      "rules": [
-        {
-          "enum": {
-            "output_resolution": [
-              "768p"
-            ]
-          },
-          "when": {
-            "model": "hailuo-2.3-image-to-video-pro",
-            "duration_seconds": 10
-          }
-        },
-        {
-          "enum": {
-            "output_resolution": [
-              "768p"
-            ]
-          },
-          "when": {
-            "model": "hailuo-2.3-image-to-video-standard",
-            "duration_seconds": 10
-          }
-        }
       ],
       "fields_by_model": {
         "hailuo-02-image-to-video-pro": {
@@ -3572,7 +3176,8 @@
             "enum": [
               "auto",
               "original"
-            ]
+            ],
+            "default": "auto"
           },
           "seed": {
             "type": "integer"
@@ -4612,266 +4217,6 @@
         "kling-v3-omni-edit",
         "kling-v3-omni-reference"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_video_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "source_task_id"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "source_video_url"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "auto"
-            ],
-            "duration_seconds": [
-              5
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_video_url": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "auto"
-            ],
-            "duration_seconds": [
-              5
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_video_url": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-edit",
-            "source_task_id": {
-              "present": false
-            },
-            "source_video_url": {
-              "present": false
-            }
-          },
-          "required_any": [
-            "source_video_url",
-            "source_task_id"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ],
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_task_id": {
-              "present": false
-            },
-            "source_video_url": {
-              "present": false
-            }
-          },
-          "required_any": [
-            "source_video_url",
-            "source_task_id"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_video_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "source_task_id"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_task_id": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "source_video_url"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "auto"
-            ],
-            "enable_sound": [
-              false
-            ],
-            "duration_seconds": [
-              5
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_video_url": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "auto"
-            ],
-            "enable_sound": [
-              false
-            ],
-            "duration_seconds": [
-              5
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_task_id": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "16:9",
-              "9:16",
-              "1:1"
-            ],
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "model": "kling-v3-omni-reference",
-            "source_video_url": {
-              "present": true
-            },
-            "reference_image_urls": {
-              "present": true
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        }
-      ],
       "fields_by_model": {
         "kling-v3-omni-edit": {
           "model": {
@@ -5109,137 +4454,6 @@
         "kling-v2.6",
         "kling-v3-omni",
         "kling-v3-turbo-image-to-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "kling-o1"
-          },
-          "forbidden": [
-            "output_resolution",
-            "negative_prompt",
-            "cfg_scale"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.1-master-image-to-video"
-          },
-          "forbidden": [
-            "output_resolution",
-            "enable_sound",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.1-pro"
-          },
-          "forbidden": [
-            "output_resolution",
-            "enable_sound",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.1-standard"
-          },
-          "forbidden": [
-            "output_resolution",
-            "enable_sound",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.5-turbo-image-to-video-pro"
-          },
-          "forbidden": [
-            "output_resolution",
-            "enable_sound",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "enum": {
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "mode": "std",
-            "model": "kling-v2.6"
-          }
-        },
-        {
-          "when": {
-            "model": "kling-v2.6"
-          },
-          "forbidden": [
-            "output_resolution",
-            "negative_prompt",
-            "cfg_scale",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "enum": {
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "mode": {
-              "present": false
-            },
-            "model": "kling-v2.6"
-          }
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni"
-          },
-          "forbidden": [
-            "negative_prompt",
-            "cfg_scale",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-turbo-image-to-video"
-          },
-          "forbidden": [
-            "enable_sound",
-            "aspect_ratio",
-            "negative_prompt",
-            "cfg_scale",
-            "last_frame_image_url",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        }
       ],
       "fields_by_model": {
         "kling-o1": {
@@ -5710,16 +4924,6 @@
         "kling-3.0",
         "kling-v2.6"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "kling-v2.6"
-          },
-          "forbidden": [
-            "background_source"
-          ]
-        }
-      ],
       "fields_by_model": {
         "kling-3.0": {
           "model": {
@@ -5831,138 +5035,6 @@
         "kling-v3-omni",
         "kling-v3-omni-reference",
         "kling-v3-turbo-text-to-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "kling-3.0"
-          },
-          "forbidden": [
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-o1"
-          },
-          "forbidden": [
-            "output_resolution",
-            "negative_prompt",
-            "cfg_scale",
-            "multi_shots",
-            "multi_prompt",
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "kling_elements"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.1-master-text-to-video"
-          },
-          "forbidden": [
-            "mode",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.5-turbo-text-to-video-pro"
-          },
-          "forbidden": [
-            "mode",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v2.6"
-          },
-          "forbidden": [
-            "output_resolution",
-            "negative_prompt",
-            "cfg_scale",
-            "multi_shots",
-            "multi_prompt",
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "kling_elements",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "enum": {
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "mode": "std",
-            "model": "kling-v2.6"
-          }
-        },
-        {
-          "enum": {
-            "enable_sound": [
-              false
-            ]
-          },
-          "when": {
-            "mode": {
-              "present": false
-            },
-            "model": "kling-v2.6"
-          }
-        },
-        {
-          "when": {
-            "model": "kling-v3-omni"
-          },
-          "forbidden": [
-            "negative_prompt",
-            "cfg_scale",
-            "multi_shots",
-            "multi_prompt",
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "kling_elements",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        },
-        {
-          "when": {
-            "model": "kling-v3-turbo-text-to-video"
-          },
-          "forbidden": [
-            "enable_sound",
-            "negative_prompt",
-            "cfg_scale",
-            "multi_shots",
-            "multi_prompt",
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "kling_elements",
-            "reference_image_urls",
-            "reference_video_url",
-            "reference_video_type",
-            "preserve_reference_video_audio"
-          ]
-        }
       ],
       "fields_by_model": {
         "kling-3.0": {
@@ -6672,14 +5744,6 @@
       "models": [
         "minimax-h3"
       ],
-      "rules": [
-        {
-          "required_any": [
-            "first_frame_image_url",
-            "last_frame_image_url"
-          ]
-        }
-      ],
       "fields_by_model": {
         "minimax-h3": {
           "model": {
@@ -6746,42 +5810,6 @@
       "task_type": "asynchronous",
       "models": [
         "minimax-h3"
-      ],
-      "rules": [
-        {
-          "when": {
-            "reference_audio_urls": {
-              "present": true
-            }
-          },
-          "required_any": [
-            "reference_image_urls",
-            "reference_video_urls"
-          ]
-        },
-        {
-          "enum": {
-            "aspect_ratio": [
-              "21:9",
-              "16:9",
-              "4:3",
-              "1:1",
-              "3:4",
-              "9:16"
-            ]
-          },
-          "when": {
-            "reference_image_urls": {
-              "present": false
-            },
-            "reference_video_urls": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        }
       ],
       "fields_by_model": {
         "minimax-h3": {
@@ -6881,16 +5909,6 @@
         "nano-banana-2-lite",
         "nano-banana-edit"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "nano-banana-2-lite"
-          },
-          "forbidden": [
-            "output_format"
-          ]
-        }
-      ],
       "fields_by_model": {
         "nano-banana-2-lite": {
           "model": {
@@ -6984,17 +6002,6 @@
         "nano-banana-2",
         "nano-banana-2-lite",
         "nano-banana-pro"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "nano-banana-2-lite"
-          },
-          "forbidden": [
-            "output_resolution",
-            "output_format"
-          ]
-        }
       ],
       "fields_by_model": {
         "nano-banana": {
@@ -7834,24 +6841,6 @@
         "fuzz-2.0",
         "fuzz-2.0-pro",
         "fuzz-2.0-raw"
-      ],
-      "rules": [
-        {
-          "when": {
-            "vocal_mode": "exact_lyrics"
-          },
-          "required": [
-            "lyrics"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "instrumental"
-          },
-          "forbidden": [
-            "lyrics"
-          ]
-        }
       ],
       "fields_by_model": {
         "fuzz-0.8": {
@@ -8888,28 +7877,6 @@
       "models": [
         "runway"
       ],
-      "rules": [
-        {
-          "when": {
-            "first_frame_image_url": {
-              "present": false
-            }
-          },
-          "required": [
-            "aspect_ratio"
-          ]
-        },
-        {
-          "when": {
-            "first_frame_image_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "aspect_ratio"
-          ]
-        }
-      ],
       "fields_by_model": {
         "runway": {
           "model": {
@@ -8969,138 +7936,6 @@
         "seedance-2.5",
         "seedance-v1-pro",
         "seedance-v1-pro-fast"
-      ],
-      "rules": [
-        {
-          "enum": {
-            "aspect_ratio": [
-              "auto"
-            ]
-          },
-          "when": {
-            "model": "seedance-2.5",
-            "first_frame_image_url": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-2.5",
-            "last_frame_image_url": {
-              "present": true
-            }
-          },
-          "required": [
-            "first_frame_image_url"
-          ],
-          "forbidden": [
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-1.5-pro"
-          },
-          "forbidden": [
-            "first_frame_image_url",
-            "last_frame_image_url",
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls",
-            "web_search",
-            "return_last_frame",
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-2-mini"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "lock_camera",
-            "seed",
-            "enable_safety_checker",
-            "return_last_frame",
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-2.0"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "lock_camera",
-            "seed",
-            "return_last_frame",
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-2.0-fast"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "lock_camera",
-            "seed",
-            "return_last_frame",
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-2.5"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "lock_camera",
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-v1-pro"
-          },
-          "forbidden": [
-            "source_image_urls",
-            "last_frame_image_url",
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls",
-            "web_search",
-            "generate_audio",
-            "return_last_frame",
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedance-v1-pro-fast"
-          },
-          "forbidden": [
-            "aspect_ratio",
-            "source_image_urls",
-            "lock_camera",
-            "last_frame_image_url",
-            "reference_image_urls",
-            "reference_video_urls",
-            "reference_audio_urls",
-            "web_search",
-            "generate_audio",
-            "return_last_frame",
-            "output_format"
-          ]
-        }
       ],
       "fields_by_model": {
         "seedance-1.5-pro": {
@@ -9639,34 +8474,6 @@
         "seedream-5-pro-edit",
         "seedream-v4-edit"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "seedream-4.5-edit"
-          },
-          "forbidden": [
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedream-5-pro-edit"
-          },
-          "forbidden": [
-            "output_resolution",
-            "output_count",
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedream-v4-edit"
-          },
-          "forbidden": [
-            "output_format"
-          ]
-        }
-      ],
       "fields_by_model": {
         "seedream-4.5-edit": {
           "model": {
@@ -9909,34 +8716,6 @@
         "seedream-5-lite-text-to-image",
         "seedream-5-pro-text-to-image",
         "seedream-v4-text-to-image"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "seedream-4.5-text-to-image"
-          },
-          "forbidden": [
-            "output_format"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedream-5-pro-text-to-image"
-          },
-          "forbidden": [
-            "output_resolution",
-            "output_count",
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "seedream-v4-text-to-image"
-          },
-          "forbidden": [
-            "output_format"
-          ]
-        }
       ],
       "fields_by_model": {
         "seedream-4.5-text-to-image": {
@@ -10789,47 +9568,6 @@
         "suno-v6",
         "suno-v6-mini",
         "suno-v6-wild"
-      ],
-      "rules": [
-        {
-          "when": {
-            "vocal_mode": "auto_lyrics"
-          },
-          "required": [
-            "prompt"
-          ],
-          "forbidden": [
-            "lyrics",
-            "style",
-            "title"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "exact_lyrics"
-          },
-          "required": [
-            "lyrics",
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "instrumental"
-          },
-          "required": [
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt",
-            "lyrics"
-          ]
-        }
       ],
       "fields_by_model": {
         "suno-v4": {
@@ -11694,47 +10432,6 @@
         "suno-v6",
         "suno-v6-mini",
         "suno-v6-wild"
-      ],
-      "rules": [
-        {
-          "when": {
-            "vocal_mode": "auto_lyrics"
-          },
-          "required": [
-            "prompt"
-          ],
-          "forbidden": [
-            "lyrics",
-            "style",
-            "title"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "exact_lyrics"
-          },
-          "required": [
-            "lyrics",
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "instrumental"
-          },
-          "required": [
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt",
-            "lyrics"
-          ]
-        }
       ],
       "fields_by_model": {
         "suno-v4": {
@@ -14360,16 +13057,6 @@
       "endpoint": "separate_audio_stems",
       "task_type": "asynchronous",
       "models": [],
-      "rules": [
-        {
-          "when": {
-            "type": "split_stem_advanced"
-          },
-          "required": [
-            "stem_name"
-          ]
-        }
-      ],
       "fields_by_model": {
         "_": {
           "task_id": {
@@ -14652,102 +13339,6 @@
         "suno-v6",
         "suno-v6-mini",
         "suno-v6-wild"
-      ],
-      "rules": [
-        {
-          "when": {
-            "vocal_mode": "auto_lyrics"
-          },
-          "required": [
-            "prompt"
-          ],
-          "forbidden": [
-            "lyrics",
-            "style",
-            "title",
-            "negative_tags",
-            "vocal_gender",
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "exact_lyrics"
-          },
-          "required": [
-            "lyrics",
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt"
-          ]
-        },
-        {
-          "when": {
-            "vocal_mode": "instrumental"
-          },
-          "required": [
-            "style",
-            "title"
-          ],
-          "forbidden": [
-            "prompt",
-            "lyrics",
-            "vocal_gender"
-          ]
-        },
-        {
-          "when": {
-            "model": "suno-v4"
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "model": "suno-v4.5"
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "model": "suno-v4.5-all"
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "model": "suno-v4.5-plus"
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "model": "suno-v5"
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "voice_id": {
-              "present": true
-            }
-          },
-          "forbidden": [
-            "persona_id",
-            "persona_type"
-          ]
-        }
       ],
       "fields_by_model": {
         "suno-v4": {
@@ -16067,37 +14658,6 @@
         "veo-3.1-fast",
         "veo-3.1-lite"
       ],
-      "rules": [
-        {
-          "when": {
-            "model": "veo-3.1-lite"
-          },
-          "forbidden": [
-            "seeds",
-            "output_resolution"
-          ]
-        },
-        {
-          "when": {
-            "model": "veo-3.1-lite",
-            "input_mode": "reference",
-            "duration_seconds": 4
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        },
-        {
-          "when": {
-            "model": "veo-3.1-lite",
-            "input_mode": "reference",
-            "duration_seconds": 6
-          },
-          "forbidden": [
-            "duration_seconds"
-          ]
-        }
-      ],
       "fields_by_model": {
         "veo-3.1": {
           "prompt": {
@@ -16300,34 +14860,6 @@
       "models": [
         "volcengine-lip-sync"
       ],
-      "rules": [
-        {
-          "when": {
-            "mode": "lite"
-          },
-          "forbidden": [
-            "enable_scene_detection"
-          ]
-        },
-        {
-          "when": {
-            "mode": "basic"
-          },
-          "forbidden": [
-            "align_audio",
-            "align_audio_reverse",
-            "template_start_seconds"
-          ]
-        },
-        {
-          "when": {
-            "align_audio_reverse": true
-          },
-          "required": [
-            "align_audio"
-          ]
-        }
-      ],
       "fields_by_model": {
         "volcengine-lip-sync": {
           "model": {
@@ -16446,16 +14978,6 @@
         "wan-2.6-edit-video",
         "wan-2.6-flash-edit-video",
         "wan-2.7-edit-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "wan-2.7-edit-video"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        }
       ],
       "fields_by_model": {
         "wan-2.6-edit-video": {
@@ -16654,48 +15176,6 @@
         "wan-2.6-flash-image-to-video",
         "wan-2.6-image-to-video",
         "wan-2.7-image-to-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "wan-2.2-a14b-image-to-video-turbo"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.5-image-to-video"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.6-flash-image-to-video"
-          },
-          "forbidden": [
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.6-image-to-video"
-          },
-          "forbidden": [
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.7-image-to-video"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        }
       ],
       "fields_by_model": {
         "wan-2.2-a14b-image-to-video-turbo": {
@@ -17251,48 +15731,6 @@
         "wan-2.6-text-to-video",
         "wan-2.7-r2v",
         "wan-2.7-text-to-video"
-      ],
-      "rules": [
-        {
-          "when": {
-            "model": "wan-2.2-a14b-text-to-video-turbo"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.5-text-to-video"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.6-text-to-video"
-          },
-          "forbidden": [
-            "seed"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.7-r2v"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        },
-        {
-          "when": {
-            "model": "wan-2.7-text-to-video"
-          },
-          "forbidden": [
-            "multi_shots"
-          ]
-        }
       ],
       "fields_by_model": {
         "wan-2.2-a14b-text-to-video-turbo": {

@@ -55,14 +55,14 @@ export function registerCatalogTools(server: McpServer, dependencies: DiscoveryT
     "search_prompts",
     "Search RunAPI prompt examples by modality, category, tags, text query, model, or featured status. Free, no API key required.",
     {
-      modality: z.enum(["image", "image_edit", "video", "audio", "music"]).optional(),
+      modality: z.string().optional().describe("Prompt modality, for example image, image_edit, video, audio, or music."),
       category: z.string().optional(),
       tags: z.array(z.string()).optional().describe("Tags to match. All provided tags must be present."),
       q: z.string().optional().describe("Text query matched against prompt title and prompt text."),
       model: z.string().optional().describe("RunAPI model slug, for example flux-kontext-pro or suno-v5."),
       featured: z.boolean().optional(),
-      page: z.number().int().positive().optional(),
-      per_page: z.number().int().positive().max(100).optional()
+      page: z.number().optional(),
+      per_page: z.number().optional()
     },
     async ({ modality, category, tags, q, model, featured, page, per_page }) => {
       return jsonText(await searchPromptsHandler({

@@ -119,6 +119,20 @@ describe("stdio MCP server", () => {
       completed: true,
       result: {prompts: ["Mountain landscape"]}
     });
+
+    const rejected = await client.callTool({
+      name: "create_task",
+      arguments: {
+        service: "kling",
+        action: "text_to_video",
+        model: 173,
+        params: { reference_image_urls: ["http://localhost/reference.jpg"], duration: 999 },
+        idempotency_key: "stdio-server-validation",
+        wait: false
+      }
+    });
+    expect(rejected.isError).toBe(true);
+    expect(JSON.parse(textContent(rejected))).toEqual({ error: "Server rejected reference media" });
   });
 });
 
@@ -139,6 +153,20 @@ function createRuntimeApi(): Server {
         as_of: "2026-07-23T00:00:00.000000Z",
         price_schedules: [{service: "flux_kontext", action: "text_to_image", model: "flux-kontext-pro", unit_price_cents: 37}]
       }));
+    } else if (request.method === "POST" && request.url === "/api/v1/kling/text_to_video") {
+      let body = "";
+      request.on("data", (chunk) => { body += chunk; });
+      request.on("end", () => {
+        const input = JSON.parse(body);
+        if (input.model !== 173 || input.duration !== 999 ||
+            input.reference_image_urls?.[0] !== "http://localhost/reference.jpg") {
+          response.statusCode = 500;
+          response.end(JSON.stringify({ message: "Unexpected validation request" }));
+          return;
+        }
+        response.statusCode = 400;
+        response.end(JSON.stringify({ message: "Server rejected reference media" }));
+      });
     } else if (request.method === "POST" && request.url === "/api/v1/midjourney/shorten_prompt") {
       response.statusCode = 202;
       response.setHeader("location", "/api/v1/tasks/123e4567-e89b-42d3-a456-426614174000");

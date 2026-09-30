@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { BusinessToolDependencies } from "../business-tools.js";
 import { jsonText } from "../lib/tool-response.js";
@@ -24,13 +24,9 @@ export function registerAuthenticatedTools(server: McpServer, dependencies: Busi
     {
       service: z.string().describe("RunAPI service slug returned by list_models"),
       action: z.string().describe("RunAPI endpoint name, for example text_to_image"),
-      model: z.string().optional().describe("RunAPI model slug"),
-      params: z.record(z.unknown()).default({}).describe("Endpoint parameters validated against data/contract.json where constrained."),
-      idempotency_key: z.string()
-        .min(1)
-        .max(512)
-        .refine((value) => value.trim().length > 0, "idempotency_key cannot be blank")
-        .describe("Opaque caller-generated key for safely replaying one logical task creation."),
+      model: z.unknown().optional().meta({ type: "string" }).describe("RunAPI model value sent to the server without local validation."),
+      params: z.record(z.string(), z.unknown()).default({}).describe("Endpoint parameters sent to RunAPI for server-side validation."),
+      idempotency_key: z.string().describe("Opaque caller-generated key for safely replaying one logical task creation."),
       wait: z.boolean().default(true).describe("Wait for the completed result when the endpoint requires durable processing."),
       timeout_ms: z.number().int().positive().optional()
         .describe("Requested completion deadline in milliseconds; values above the endpoint limit are capped."),

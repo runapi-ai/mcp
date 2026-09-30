@@ -3,7 +3,6 @@ import {
   findModel,
   findModelForAction,
   findModels,
-  inputRulesForModel,
   listActionGroups,
   listContractModels,
   lookupRuntimePrice,
@@ -85,7 +84,7 @@ export async function getModelInfoHandler(
 
   const pricing = await runtimePricingFor(info, client);
   return {
-    ...modelInfoResponse(info, contract, pricing),
+    ...modelInfoResponse(info, pricing),
     ...(ambiguous ? {
       ambiguous: true,
       hint: "This model supports multiple service/action pairs. Call get_model_info with service and action to inspect the exact input constraints before create_task.",
@@ -104,9 +103,7 @@ export function listActionsHandler(contract: Contract) {
   };
 }
 
-function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: unknown) {
-  const inputRules = inputRulesForModel(info, contract);
-
+function modelInfoResponse(info: ModelInfo, pricing: unknown) {
   return {
     model: info.model,
     service: info.service,
@@ -114,7 +111,6 @@ function modelInfoResponse(info: ModelInfo, contract: Contract, pricing: unknown
     modality: modalityForAction(info.action),
     model_line: info.model_line,
     fields: fieldSummary(info.fields),
-    ...(inputRules.length > 0 ? { input_rules: inputRules } : {}),
     price: pricing
   };
 }
@@ -124,7 +120,7 @@ export async function checkPricingHandler(
   contract: Contract,
   client: Pick<RuntimePricingClient, "listPriceSchedules">
 ) {
-  const info = findModelForAction(input.service, input.action, input.model, contract);
+  const info = findModelForAction(input.service, input.action, undefined, contract);
   if (!info) {
     return {
       supported: false,
@@ -133,10 +129,11 @@ export async function checkPricingHandler(
     };
   }
 
-  const pricing = await runtimePricingFor(info, client);
+  const model = info.model === undefined ? undefined : input.model ?? info.model;
+  const pricing = await runtimePricingFor({ ...info, model }, client);
   return {
     supported: true,
-    model: info.model,
+    model,
     service: info.service,
     action: info.action,
     price: pricing
