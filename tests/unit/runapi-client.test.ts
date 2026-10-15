@@ -67,12 +67,11 @@ describe("RunApiClient", () => {
       q: "logo",
       tags: ["Logo", "Minimal"],
       model: "flux-kontext-pro",
-      featured: true,
       page: 2,
       per_page: 10
     });
 
-    expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/prompts?modality=image&tags=Logo%2CMinimal&q=logo&model=flux-kontext-pro&featured=true&page=2&per_page=10"), expect.objectContaining({
+    expect(fetchImpl).toHaveBeenCalledWith(new URL("https://runapi.ai/api/v1/prompts?modality=image&tags=Logo%2CMinimal&q=logo&model=flux-kontext-pro&page=2&per_page=10"), expect.objectContaining({
       headers: expect.not.objectContaining({
         authorization: expect.any(String)
       })

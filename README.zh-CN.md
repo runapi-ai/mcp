@@ -216,6 +216,8 @@ MCP Embedded Catalog 来自 RunAPI 的 contract 快照。
 
 ## Pricing
 
+[MiniMax H3 价格](https://runapi.ai/zh-CN/models/minimax-h3#family-pricing)
+
 价格通过 `check_pricing` 工具和公开 pricing 页面查询。
 不要依赖 README 示例里的固定数字。
 

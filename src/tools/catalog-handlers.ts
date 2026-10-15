@@ -84,7 +84,7 @@ export async function getModelInfoHandler(
 
   const pricing = await runtimePricingFor(info, client);
   return {
-    ...modelInfoResponse(info, pricing),
+    ...modelInfoResponse(info, pricing, contract),
     ...(ambiguous ? {
       ambiguous: true,
       hint: "This model supports multiple service/action pairs. Call get_model_info with service and action to inspect the exact input constraints before create_task.",
@@ -103,14 +103,23 @@ export function listActionsHandler(contract: Contract) {
   };
 }
 
-function modelInfoResponse(info: ModelInfo, pricing: unknown) {
+function modelInfoResponse(info: ModelInfo, pricing: unknown, contract: Contract) {
+  const fishSpeech = info.service === "fish-audio" && info.action === "text_to_speech";
+  const fishAction = contract.actions["fish-audio/text-to-speech"] as
+    (Contract["actions"][string] & { rules?: unknown[] }) | undefined;
   return {
     model: info.model,
     service: info.service,
     action: info.action,
     modality: modalityForAction(info.action),
     model_line: info.model_line,
-    fields: fieldSummary(info.fields),
+    fields: fieldSummary(info.fields).map((field) => fishSpeech ? {
+      ...field,
+      description: info.fields[field.name].description,
+      items: info.fields[field.name].items,
+      pattern: info.fields[field.name].pattern
+    } : field),
+    ...(fishSpeech && fishAction?.rules ? { rules: fishAction.rules } : {}),
     price: pricing
   };
 }
@@ -181,12 +190,10 @@ function promptSummary(prompt: RunApiPrompt) {
     id: prompt.id,
     title: prompt.title,
     prompt: prompt.prompt,
-    model: prompt.runapi_model,
-    service: prompt.service,
-    action: prompt.action,
+    negative_prompt: prompt.negative_prompt,
     modality: prompt.modality,
     category: prompt.category,
     tags: prompt.tags || [],
-    featured: prompt.featured
+    endpoints: prompt.eligible_endpoints || []
   };
 }

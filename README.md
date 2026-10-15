@@ -235,6 +235,8 @@ Use `list_models` for current service/action/model slugs and `get_model_info` fo
 
 ## Pricing
 
+[MiniMax H3 pricing](https://runapi.ai/models/minimax-h3#family-pricing)
+
 RunAPI pricing is exposed through the `check_pricing` tool and the public pricing page.
 Do not rely on examples in README files for exact prices.
 

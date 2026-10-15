@@ -47,6 +47,62 @@ afterEach(async () => {
 });
 
 describe("Business Tools composition", () => {
+  it("excludes retired models from discovery and rejects their info without requesting pricing", async () => {
+    const staleContract: Contract = {
+      actions: {
+        "elevenlabs/audio_isolation": {
+          model: "elevenlabs",
+          endpoint: "audio_isolation",
+          models: ["audio-isolation", "active-audio-model"],
+          fields_by_model: {
+            "audio-isolation": { audio_url: { type: "string", required: true } },
+            "active-audio-model": { audio_url: { type: "string", required: true } }
+          }
+        }
+      },
+      retired_models: {
+        elevenlabs: { provider: "elevenlabs", versions: [{ id: "audio-isolation" }] }
+      }
+    };
+    const listPriceSchedules = vi.fn(async () => ({
+      as_of: "2026-07-23T00:00:00.000000Z",
+      price_schedules: [{service: "elevenlabs", action: "audio_isolation", model: "active-audio-model", unit_price_cents: 314}]
+    }));
+    const server = createBusinessServer({
+      name: "runapi-retired-model-test",
+      version: "0.0.0",
+      contract: staleContract,
+      client: { ...client, listPriceSchedules }
+    });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    mcpClient = new Client({ name: "retired-model-test", version: "0.0.0" });
+    await Promise.all([server.connect(serverTransport), mcpClient.connect(clientTransport)]);
+
+    for (const filters of [{}, { service: "elevenlabs" }, { action: "audio_isolation" }]) {
+      const result = parseText(await mcpClient.callTool({ name: "list_models", arguments: filters }));
+      expect(result).toMatchObject({ count: 1, models: [{ model: "active-audio-model" }] });
+    }
+    for (const request of [
+      { model: "audio-isolation" },
+      { service: "elevenlabs", action: "audio_isolation", model: "audio-isolation" }
+    ]) {
+      const result = parseText(await mcpClient.callTool({ name: "get_model_info", arguments: request }));
+      expect(result.error).toBeTruthy();
+    }
+    expect(listPriceSchedules).not.toHaveBeenCalled();
+
+    const activeInfo = parseText(await mcpClient.callTool({
+      name: "get_model_info",
+      arguments: { service: "elevenlabs", action: "audio_isolation", model: "active-audio-model" }
+    }));
+    expect(activeInfo).toMatchObject({
+      model: "active-audio-model",
+      fields: [{ name: "audio_url", type: "string", required: true }],
+      price: { price_schedule: { unit_price_cents: 314 } }
+    });
+    expect(listPriceSchedules).toHaveBeenCalledOnce();
+  });
+
   it("exposes exactly the five Hosted discovery tools", async () => {
     const server = createDiscoveryServer({
       name: "runapi-hosted-discovery-test",

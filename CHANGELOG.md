@@ -1,5 +1,40 @@
 # Changelog
 
+## [v0.16.0](https://github.com/runapi-ai/mcp/releases/tag/v0.16.0) - 2026-10-15
+
+### Breaking
+- Change search_prompts to prefixed string IDs and Prompt Collection summaries; remove the featured filter and legacy service, action, runapi_model, and featured fields.
+  Migration: Remove featured arguments, treat prompt IDs as prm_ strings, and read prompt text and eligible endpoints from the new Prompt Collection shape.
+- Fish s1, s2-pro and s2.1-pro temporary cloning accepts at most one HTTPS audio URL with its exact transcript and cannot be combined with voice_id.
+  Migration: Upload local or Base64 audio through POST /api/v1/files, pass the returned URL in references[0].audio with exact text, keep one sample and remove voice_id. Ensure the URL remains valid while queued and read. Choose voice_id alone for an existing voice.
+
+### Added
+- Add Qwen 2.1 text-to-image and edit-image tools to the aggregate MCP contract; the content safety toggle is available on text-to-image only.
+- Add HeyGen Video text-to-video and image-to-video tools to the aggregate MCP contract.
+- Add custom and automatic shot_type storyboarding with optional sound and custom shot duration constraints.
+- Add Vidu Q4 image-to-video and reference-to-video creation and task retrieval.
+
+### Changed
+- The aggregate MCP contract accepts background transparent for seedream-5-pro-edit only, with output_format png.
+- The aggregate MCP contract accepts background as transparent, opaque, or auto for GPT Image 2 and GPT Image 2.5 text-to-image and edit-image.
+- The aggregate MCP contract accepts duration_seconds -1 (automatic) in addition to 4-15 for seedance-2.0, seedance-2.0-fast, and seedance-2-mini.
+- Declare the server defaults for aspect_ratio on Kling 3.0, v2.5 Turbo and v2.1 Master text_to_video, Seedance 2.0, 2.0 Fast and 2 Mini, Flux 2 Flex and Pro and HappyHorse text_to_video, generate_audio on Seedance 2.0 and 2.0 Fast, output_resolution on OmniHuman 1.5, and aspect_ratio (1:1) and output_resolution (2k) on Seedream v4 text_to_image and edit_image in the aggregate MCP contract.
+- Update Grok Imagine, Seedance 2.5, Seedream, and Wan 2.7 Image parameter limits.
+- Link MiniMax H3 pricing directly to the published model price table.
+- Declare output_count default 1 for every Ideogram V3 model in the aggregate MCP contract, matching the image count the service generates when the field is omitted.
+- Non-Pro Seedream edit models no longer disclose background. Seedream 5 Pro edit continues to disclose only transparent.
+
+### Removed
+- Remove retired model choices from creation metadata and document historical task lookup.
+  Migration: Retired models return HTTP 410 for new requests. Query existing task IDs with the original task endpoint; no automatic replacement is applied.
+- Remove the Kling motion-control background_source parameter, which the API no longer accepts.
+  Migration: Drop background_source from Kling motion-control requests; the API returns 400 when it is sent.
+
+### Fixed
+- Use explicit retirement metadata to exclude retired media models from discovery and creation recommendations.
+  Migration: Query existing tasks with get_task. Retirement replacements are informational and do not remap model IDs.
+
+
 ## [v0.15.0](https://github.com/runapi-ai/mcp/releases/tag/v0.15.0) - 2026-09-30
 
 ### Changed

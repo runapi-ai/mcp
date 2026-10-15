@@ -8,6 +8,19 @@ describe("contract helpers", () => {
     expect(Object.values(contract.actions).every((action) => !("provider" in action))).toBe(true);
   });
 
+  it("publishes the Fish temporary cloning contract for every version", () => {
+    const action = contract.actions["fish-audio/text-to-speech"];
+    for (const model of ["s1", "s2-pro", "s2.1-pro"]) {
+      const references = action.fields_by_model[model].references;
+      expect(references.max_items).toBe(1);
+      expect(references.items?.properties?.audio).toMatchObject({ pattern: "^https://", required: true });
+      expect(references.items?.properties?.text).toMatchObject({ required: true });
+    }
+    expect((action as unknown as { rules: unknown[] }).rules).toContainEqual({
+      when: { references: { present: true } }, forbidden: ["voice_id"]
+    });
+  });
+
   it("finds model metadata", () => {
     const model = findModel("flux-kontext-pro");
 

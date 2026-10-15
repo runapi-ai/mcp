@@ -6,7 +6,7 @@ Available tools:
 - list_actions: list endpoint action names grouped by modality. Free, no API key required.
 - get_model_info: inspect params, constraints, and current runtime pricing for a model slug. Pass service and action when known to disambiguate models that support multiple endpoints. Free, no API key required.
 - check_pricing: inspect current runtime pricing for service + action + model. Free, no API key required.
-- search_prompts: search reusable RunAPI prompt examples by modality, category, tags, text query, model, or featured status. Free, no API key required.
+- search_prompts: search reusable RunAPI prompt examples by modality, category, tags, text query, or model. Free, no API key required.
 - check_balance: check account balance and spending. Requires API key.
 - create_task: create a media task with a required caller-generated opaque idempotency_key; wait for completion by default or return immediately with wait=false. Requires API key.
 - get_task: fetch current status and latest payload for an existing task. Requires API key.

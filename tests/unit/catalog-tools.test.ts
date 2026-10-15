@@ -75,6 +75,61 @@ describe("catalog tool handlers", () => {
     expect(result).toMatchObject({price: {price_schedule: {unit_price_cents: 31}}});
   });
 
+  it.each([
+    { model: "seedream-4.5-edit", supportsBackground: false },
+    { model: "seedream-5-lite-edit", supportsBackground: false },
+    { model: "seedream-5-pro-edit", supportsBackground: true },
+    { model: "seedream-v4-edit", supportsBackground: false }
+  ])("discovers Seedream edit background support for $model", async ({ model, supportsBackground }) => {
+    for (const input of [model, { service: "seedream", action: "edit_image", model }]) {
+      const result = await getModelInfoHandler(input);
+
+      expect(result).toMatchObject({ model, service: "seedream", action: "edit_image" });
+      const fields = "fields" in result ? result.fields : [];
+      if (supportsBackground) {
+        expect(fields).toEqual(expect.arrayContaining([
+          expect.objectContaining({ name: "background", enum: ["transparent"] })
+        ]));
+      } else {
+        expect(fields.map((field) => field.name)).not.toContain("background");
+      }
+    }
+  });
+
+  it.each(["s1", "s2-pro", "s2.1-pro"])("discovers Fish cloning requirements for %s", async (model) => {
+    for (const input of [model, { service: "fish-audio", action: "text_to_speech", model }]) {
+      const result = await getModelInfoHandler(input);
+
+      expect(result).toMatchObject({
+        fields: expect.arrayContaining([expect.objectContaining({
+          name: "references",
+          max_items: 1,
+          description: "One temporary voice-cloning sample. Cannot be combined with voice_id. Omit, use null, or [] for no sample.",
+          items: {
+            type: "object",
+            properties: {
+              audio: {
+                type: "string",
+                required: true,
+                pattern: "^https://",
+                description: "Publicly accessible HTTPS audio URL. Must remain valid while queued and read by the provider."
+              },
+              text: {
+                type: "string",
+                required: true,
+                description: "Exact transcript that matches the reference audio word for word."
+              }
+            }
+          }
+        })]),
+        rules: expect.arrayContaining([{
+          when: { references: { present: true } },
+          forbidden: ["voice_id"]
+        }])
+      });
+    }
+  });
+
   it("marks multi-endpoint model info as ambiguous without service and action", async () => {
     const result = await getModelInfoHandler("suno-v4", pricingClient([
       {service: "suno", action: "text_to_music", model: "suno-v4", unit_price_cents: 12}
@@ -181,16 +236,15 @@ describe("catalog tool handlers", () => {
       searchPrompts: vi.fn(async () => ({
         prompts: [
           {
-            id: 123,
+            id: "prm_123",
             title: "Logo prompt",
             prompt: "Minimal logo prompt",
             modality: "image",
-            service: "flux-kontext",
-            action: "text_to_image",
-            runapi_model: "flux-kontext-pro",
             category: "Branding",
             tags: ["Logo"],
-            featured: true
+            eligible_endpoints: [
+              {service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro", path: "/api/v1/flux-kontext/text_to_image"}
+            ]
           }
         ],
         pagination: {
@@ -207,12 +261,12 @@ describe("catalog tool handlers", () => {
       count: 1,
       prompts: [
         {
-          id: 123,
+          id: "prm_123",
           title: "Logo prompt",
           prompt: "Minimal logo prompt",
-          model: "flux-kontext-pro",
           category: "Branding",
-          tags: ["Logo"]
+          tags: ["Logo"],
+          endpoints: [{service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro"}]
         }
       ]
     });

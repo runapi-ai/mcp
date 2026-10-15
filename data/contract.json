@@ -1,52 +1,5 @@
 {
   "actions": {
-    "elevenlabs/isolate-audio": {
-      "model": "ElevenLabs",
-      "endpoint": "isolate_audio",
-      "task_type": "asynchronous",
-      "models": [
-        "audio-isolation"
-      ],
-      "fields_by_model": {
-        "audio-isolation": {
-          "source_audio_url": {
-            "type": "string",
-            "required": true
-          },
-          "callback_url": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "elevenlabs/speech-to-text": {
-      "model": "ElevenLabs",
-      "endpoint": "speech_to_text",
-      "task_type": "asynchronous",
-      "models": [
-        "speech-to-text"
-      ],
-      "fields_by_model": {
-        "speech-to-text": {
-          "source_audio_url": {
-            "type": "string",
-            "required": true
-          },
-          "callback_url": {
-            "type": "string"
-          },
-          "language_code": {
-            "type": "string"
-          },
-          "tag_audio_events": {
-            "type": "boolean"
-          },
-          "diarize": {
-            "type": "boolean"
-          }
-        }
-      }
-    },
     "elevenlabs/text-to-dialogue": {
       "model": "ElevenLabs",
       "endpoint": "text_to_dialogue",
@@ -73,59 +26,6 @@
           },
           "language_code": {
             "type": "string"
-          }
-        }
-      }
-    },
-    "elevenlabs/text-to-sound": {
-      "model": "ElevenLabs",
-      "endpoint": "text_to_sound",
-      "task_type": "asynchronous",
-      "models": [
-        "sound-effect-v2"
-      ],
-      "fields_by_model": {
-        "sound-effect-v2": {
-          "text": {
-            "type": "string",
-            "required": true
-          },
-          "callback_url": {
-            "type": "string"
-          },
-          "loop": {
-            "type": "boolean"
-          },
-          "duration_seconds": {
-            "type": "number",
-            "required": true
-          },
-          "prompt_influence": {
-            "type": "number"
-          },
-          "output_format": {
-            "type": "string",
-            "enum": [
-              "mp3_22050_32",
-              "mp3_44100_32",
-              "mp3_44100_64",
-              "mp3_44100_96",
-              "mp3_44100_128",
-              "mp3_44100_192",
-              "pcm_8000",
-              "pcm_16000",
-              "pcm_22050",
-              "pcm_24000",
-              "pcm_44100",
-              "pcm_48000",
-              "ulaw_8000",
-              "alaw_8000",
-              "opus_48000_32",
-              "opus_48000_64",
-              "opus_48000_96",
-              "opus_48000_128",
-              "opus_48000_192"
-            ]
           }
         }
       }
@@ -285,6 +185,50 @@
         "s2-pro",
         "s2.1-pro"
       ],
+      "rules": [
+        {
+          "when": {
+            "references": {
+              "present": true
+            }
+          },
+          "forbidden": [
+            "voice_id"
+          ]
+        },
+        {
+          "when": {
+            "output_format": "wav"
+          },
+          "forbidden": [
+            "bitrate_kbps"
+          ]
+        },
+        {
+          "enum": {
+            "sample_rate_hz": [
+              32000,
+              44100
+            ]
+          },
+          "when": {
+            "output_format": "mp3"
+          }
+        },
+        {
+          "enum": {
+            "sample_rate_hz": [
+              32000,
+              44100
+            ]
+          },
+          "when": {
+            "output_format": {
+              "present": false
+            }
+          }
+        }
+      ],
       "fields_by_model": {
         "s1": {
           "model": {
@@ -335,16 +279,18 @@
                 "text": {
                   "type": "string",
                   "required": true,
-                  "description": "Exact transcript of the reference audio."
+                  "description": "Exact transcript that matches the reference audio word for word."
                 },
                 "audio": {
                   "type": "string",
+                  "pattern": "^https://",
                   "required": true,
-                  "description": "Base64-encoded raw audio bytes."
+                  "description": "Publicly accessible HTTPS audio URL. Must remain valid while queued and read by the provider."
                 }
               }
             },
-            "description": "Inline reference audio samples for this request."
+            "max_items": 1,
+            "description": "One temporary voice-cloning sample. Cannot be combined with voice_id. Omit, use null, or [] for no sample."
           },
           "voice_id": {
             "type": "string"
@@ -399,16 +345,18 @@
                 "text": {
                   "type": "string",
                   "required": true,
-                  "description": "Exact transcript of the reference audio."
+                  "description": "Exact transcript that matches the reference audio word for word."
                 },
                 "audio": {
                   "type": "string",
+                  "pattern": "^https://",
                   "required": true,
-                  "description": "Base64-encoded raw audio bytes."
+                  "description": "Publicly accessible HTTPS audio URL. Must remain valid while queued and read by the provider."
                 }
               }
             },
-            "description": "Inline reference audio samples for this request."
+            "max_items": 1,
+            "description": "One temporary voice-cloning sample. Cannot be combined with voice_id. Omit, use null, or [] for no sample."
           },
           "voice_id": {
             "type": "string"
@@ -463,16 +411,18 @@
                 "text": {
                   "type": "string",
                   "required": true,
-                  "description": "Exact transcript of the reference audio."
+                  "description": "Exact transcript that matches the reference audio word for word."
                 },
                 "audio": {
                   "type": "string",
+                  "pattern": "^https://",
                   "required": true,
-                  "description": "Base64-encoded raw audio bytes."
+                  "description": "Publicly accessible HTTPS audio URL. Must remain valid while queued and read by the provider."
                 }
               }
             },
-            "description": "Inline reference audio samples for this request."
+            "max_items": 1,
+            "description": "One temporary voice-cloning sample. Cannot be combined with voice_id. Omit, use null, or [] for no sample."
           },
           "voice_id": {
             "type": "string"
@@ -523,6 +473,7 @@
               "2:3",
               "auto"
             ],
+            "default": "1:1",
             "description": "Output aspect ratio."
           },
           "output_resolution": {
@@ -632,6 +583,7 @@
               "2:3",
               "auto"
             ],
+            "default": "1:1",
             "description": "Output aspect ratio."
           },
           "output_resolution": {
@@ -689,6 +641,7 @@
               "3:2",
               "2:3"
             ],
+            "default": "1:1",
             "description": "Output aspect ratio."
           },
           "output_resolution": {
@@ -783,6 +736,7 @@
               "3:2",
               "2:3"
             ],
+            "default": "1:1",
             "description": "Output aspect ratio."
           },
           "output_resolution": {
@@ -1886,6 +1840,14 @@
             ],
             "default": "1k"
           },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
+          },
           "callback_url": {
             "type": "string"
           }
@@ -1932,6 +1894,14 @@
               "4k"
             ],
             "default": "1k"
+          },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
           },
           "callback_url": {
             "type": "string"
@@ -1986,6 +1956,14 @@
             ],
             "default": "1k"
           },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
+          },
           "callback_url": {
             "type": "string"
           }
@@ -2027,6 +2005,14 @@
               "4k"
             ],
             "default": "1k"
+          },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
           },
           "callback_url": {
             "type": "string"
@@ -2084,6 +2070,14 @@
             ],
             "default": "1k"
           },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
+          },
           "callback_url": {
             "type": "string"
           }
@@ -2135,6 +2129,14 @@
               "4k"
             ],
             "default": "1k"
+          },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent",
+              "opaque",
+              "auto"
+            ]
           },
           "callback_url": {
             "type": "string"
@@ -2400,7 +2402,7 @@
           },
           "index": {
             "type": "integer",
-            "max": 5,
+            "max": 1,
             "min": 0,
             "description": "Zero-based source image index; used only with source_task_id."
           },
@@ -2695,6 +2697,7 @@
               "16:9",
               "9:16"
             ],
+            "default": "1:1",
             "description": "Output aspect ratio."
           },
           "enable_safety_checker": {
@@ -3299,7 +3302,8 @@
               "1:1",
               "4:3",
               "3:4"
-            ]
+            ],
+            "default": "16:9"
           },
           "duration_seconds": {
             "type": "integer",
@@ -3338,7 +3342,8 @@
               "1:1",
               "4:3",
               "3:4"
-            ]
+            ],
+            "default": "16:9"
           },
           "duration_seconds": {
             "type": "integer",
@@ -3380,7 +3385,8 @@
               "1:1",
               "4:3",
               "3:4"
-            ]
+            ],
+            "default": "16:9"
           },
           "duration_seconds": {
             "type": "integer",
@@ -3419,7 +3425,8 @@
               "1:1",
               "4:3",
               "3:4"
-            ]
+            ],
+            "default": "16:9"
           },
           "duration_seconds": {
             "type": "integer",
@@ -3430,6 +3437,180 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "heygen-video/image-to-video": {
+      "model": "HeyGen Video",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "heygen-video-1"
+      ],
+      "fields_by_model": {
+        "heygen-video-1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 16000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt describing the scene, dialogue, and sound."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "pattern": "^https://",
+            "required": true,
+            "description": "Public HTTPS first-frame image URL, up to 16 MB; the video follows the image's aspect ratio."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Generated video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "768p",
+              "1080p",
+              "2k"
+            ],
+            "default": "768p",
+            "description": "Generated video resolution."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 4294967295,
+            "min": 0,
+            "description": "Random seed for reproducible generation."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          }
+        }
+      }
+    },
+    "heygen-video/text-to-video": {
+      "model": "HeyGen Video",
+      "endpoint": "text_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "heygen-video-1"
+      ],
+      "fields_by_model": {
+        "heygen-video-1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 16000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video generation prompt describing the scene, dialogue, and sound."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "enum": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Generated video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "768p",
+              "1080p",
+              "2k"
+            ],
+            "default": "768p",
+            "description": "Generated video resolution; 1080p and 2k support only 16:9 and 9:16."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "adaptive",
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ],
+            "description": "Generated video aspect ratio; adaptive follows the first reference image or video and is available only with reference media at 480p or 768p."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "max_items": 9,
+            "description": "Public HTTPS reference image URLs, up to 16 MB each; up to 12 reference files in total across images, videos, and audio."
+          },
+          "reference_video_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "max_items": 3,
+            "description": "Public HTTPS reference video URLs with aspect ratio between 1:4 and 4:1, up to 32 MB each; only the first 5 seconds of each video are used."
+          },
+          "reference_audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "max_items": 3,
+            "description": "Public HTTPS reference audio URLs, up to 32 MB each; requires reference images or videos."
+          },
+          "seed": {
+            "type": "integer",
+            "max": 4294967295,
+            "min": 0,
+            "description": "Random seed for reproducible generation."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
           }
         }
       }
@@ -3485,7 +3666,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -3535,75 +3717,14 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
           },
           "reference_image_urls": {
             "type": "array"
-          },
-          "callback_url": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ideogram-v3/reframe-image": {
-      "model": "Ideogram V3",
-      "endpoint": "reframe_image",
-      "task_type": "asynchronous",
-      "models": [
-        "ideogram-v3-reframe"
-      ],
-      "fields_by_model": {
-        "ideogram-v3-reframe": {
-          "model": {
-            "type": "string"
-          },
-          "source_image_url": {
-            "type": "string",
-            "required": true
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "1:1",
-              "3:4",
-              "9:16",
-              "4:3",
-              "16:9"
-            ]
-          },
-          "rendering_speed": {
-            "type": "string",
-            "enum": [
-              "turbo",
-              "balanced",
-              "quality"
-            ],
-            "default": "balanced"
-          },
-          "style": {
-            "type": "string",
-            "enum": [
-              "auto",
-              "general",
-              "realistic",
-              "design"
-            ]
-          },
-          "output_count": {
-            "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ]
-          },
-          "seed": {
-            "type": "integer"
           },
           "callback_url": {
             "type": "string"
@@ -3668,7 +3789,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -3742,7 +3864,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -3821,7 +3944,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -3882,7 +4006,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "default": 1
           },
           "seed": {
             "type": "integer"
@@ -4098,9 +4223,7 @@
       "task_type": "asynchronous",
       "models": [
         "kling-ai-avatar-pro",
-        "kling-ai-avatar-standard",
-        "kling-ai-avatar-v1-pro",
-        "kling-v1-avatar-standard"
+        "kling-ai-avatar-standard"
       ],
       "fields_by_model": {
         "kling-ai-avatar-pro": {
@@ -4130,58 +4253,6 @@
           }
         },
         "kling-ai-avatar-standard": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "Model slug."
-          },
-          "source_image_url": {
-            "type": "string",
-            "required": true,
-            "description": "Face image URL."
-          },
-          "source_audio_url": {
-            "type": "string",
-            "required": true,
-            "description": "Audio URL for lip sync."
-          },
-          "prompt": {
-            "type": "string",
-            "required": true,
-            "description": "Description of the avatar."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "Webhook URL for async notifications."
-          }
-        },
-        "kling-ai-avatar-v1-pro": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "Model slug."
-          },
-          "source_image_url": {
-            "type": "string",
-            "required": true,
-            "description": "Face image URL."
-          },
-          "source_audio_url": {
-            "type": "string",
-            "required": true,
-            "description": "Audio URL for lip sync."
-          },
-          "prompt": {
-            "type": "string",
-            "required": true,
-            "description": "Description of the avatar."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "Webhook URL for async notifications."
-          }
-        },
-        "kling-v1-avatar-standard": {
           "model": {
             "type": "string",
             "required": true,
@@ -4962,14 +5033,6 @@
             ],
             "description": "Character orientation."
           },
-          "background_source": {
-            "type": "string",
-            "enum": [
-              "video",
-              "image"
-            ],
-            "description": "Background source."
-          },
           "callback_url": {
             "type": "string",
             "description": "Webhook URL for async notifications."
@@ -5045,7 +5108,7 @@
           },
           "prompt": {
             "type": "string",
-            "description": "Video description. Required unless multi_shots is enabled."
+            "description": "Video description. Required for single-shot and automatic storyboarding."
           },
           "callback_url": {
             "type": "string",
@@ -5083,6 +5146,7 @@
               "9:16",
               "1:1"
             ],
+            "default": "16:9",
             "description": "Output aspect ratio."
           },
           "output_resolution": {
@@ -5107,9 +5171,17 @@
             "type": "boolean",
             "description": "Enable multi-shot generation."
           },
+          "shot_type": {
+            "type": "string",
+            "enum": [
+              "custom",
+              "automatic"
+            ],
+            "description": "Multi-shot storyboard method: custom or automatic; defaults to custom only when multi_shots is true."
+          },
           "multi_prompt": {
             "type": "array",
-            "description": "Prompt segments for multi-shot mode."
+            "description": "Required for custom multi-shot mode: 1–6 shots with nonempty prompts up to 500 characters (each @element reference counts as 37), each duration_seconds 1–12, summing to duration_seconds."
           },
           "first_frame_image_url": {
             "type": "string",
@@ -5236,6 +5308,7 @@
               "9:16",
               "1:1"
             ],
+            "default": "16:9",
             "description": "Output aspect ratio."
           },
           "negative_prompt": {
@@ -5281,6 +5354,7 @@
               "9:16",
               "1:1"
             ],
+            "default": "16:9",
             "description": "Output aspect ratio."
           },
           "negative_prompt": {
@@ -5538,35 +5612,6 @@
             ],
             "default": "720p",
             "description": "Output resolution."
-          }
-        }
-      }
-    },
-    "luma/modify-video": {
-      "model": "Luma",
-      "endpoint": "modify_video",
-      "task_type": "asynchronous",
-      "models": [
-        "luma-modify-video"
-      ],
-      "fields_by_model": {
-        "luma-modify-video": {
-          "model": {
-            "type": "string"
-          },
-          "prompt": {
-            "type": "string",
-            "required": true
-          },
-          "source_video_url": {
-            "type": "string",
-            "required": true
-          },
-          "callback_url": {
-            "type": "string"
-          },
-          "watermark": {
-            "type": "string"
           }
         }
       }
@@ -6224,7 +6269,8 @@
             "enum": [
               "720p",
               "1080p"
-            ]
+            ],
+            "default": "1080p"
           },
           "enable_fast_mode": {
             "type": "boolean"
@@ -7133,6 +7179,190 @@
         }
       }
     },
+    "qwen-2-1/edit-image": {
+      "model": "Qwen 2.1",
+      "endpoint": "edit_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-2.1-edit-image"
+      ],
+      "fields_by_model": {
+        "qwen-2.1-edit-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image editing prompt. With mask_url, describes what to generate inside the white area of the mask."
+          },
+          "source_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 10,
+            "min_items": 1,
+            "description": "Public source image URLs; one to ten images, in the order the prompt refers to them."
+          },
+          "mask_url": {
+            "type": "string",
+            "description": "Public mask image URL for local editing: white marks the area to change, black is kept. Requires exactly one source image and cannot be combined with a transparent background; aspect_ratio and enable_prompt_expansion are ignored."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "1:1",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3",
+              "16:9",
+              "9:16",
+              "21:9",
+              "9:21"
+            ],
+            "default": "auto",
+            "description": "Output aspect ratio. auto follows the first source image. Ignored when mask_url is set."
+          },
+          "background": {
+            "type": "string",
+            "enum": [
+              "opaque",
+              "transparent"
+            ],
+            "default": "opaque",
+            "description": "Background type. A transparent background requires output_format png or webp and cannot be combined with mask_url; describe only the subject in the prompt."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "webp",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format. jpeg cannot be combined with a transparent background."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation. Ignored when mask_url is set."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Integer seed for reproducible results; omit for a random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        }
+      }
+    },
+    "qwen-2-1/text-to-image": {
+      "model": "Qwen 2.1",
+      "endpoint": "text_to_image",
+      "task_type": "asynchronous",
+      "models": [
+        "qwen-2.1-text-to-image"
+      ],
+      "fields_by_model": {
+        "qwen-2.1-text-to-image": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "RunAPI model identifier."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 5000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image generation prompt."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3",
+              "16:9",
+              "9:16",
+              "21:9",
+              "9:21"
+            ],
+            "default": "1:1",
+            "description": "Output aspect ratio."
+          },
+          "background": {
+            "type": "string",
+            "enum": [
+              "opaque",
+              "transparent"
+            ],
+            "default": "opaque",
+            "description": "Background type. A transparent background requires output_format png or webp; describe only the subject in the prompt."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "webp",
+              "jpeg"
+            ],
+            "default": "png",
+            "description": "Output image format. jpeg cannot be combined with a transparent background."
+          },
+          "enable_prompt_expansion": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether RunAPI expands the prompt before generation."
+          },
+          "enable_safety_checker": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether RunAPI checks generated content for safety."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Integer seed for reproducible results; omit for a random seed."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for asynchronous task updates."
+          }
+        }
+      }
+    },
     "qwen-2/edit-image": {
       "model": "Qwen 2",
       "endpoint": "edit_image",
@@ -7787,52 +8017,6 @@
         }
       }
     },
-    "runway-aleph/edit-video": {
-      "model": "Runway Aleph",
-      "endpoint": "edit_video",
-      "task_type": "asynchronous",
-      "models": [
-        "runway-aleph"
-      ],
-      "fields_by_model": {
-        "runway-aleph": {
-          "model": {
-            "type": "string"
-          },
-          "prompt": {
-            "type": "string",
-            "required": true
-          },
-          "source_video_url": {
-            "type": "string",
-            "required": true
-          },
-          "callback_url": {
-            "type": "string"
-          },
-          "watermark": {
-            "type": "string"
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "16:9",
-              "9:16",
-              "4:3",
-              "3:4",
-              "1:1",
-              "21:9"
-            ]
-          },
-          "seed": {
-            "type": "integer"
-          },
-          "reference_image_url": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "runway/extend-video": {
       "model": "Runway",
       "endpoint": "extend_video",
@@ -8014,7 +8198,8 @@
               "9:16",
               "21:9",
               "auto"
-            ]
+            ],
+            "default": "16:9"
           },
           "output_resolution": {
             "type": "string",
@@ -8026,9 +8211,23 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "max": 15,
-            "min": 4,
-            "default": 5
+            "enum": [
+              -1,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Video duration in seconds; -1 selects duration automatically."
           },
           "generate_audio": {
             "type": "boolean",
@@ -8076,7 +8275,8 @@
               "9:16",
               "21:9",
               "auto"
-            ]
+            ],
+            "default": "16:9"
           },
           "output_resolution": {
             "type": "string",
@@ -8090,12 +8290,27 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "max": 15,
-            "min": 4,
-            "default": 5
+            "enum": [
+              -1,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Video duration in seconds; -1 selects duration automatically."
           },
           "generate_audio": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -8142,7 +8357,8 @@
               "9:16",
               "21:9",
               "auto"
-            ]
+            ],
+            "default": "16:9"
           },
           "output_resolution": {
             "type": "string",
@@ -8154,12 +8370,27 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "max": 15,
-            "min": 4,
-            "default": 5
+            "enum": [
+              -1,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 5,
+            "description": "Video duration in seconds; -1 selects duration automatically."
           },
           "generate_audio": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -8189,7 +8420,7 @@
         "seedance-2.5": {
           "prompt": {
             "type": "string",
-            "max": 30000,
+            "max": 20480,
             "min": 3,
             "length": true,
             "required": true,
@@ -8534,7 +8765,11 @@
             "type": "string"
           },
           "prompt": {
-            "type": "string"
+            "type": "string",
+            "max": 2995,
+            "min": 4,
+            "length": true,
+            "required": true
           },
           "aspect_ratio": {
             "type": "string",
@@ -8596,7 +8831,7 @@
           "prompt": {
             "type": "string",
             "max": 5000,
-            "min": 3,
+            "min": 4,
             "length": true,
             "required": true
           },
@@ -8636,6 +8871,13 @@
             "max_items": 10,
             "min_items": 1
           },
+          "background": {
+            "type": "string",
+            "enum": [
+              "transparent"
+            ],
+            "description": "Keep the transparent background of the source image. Requires exactly one PNG source image with an alpha channel and output_format png."
+          },
           "enable_safety_checker": {
             "type": "boolean"
           },
@@ -8661,7 +8903,8 @@
               "16:9",
               "9:16",
               "21:9"
-            ]
+            ],
+            "default": "1:1"
           },
           "output_quality": {
             "type": "string"
@@ -8681,7 +8924,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "2k"
           },
           "output_count": {
             "type": "integer",
@@ -8696,7 +8940,8 @@
             "default": 1
           },
           "seed": {
-            "type": "integer"
+            "type": "integer",
+            "max": 1000000
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -8771,7 +9016,11 @@
             "type": "string"
           },
           "prompt": {
-            "type": "string"
+            "type": "string",
+            "max": 2995,
+            "min": 4,
+            "length": true,
+            "required": true
           },
           "aspect_ratio": {
             "type": "string",
@@ -8827,7 +9076,7 @@
           "prompt": {
             "type": "string",
             "max": 5000,
-            "min": 3,
+            "min": 4,
             "length": true,
             "required": true
           },
@@ -8886,7 +9135,8 @@
               "16:9",
               "9:16",
               "21:9"
-            ]
+            ],
+            "default": "1:1"
           },
           "output_quality": {
             "type": "string"
@@ -8900,7 +9150,8 @@
               "1k",
               "2k",
               "4k"
-            ]
+            ],
+            "default": "2k"
           },
           "output_count": {
             "type": "integer",
@@ -8915,7 +9166,8 @@
             "default": 1
           },
           "seed": {
-            "type": "integer"
+            "type": "integer",
+            "max": 1000000
           },
           "enable_safety_checker": {
             "type": "boolean"
@@ -14853,6 +15105,145 @@
         }
       }
     },
+    "vidu/image-to-video": {
+      "model": "Vidu",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "vidu-q4-image-to-video"
+      ],
+      "fields_by_model": {
+        "vidu-q4-image-to-video": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Vidu Q4 image-to-video model."
+          },
+          "first_frame_image_url": {
+            "type": "string",
+            "required": true,
+            "description": "HTTP(S) URL of a JPG, JPEG, PNG or WEBP first frame, up to 50 MB. The provider validates the remote file."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "length": true,
+            "description": "Optional video description, up to 20,000 characters."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 16,
+            "min": 3,
+            "default": 5,
+            "description": "Video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "540p",
+              "720p",
+              "1080p",
+              "2k",
+              "4k"
+            ],
+            "default": "720p",
+            "description": "Output video resolution."
+          },
+          "audio": {
+            "type": "boolean",
+            "default": true,
+            "description": "Generate synchronized audio. False produces a silent video."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "RunAPI customer callback URL for the terminal task result."
+          }
+        }
+      }
+    },
+    "vidu/reference-to-video": {
+      "model": "Vidu",
+      "endpoint": "reference_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "vidu-q4-reference-to-video"
+      ],
+      "fields_by_model": {
+        "vidu-q4-reference-to-video": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Vidu Q4 reference-to-video model."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description, up to 20,000 characters."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "max_items": 15,
+            "min_items": 1,
+            "description": "Ordered HTTP(S) URLs of 1 to 15 JPG, JPEG, PNG or WEBP reference images. The provider validates the remote files."
+          },
+          "reference_audio_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 3,
+            "description": "Up to 3 HTTP(S) URLs of MP3 references, each 3 to 12 seconds and up to 50 MB. The provider validates the remote files."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ],
+            "default": "16:9",
+            "description": "Output video aspect ratio."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "max": 16,
+            "min": 3,
+            "default": 5,
+            "description": "Video duration in seconds."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "540p",
+              "720p",
+              "1080p",
+              "2k",
+              "4k"
+            ],
+            "default": "720p",
+            "description": "Output video resolution."
+          },
+          "audio": {
+            "type": "boolean",
+            "default": true,
+            "description": "Generate synchronized audio. False produces a silent video."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "RunAPI customer callback URL for the terminal task result."
+          }
+        }
+      }
+    },
     "volcengine-lip-sync/lip-sync-video": {
       "model": "Volcengine Lip Sync",
       "endpoint": "lip_sync_video",
@@ -15268,11 +15659,11 @@
           },
           "duration_seconds": {
             "type": "integer",
-            "required": true,
             "enum": [
               5,
               10
-            ]
+            ],
+            "required": true
           },
           "output_resolution": {
             "type": "string",
@@ -15628,8 +16019,7 @@
             "type": "string",
             "enum": [
               "1k",
-              "2k",
-              "4k"
+              "2k"
             ]
           },
           "output_count": {
@@ -16106,6 +16496,105 @@
           }
         }
       }
+    }
+  },
+  "retired_models": {
+    "gpt": {
+      "provider": "OpenAI",
+      "versions": [
+        {
+          "id": "gpt-5.2-pro",
+          "retired_at": "2026-08-11T00:00:00Z",
+          "replacement": "gpt-5.5"
+        },
+        {
+          "id": "gpt-5.3-codex",
+          "retired_at": "2026-09-28T00:00:00Z",
+          "replacement": "gpt-5.6-sol"
+        },
+        {
+          "id": "gpt-5.3-codex-spark",
+          "retired_at": "2026-09-14T00:00:00Z",
+          "replacement": "gpt-5.6-sol"
+        },
+        {
+          "id": "gpt-5.4-pro",
+          "retired_at": "2026-09-28T00:00:00Z",
+          "replacement": "gpt-5.5"
+        },
+        {
+          "id": "gpt-5.5-pro",
+          "retired_at": "2026-09-28T00:00:00Z",
+          "replacement": "gpt-5.5"
+        }
+      ]
+    },
+    "grok": {
+      "provider": "xAI",
+      "versions": [
+        {
+          "id": "grok-4.3",
+          "retired_at": "2026-09-28T00:00:00Z",
+          "replacement": "grok-4.5"
+        }
+      ]
+    },
+    "runway-aleph": {
+      "provider": "Runway",
+      "versions": [
+        {
+          "id": "runway-aleph",
+          "retired_at": "2026-10-11T00:00:00Z"
+        }
+      ]
+    },
+    "kling": {
+      "provider": "Kuaishou",
+      "versions": [
+        {
+          "id": "kling-ai-avatar-v1-pro",
+          "retired_at": "2026-10-14T00:00:00Z"
+        },
+        {
+          "id": "kling-v1-avatar-standard",
+          "retired_at": "2026-10-14T00:00:00Z"
+        }
+      ]
+    },
+    "ideogram-v3": {
+      "provider": "Ideogram",
+      "versions": [
+        {
+          "id": "ideogram-v3-reframe",
+          "retired_at": "2026-10-11T00:00:00Z"
+        }
+      ]
+    },
+    "elevenlabs": {
+      "provider": "ElevenLabs",
+      "versions": [
+        {
+          "id": "audio-isolation",
+          "retired_at": "2026-10-09T00:00:00Z"
+        },
+        {
+          "id": "sound-effect-v2",
+          "retired_at": "2026-10-14T00:00:00Z"
+        },
+        {
+          "id": "speech-to-text",
+          "retired_at": "2026-10-14T00:00:00Z"
+        }
+      ]
+    },
+    "luma": {
+      "provider": "Luma",
+      "versions": [
+        {
+          "id": "luma-modify-video",
+          "retired_at": "2026-10-14T00:00:00Z"
+        }
+      ]
     }
   }
 }
