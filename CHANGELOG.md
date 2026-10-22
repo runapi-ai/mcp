@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.16.1](https://github.com/runapi-ai/mcp/releases/tag/v0.16.1) - 2026-10-22
+
+### Fixed
+- Configure Hosted MCP to redact query strings in platform request logs and disable Logpush exports while retaining invocation logs.
+- Upgrade @modelcontextprotocol/sdk to ^1.32.1 to address security advisories.
+
+
 ## [v0.16.0](https://github.com/runapi-ai/mcp/releases/tag/v0.16.0) - 2026-10-15
 
 ### Breaking
