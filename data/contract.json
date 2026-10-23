@@ -7179,190 +7179,6 @@
         }
       }
     },
-    "qwen-2-1/edit-image": {
-      "model": "Qwen 2.1",
-      "endpoint": "edit_image",
-      "task_type": "asynchronous",
-      "models": [
-        "qwen-2.1-edit-image"
-      ],
-      "fields_by_model": {
-        "qwen-2.1-edit-image": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "RunAPI model identifier."
-          },
-          "prompt": {
-            "type": "string",
-            "max": 5000,
-            "min": 1,
-            "length": true,
-            "required": true,
-            "description": "Image editing prompt. With mask_url, describes what to generate inside the white area of the mask."
-          },
-          "source_image_urls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "required": true,
-            "max_items": 10,
-            "min_items": 1,
-            "description": "Public source image URLs; one to ten images, in the order the prompt refers to them."
-          },
-          "mask_url": {
-            "type": "string",
-            "description": "Public mask image URL for local editing: white marks the area to change, black is kept. Requires exactly one source image and cannot be combined with a transparent background; aspect_ratio and enable_prompt_expansion are ignored."
-          },
-          "output_resolution": {
-            "type": "string",
-            "enum": [
-              "1k",
-              "2k"
-            ],
-            "default": "1k",
-            "description": "Output image resolution."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "auto",
-              "1:1",
-              "4:3",
-              "3:4",
-              "3:2",
-              "2:3",
-              "16:9",
-              "9:16",
-              "21:9",
-              "9:21"
-            ],
-            "default": "auto",
-            "description": "Output aspect ratio. auto follows the first source image. Ignored when mask_url is set."
-          },
-          "background": {
-            "type": "string",
-            "enum": [
-              "opaque",
-              "transparent"
-            ],
-            "default": "opaque",
-            "description": "Background type. A transparent background requires output_format png or webp and cannot be combined with mask_url; describe only the subject in the prompt."
-          },
-          "output_format": {
-            "type": "string",
-            "enum": [
-              "png",
-              "webp",
-              "jpeg"
-            ],
-            "default": "png",
-            "description": "Output image format. jpeg cannot be combined with a transparent background."
-          },
-          "enable_prompt_expansion": {
-            "type": "boolean",
-            "default": true,
-            "description": "Whether RunAPI expands the prompt before generation. Ignored when mask_url is set."
-          },
-          "seed": {
-            "type": "integer",
-            "description": "Integer seed for reproducible results; omit for a random seed."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "Webhook URL for asynchronous task updates."
-          }
-        }
-      }
-    },
-    "qwen-2-1/text-to-image": {
-      "model": "Qwen 2.1",
-      "endpoint": "text_to_image",
-      "task_type": "asynchronous",
-      "models": [
-        "qwen-2.1-text-to-image"
-      ],
-      "fields_by_model": {
-        "qwen-2.1-text-to-image": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "RunAPI model identifier."
-          },
-          "prompt": {
-            "type": "string",
-            "max": 5000,
-            "min": 1,
-            "length": true,
-            "required": true,
-            "description": "Image generation prompt."
-          },
-          "output_resolution": {
-            "type": "string",
-            "enum": [
-              "1k",
-              "2k"
-            ],
-            "default": "1k",
-            "description": "Output image resolution."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "1:1",
-              "4:3",
-              "3:4",
-              "3:2",
-              "2:3",
-              "16:9",
-              "9:16",
-              "21:9",
-              "9:21"
-            ],
-            "default": "1:1",
-            "description": "Output aspect ratio."
-          },
-          "background": {
-            "type": "string",
-            "enum": [
-              "opaque",
-              "transparent"
-            ],
-            "default": "opaque",
-            "description": "Background type. A transparent background requires output_format png or webp; describe only the subject in the prompt."
-          },
-          "output_format": {
-            "type": "string",
-            "enum": [
-              "png",
-              "webp",
-              "jpeg"
-            ],
-            "default": "png",
-            "description": "Output image format. jpeg cannot be combined with a transparent background."
-          },
-          "enable_prompt_expansion": {
-            "type": "boolean",
-            "default": true,
-            "description": "Whether RunAPI expands the prompt before generation."
-          },
-          "enable_safety_checker": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether RunAPI checks generated content for safety."
-          },
-          "seed": {
-            "type": "integer",
-            "description": "Integer seed for reproducible results; omit for a random seed."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "Webhook URL for asynchronous task updates."
-          }
-        }
-      }
-    },
     "qwen-2/edit-image": {
       "model": "Qwen 2",
       "endpoint": "edit_image",
@@ -8212,7 +8028,6 @@
           "duration_seconds": {
             "type": "integer",
             "enum": [
-              -1,
               4,
               5,
               6,
@@ -8227,7 +8042,7 @@
               15
             ],
             "default": 5,
-            "description": "Video duration in seconds; -1 selects duration automatically."
+            "description": "Video duration in seconds."
           },
           "generate_audio": {
             "type": "boolean",
@@ -8291,7 +8106,6 @@
           "duration_seconds": {
             "type": "integer",
             "enum": [
-              -1,
               4,
               5,
               6,
@@ -8306,7 +8120,7 @@
               15
             ],
             "default": 5,
-            "description": "Video duration in seconds; -1 selects duration automatically."
+            "description": "Video duration in seconds."
           },
           "generate_audio": {
             "type": "boolean",
@@ -8371,7 +8185,6 @@
           "duration_seconds": {
             "type": "integer",
             "enum": [
-              -1,
               4,
               5,
               6,
@@ -8386,7 +8199,7 @@
               15
             ],
             "default": 5,
-            "description": "Video duration in seconds; -1 selects duration automatically."
+            "description": "Video duration in seconds."
           },
           "generate_audio": {
             "type": "boolean",
@@ -15101,145 +14914,6 @@
           },
           "callback_url": {
             "type": "string"
-          }
-        }
-      }
-    },
-    "vidu/image-to-video": {
-      "model": "Vidu",
-      "endpoint": "image_to_video",
-      "task_type": "asynchronous",
-      "models": [
-        "vidu-q4-image-to-video"
-      ],
-      "fields_by_model": {
-        "vidu-q4-image-to-video": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "Vidu Q4 image-to-video model."
-          },
-          "first_frame_image_url": {
-            "type": "string",
-            "required": true,
-            "description": "HTTP(S) URL of a JPG, JPEG, PNG or WEBP first frame, up to 50 MB. The provider validates the remote file."
-          },
-          "prompt": {
-            "type": "string",
-            "max": 20000,
-            "length": true,
-            "description": "Optional video description, up to 20,000 characters."
-          },
-          "duration_seconds": {
-            "type": "integer",
-            "max": 16,
-            "min": 3,
-            "default": 5,
-            "description": "Video duration in seconds."
-          },
-          "output_resolution": {
-            "type": "string",
-            "enum": [
-              "540p",
-              "720p",
-              "1080p",
-              "2k",
-              "4k"
-            ],
-            "default": "720p",
-            "description": "Output video resolution."
-          },
-          "audio": {
-            "type": "boolean",
-            "default": true,
-            "description": "Generate synchronized audio. False produces a silent video."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "RunAPI customer callback URL for the terminal task result."
-          }
-        }
-      }
-    },
-    "vidu/reference-to-video": {
-      "model": "Vidu",
-      "endpoint": "reference_to_video",
-      "task_type": "asynchronous",
-      "models": [
-        "vidu-q4-reference-to-video"
-      ],
-      "fields_by_model": {
-        "vidu-q4-reference-to-video": {
-          "model": {
-            "type": "string",
-            "required": true,
-            "description": "Vidu Q4 reference-to-video model."
-          },
-          "prompt": {
-            "type": "string",
-            "max": 20000,
-            "min": 1,
-            "length": true,
-            "required": true,
-            "description": "Video description, up to 20,000 characters."
-          },
-          "reference_image_urls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "required": true,
-            "max_items": 15,
-            "min_items": 1,
-            "description": "Ordered HTTP(S) URLs of 1 to 15 JPG, JPEG, PNG or WEBP reference images. The provider validates the remote files."
-          },
-          "reference_audio_urls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "max_items": 3,
-            "description": "Up to 3 HTTP(S) URLs of MP3 references, each 3 to 12 seconds and up to 50 MB. The provider validates the remote files."
-          },
-          "aspect_ratio": {
-            "type": "string",
-            "enum": [
-              "16:9",
-              "9:16",
-              "1:1",
-              "4:3",
-              "3:4"
-            ],
-            "default": "16:9",
-            "description": "Output video aspect ratio."
-          },
-          "duration_seconds": {
-            "type": "integer",
-            "max": 16,
-            "min": 3,
-            "default": 5,
-            "description": "Video duration in seconds."
-          },
-          "output_resolution": {
-            "type": "string",
-            "enum": [
-              "540p",
-              "720p",
-              "1080p",
-              "2k",
-              "4k"
-            ],
-            "default": "720p",
-            "description": "Output video resolution."
-          },
-          "audio": {
-            "type": "boolean",
-            "default": true,
-            "description": "Generate synchronized audio. False produces a silent video."
-          },
-          "callback_url": {
-            "type": "string",
-            "description": "RunAPI customer callback URL for the terminal task result."
           }
         }
       }

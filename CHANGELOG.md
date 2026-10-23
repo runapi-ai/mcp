@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.16.2](https://github.com/runapi-ai/mcp/releases/tag/v0.16.2) - 2026-10-23
+
+### Changed
+- Update Hosted MCP Hono from 4.12.31 to 4.13.13.
+- Update Hosted MCP Vite from 8.1.5 to 8.3.5 and refresh its transitive build dependencies.
+- Withhold unreleased Vidu and Qwen 2.1 callable metadata; constrain unconfirmed Seedance adaptive-duration projections where present.
+
+
 ## [v0.16.1](https://github.com/runapi-ai/mcp/releases/tag/v0.16.1) - 2026-10-22
 
 ### Fixed
