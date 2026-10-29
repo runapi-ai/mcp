@@ -108,7 +108,7 @@ Headless and CI hosts can still set `RUNAPI_API_KEY` before starting the MCP hos
 | `get_model_info` | No | Return service, action, modality, input constraints, and current runtime pricing for a model slug. Use `service` + `action` when a model appears in multiple endpoints. |
 | `list_actions` | No | Group endpoint action names by modality. |
 | `check_pricing` | No | Return current runtime pricing for a `service` + `action` + `model` combination. |
-| `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. |
+| `search_prompts` | No | Search reusable prompt examples by `modality`, `category`, `tags`, `q`, `model`, `featured`, and pagination. Each prompt returns `media`: its approved example images, including the cover image of a video prompt. Example videos and reference images are not returned yet. |
 | `login` | No | Start browser login and save RunAPI credentials to shared local config. |
 | `create_task` | Yes | Create a media task with a required caller-generated `idempotency_key`; wait for completion by default or return immediately with `wait: false`. |
 | `get_task` | Yes | Fetch status and latest payload for an existing media task. |
@@ -145,7 +145,7 @@ Find image prompt examples for a logo.
 Expected behavior:
 
 1. The assistant calls `search_prompts` with `modality: "image"` and `q: "logo"`.
-2. It summarizes returned titles, prompt text, model slugs, categories, and tags.
+2. It summarizes returned titles, prompt text, model slugs, categories, tags, and example image URLs.
 3. It uses the selected prompt with `get_model_info` before creating a task.
 
 ### Inspect A Model

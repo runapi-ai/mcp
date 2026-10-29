@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonText } from "../lib/tool-response.js";
 import type { DiscoveryToolDependencies } from "../business-tools.js";
@@ -53,7 +53,7 @@ export function registerCatalogTools(server: McpServer, dependencies: DiscoveryT
 
   server.tool(
     "search_prompts",
-    "Search RunAPI prompt examples by modality, category, tags, text query, or model. Free, no API key required.",
+    "Search RunAPI prompt examples by modality, category, tags, text query, or model. Each prompt includes its approved example images in media; example videos and reference images are not returned. Free, no API key required.",
     {
       modality: z.string().optional().describe("Prompt modality: image, video, music, or audio."),
       category: z.string().optional(),

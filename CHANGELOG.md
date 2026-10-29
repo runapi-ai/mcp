@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.17.0](https://github.com/runapi-ai/mcp/releases/tag/v0.17.0) - 2026-10-29
+
+### Added
+- `search_prompts` now returns each Prompt's approved example images in `media`, including the cover image of a video Prompt. Example videos and reference images are not returned.
+- Support nano-banana-2.1 for single-image generation and editing at 1K, 2K, and 4K.
+- Expose Muse Video text-to-video and image-to-video endpoints through the MCP catalog.
+
+### Changed
+- Require Zod 4.6.6 or newer for the Hosted MCP runtime and drop Zod 3.x, which has no patch for GHSA-mrhx-c7xc-m3w5.
+- Update Hosted MCP body-parser to 2.4.0 and fast-uri to 3.1.9.
+- Update MCP dependency locks for proxy-addr 2.0.8, ip-address 10.7.5, and body-parser 2.4.0.
+- Refresh MCP dependency locks to versions without known high or critical advisories while retaining prior security updates.
+- Update Hosted MCP vitest and @vitest/mocker from 4.1.10 to 4.1.12 for security maintenance.
+
+
 ## [v0.16.2](https://github.com/runapi-ai/mcp/releases/tag/v0.16.2) - 2026-10-23
 
 ### Changed

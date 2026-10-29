@@ -6046,6 +6046,7 @@
         "nano-banana",
         "nano-banana-2",
         "nano-banana-2-lite",
+        "nano-banana-2.1",
         "nano-banana-pro"
       ],
       "fields_by_model": {
@@ -6180,6 +6181,74 @@
           "reference_image_urls": {
             "type": "array",
             "max_items": 10
+          }
+        },
+        "nano-banana-2.1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Image description or editing instructions."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "Webhook URL for async notifications."
+          },
+          "output_format": {
+            "type": "string",
+            "enum": [
+              "png",
+              "jpg"
+            ],
+            "default": "jpg",
+            "description": "Output image format."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "1:1",
+              "1:4",
+              "1:8",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:1",
+              "4:3",
+              "4:5",
+              "5:4",
+              "8:1",
+              "9:16",
+              "16:9",
+              "21:9",
+              "auto"
+            ],
+            "default": "auto",
+            "description": "Output aspect ratio."
+          },
+          "output_resolution": {
+            "type": "string",
+            "enum": [
+              "1k",
+              "2k",
+              "4k"
+            ],
+            "default": "1k",
+            "description": "Output image resolution."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "max_items": 10,
+            "description": "Up to ten reference image URLs for generation or editing."
           }
         },
         "nano-banana-pro": {
@@ -16167,6 +16236,93 @@
           },
           "callback_url": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "muse-video/image-to-video": {
+      "model": "Muse Video",
+      "endpoint": "image_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "muse-video-v1"
+      ],
+      "fields_by_model": {
+        "muse-video-v1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Muse Video model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description, up to 20,000 characters."
+          },
+          "image_url": {
+            "type": "string",
+            "required": true,
+            "description": "HTTP(S) URL of a single source image."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ],
+            "default": "16:9",
+            "description": "Requested output aspect ratio, expressed in the generation prompt."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "RunAPI customer callback URL for the terminal task result."
+          }
+        }
+      }
+    },
+    "muse-video/text-to-video": {
+      "model": "Muse Video",
+      "endpoint": "text_to_video",
+      "task_type": "asynchronous",
+      "models": [
+        "muse-video-v1"
+      ],
+      "fields_by_model": {
+        "muse-video-v1": {
+          "model": {
+            "type": "string",
+            "required": true,
+            "description": "Muse Video model slug."
+          },
+          "prompt": {
+            "type": "string",
+            "max": 20000,
+            "min": 1,
+            "length": true,
+            "required": true,
+            "description": "Video description, up to 20,000 characters."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "4:3",
+              "3:4"
+            ],
+            "default": "16:9",
+            "description": "Requested output aspect ratio, expressed in the generation prompt."
+          },
+          "callback_url": {
+            "type": "string",
+            "description": "RunAPI customer callback URL for the terminal task result."
           }
         }
       }

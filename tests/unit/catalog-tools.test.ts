@@ -242,6 +242,10 @@ describe("catalog tool handlers", () => {
             modality: "image",
             category: "Branding",
             tags: ["Logo"],
+            media: [
+              {role: "preview", modality: "image", media_type: "image/jpeg", url: "https://img.example.test/logo-cover.jpg", alt_text: null},
+              {role: "example_output", modality: "image", media_type: "image/png", url: "https://img.example.test/logo.png", alt_text: "Logo result"}
+            ],
             eligible_endpoints: [
               {service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro", path: "/api/v1/flux-kontext/text_to_image"}
             ]
@@ -266,6 +270,10 @@ describe("catalog tool handlers", () => {
           prompt: "Minimal logo prompt",
           category: "Branding",
           tags: ["Logo"],
+          media: [
+            {role: "preview", modality: "image", media_type: "image/jpeg", url: "https://img.example.test/logo-cover.jpg", alt_text: null},
+            {role: "example_output", modality: "image", media_type: "image/png", url: "https://img.example.test/logo.png", alt_text: "Logo result"}
+          ],
           endpoints: [{service: "flux-kontext", action: "text_to_image", model: "flux-kontext-pro"}]
         }
       ]

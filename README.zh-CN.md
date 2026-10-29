@@ -92,7 +92,7 @@ npx @runapi.ai/mcp init roo
 | `get_model_info` | 否 | 返回某个模型 slug 的 service、action、modality、输入约束和价格快照。模型出现在多个 endpoint 时，带上 `service` + `action` 精确查询。 |
 | `list_actions` | 否 | 按 modality 分组列出 endpoint action 名称。 |
 | `check_pricing` | 否 | 查询 `service` + `action` + `model` 组合的价格快照。 |
-| `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。 |
+| `search_prompts` | 否 | 按 `modality`、`category`、`tags`、`q`、`model`、`featured` 和分页搜索可复用 prompt 示例。每条 prompt 返回 `media`：审核通过的示例图片（包括视频 prompt 的封面图）。示例视频和参考图暂不返回。 |
 | `login` | 否 | 打开浏览器登录，并把 RunAPI 凭据保存到共享本地配置。 |
 | `create_task` | 是 | 使用调用方生成的必填 `idempotency_key` 创建媒体任务；默认等待完成，也可用 `wait: false` 立即返回。 |
 | `get_task` | 是 | 查询已有媒体任务的状态和最新 payload。 |
@@ -126,7 +126,7 @@ RunAPI 有哪些图片模型？
 预期行为：
 
 1. 调用 `search_prompts`，传入 `modality: "image"` 和 `q: "logo"`。
-2. 总结返回的 title、prompt text、model slug、category 和 tags。
+2. 总结返回的 title、prompt text、model slug、category、tags 和示例图片地址。
 3. 创建任务前，先用 `get_model_info` 检查选中模型的参数约束。
 
 ### 查看模型参数

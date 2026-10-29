@@ -194,6 +194,7 @@ function promptSummary(prompt: RunApiPrompt) {
     modality: prompt.modality,
     category: prompt.category,
     tags: prompt.tags || [],
+    media: prompt.media || [],
     endpoints: prompt.eligible_endpoints || []
   };
 }
